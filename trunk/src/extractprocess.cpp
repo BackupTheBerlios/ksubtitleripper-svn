@@ -40,7 +40,7 @@ ExtractProcess::ExtractProcess( const Project *prj, QWidget *parent, QTextCodec 
 
 	*this << "cat";
 	if ( !download( prj->files() ) ) return;
-	*this << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << "0x20";
+	*this << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << prj->codeLangSelected();
 	*this << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1";
 	*this << "-c" << prj->coloursString() << "-o" << prj->baseName();
 }
