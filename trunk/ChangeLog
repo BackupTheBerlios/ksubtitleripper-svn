@@ -1,6 +1,18 @@
-3-4-2004
-Program icons modified by Justo Sanz
+  02-8-2004
+- Ask for saving the subtitle when the project is closing,
+  before create SRT and on changing the subtitle
 
-0.1 (2-4-2004)
-Initial version.
-I used Everaldo's icon to do my ones.
+  29-7-2004
+- Plural forms translation fixed
+- Convert to text dialog resize fixed
+
+  23-7-2004
+- French translation by Guillaume Bedot
+- Run subtitle2pgm with -C 1 option (by Guillaume Bedot)
+
+  3-4-2004
+- Program icons modified by Justo Sanz
+
+  2-4-2004 (v0.1)
+- Initial version.
+- I used Everaldo's icon to do my ones.

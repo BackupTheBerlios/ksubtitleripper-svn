@@ -1,5 +1,3 @@
-- Si un subtitulo está modificado (sin guardar) y se quiere cerrar el proyecto o generar el archivo .srt o cambiar de subtitulo, preguntar si se quiere guardar.
-
 - Preguntar donde guardar el archivo .srt, y si se va a sobreescribir, preguntar.
 
 - Permitir desactivar/activar corrección ortográfica
