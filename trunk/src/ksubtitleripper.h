@@ -30,11 +30,11 @@
 
 #include <kapplication.h>
 #include <kmainwindow.h>
+#include <kurl.h>
 
 #include "ksubtitleripperview.h"
 
 class KToggleAction;
-class KURL;
 class PrefDialog;
 
 /**

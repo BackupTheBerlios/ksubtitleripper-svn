@@ -32,7 +32,6 @@
 #include <kkeydialog.h>
 #include <kfiledialog.h>
 #include <kconfig.h>
-#include <kurl.h>
 #include <kurldrag.h>
 #include <kedittoolbar.h>
 #include <kaction.h>
