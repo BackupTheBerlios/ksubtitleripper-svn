@@ -15,7 +15,7 @@ package-messages:
 	cd $(top_srcdir) && $(MAKE) -f admin/Makefile.common package-messages
 	$(MAKE) -C po merge
 
-EXTRA_DIST = configure.in.in
+EXTRA_DIST = admin/config.pl admin/conf.change.pl admin/acinclude.m4.in admin/libtool.m4.in configure.in.in
 AUTOMAKE_OPTIONS = dist-bzip2
 
 dist-hook:
