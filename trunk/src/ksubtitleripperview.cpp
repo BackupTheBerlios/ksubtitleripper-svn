@@ -26,7 +26,7 @@
 #include <ktextedit.h>
 #include <kfiledialog.h>
 #include <qlabel.h>
-#include <qfile.h>
+//#include <qfile.h>
 #include "ksubtitleripperview.h"
 #include "convertdialog.h"
 #include "extractdialog.h"
@@ -197,10 +197,10 @@ void KSubtitleRipperView::createSRT() {
 	KURL url = KFileDialog::getSaveURL( srtName, "*.srt|" + i18n("SRT Subtitles"), this, i18n( "Save Subtitles" ) );
 	if ( url.isEmpty() || !url.isValid() ) return;
 	
-	QString extension = QFileInfo( url.path() ).extension( false ).lower();
+	/*QString extension = QFileInfo( url.path() ).extension( false ).lower();
 	if ( extension != "srt" && ( !url.isLocalFile() || !QFile::exists( url.path() ) ) )
 		url = url.url() + ".srt";
-	
+	*/
 	QString text = "A file named \"%1\" already exists.\nAre you sure you want to overwrite it?";
 	if ( url.isLocalFile() && QFile::exists( url.path() ) &&
 		KMessageBox::warningContinueCancel( this, i18n( text ).arg( url.filename() ),
