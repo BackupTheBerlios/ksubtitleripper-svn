@@ -25,9 +25,10 @@
 #include "extractprocess.h"
 #include "project.h"
 
-ExtractProcess::ExtractProcess( const Project *prj, QWidget *parent, QTextCodec *codec )
+ExtractProcess::ExtractProcess( const Project *prj, bool& success, QWidget *parent, QTextCodec *codec )
  : KProcIO( codec ), widget( parent )
 {
+	success = false;
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "ExtractProcess constructor: prj is null\n";
 
@@ -43,6 +44,8 @@ ExtractProcess::ExtractProcess( const Project *prj, QWidget *parent, QTextCodec 
 	*this << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << prj->codeLangSelected();
 	*this << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1";
 	*this << "-c" << prj->coloursString() << "-o" << prj->baseName();
+
+	success = true;
 }
 
 ExtractProcess::~ExtractProcess()

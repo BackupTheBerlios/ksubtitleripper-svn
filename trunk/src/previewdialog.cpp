@@ -66,7 +66,9 @@ void PreviewDialog::preview()
 	setColours();
 	setLanguage();
 
-	m_process = new ExtractProcess( m_project, this );
+	bool success;
+	m_process = new ExtractProcess( m_project, success, this );
+	if ( !success ) return;
 	*m_process << "-e" << QString( "00:00:00,%1" ).arg( m_central->numSubs->value() );
 
 	connect( m_process, SIGNAL( processExited( KProcess* ) ),

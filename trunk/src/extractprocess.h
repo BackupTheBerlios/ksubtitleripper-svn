@@ -32,7 +32,7 @@ class QWidget;
 
 class ExtractProcess : public KProcIO {
 public:
-    ExtractProcess( const Project *prj, QWidget *parent = 0, QTextCodec *codec = 0 );
+    ExtractProcess( const Project *prj, bool& success, QWidget *parent = 0, QTextCodec *codec = 0 );
     ~ExtractProcess();
 
 private:

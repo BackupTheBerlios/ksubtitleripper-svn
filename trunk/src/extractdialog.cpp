@@ -54,7 +54,9 @@ void ExtractDialog::show() {
 }
 
 void ExtractDialog::extractSub() {
-	m_process = new ExtractProcess( m_project, this );
+	bool success;
+	m_process = new ExtractProcess( m_project, success, this );
+	if ( !success ) reject();
 
 	connect( m_process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
