@@ -1,3 +1,7 @@
+  18-3-2005
+- Subtitle is autocentered when is too large, this feature can be disabled.
+- Add a menu item to center subtitle when is too large
+
   17-3-2005
 - Fix for remote vob files, and keep them until closing project
 - Add scrollbars to image (in main window and convert dialog), for too long images.
