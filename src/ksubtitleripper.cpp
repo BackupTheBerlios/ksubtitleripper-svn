@@ -1,5 +1,5 @@
 /***************************************************************************
-*   Copyright (C) 2004 by Sergio Cambra García                            *
+*   Copyright (C) 2004 by Sergio Cambra                                   *
 *   runico@users.berlios.de                                               *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
@@ -98,12 +98,12 @@ void KSubtitleRipper::setupActions() {
 			SLOT( prevSubtitle() ), actionCollection(), "prevSubtitle" );
 	nextSub = new KAction( i18n( "Next subtitle" ), "next", ALT+Key_Right, m_view,
 			SLOT( nextSubtitle() ), actionCollection(), "nextSubtitle" );
-	extractSub = new KAction( i18n( "Extract subtitles" ), /*"",*/ 0, m_view, //FIXME icon
-			SLOT( extractSub() ), actionCollection(), "extractSubtitle" );
-	convertSub = new KAction( i18n( "Convert subtitles to text" ), /*"",*/ 0, m_view, //FIXME icon
-			SLOT( convertSub() ), actionCollection(), "convertSubtitle" );
-	createSRT = new KAction( i18n( "Generate SRT file" ), /*"",*/ 0, m_view, //FIXME icon
-			SLOT( createSRT() ), actionCollection(), "createSRT" );
+	extractSub = new KAction( i18n( "Extract subtitles" ), "extract_subtitles", 0,
+			m_view,SLOT( extractSub() ), actionCollection(), "extractSubtitle" );
+	convertSub = new KAction( i18n( "Convert subtitles to text" ), "convert_subtitles", 0,
+			m_view, SLOT( convertSub() ), actionCollection(), "convertSubtitle" );
+	createSRT = new KAction( i18n( "Generate SRT file" ), "create_srt", 0,
+			m_view, SLOT( createSRT() ), actionCollection(), "createSRT" );
 
 	// allow the view to enable and disable some actions
 	connect( m_view, SIGNAL( setEnabledSaveSub( bool ) ),
