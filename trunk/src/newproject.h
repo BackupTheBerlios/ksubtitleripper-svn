@@ -25,32 +25,28 @@
 #include <kurl.h>
 
 class Project;
-class QLabel;
-class QGridLayout;
-class QVBoxLayout;
 class KLineEdit;
 class KListBox;
-class KPushButton;
 
 class NewProject : public KDialogBase {
 	Q_OBJECT
 public:
 	NewProject(  QString prefix = "sub"  );
-	~NewProject();
+	~NewProject() {}
 	Project* getProject();
-	
+
+protected slots:
+	virtual void slotOk();
+
 private slots:
 	void selectVobs();
-	void prefixChanged( const QString& text );
-	
+	void selectDir();
+	void tryEnableButtonOk();
+
 private:
-	QGridLayout *layoutGeneral;
-	QVBoxLayout *layoutFilesLabel, *layoutFilesButton;
-	KLineEdit *prefixEdit;
+	KLineEdit *prefixEdit, *dirEdit;
 	KListBox *vobFilesList;
-	KPushButton *vobFilesButton;
-	QLabel *vobFilesLabel, *prefixLabel;
-	
+
 	KURL::List files;
 };
 

@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kdebug.h>
 #include <klistbox.h>
 #include <qlabel.h>
 #include <qlayout.h>
@@ -28,49 +29,88 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
+#include <kdirselectdialog.h>
+#include <kurlcompletion.h>
+#include <qdir.h>
+#include <qvalidator.h>
 #include "project.h"
 #include "newproject.h"
+
+class DirValidator : public QValidator
+{
+public:
+	DirValidator( QObject* parent, const char* name = 0 ) : QValidator( parent, name ) {}
+	virtual State validate( QString& input, int& ) const
+	{
+		if ( input.isEmpty() ) return QValidator::Intermediate;
+
+		if ( QDir( input ).exists() )
+			return QValidator::Acceptable;
+
+		KURL url( input );
+		if ( url.isLocalFile() && QDir( url.path() ).exists() )
+			return QValidator::Acceptable;
+
+		return QValidator::Intermediate;
+	}
+};
 
 NewProject::NewProject( QString prefix ) : KDialogBase( Plain,
 			i18n( "Create New Project" ), Help | Ok | Cancel, Ok ) {
 	QFrame* top = plainPage();
 
-	layoutGeneral = new QGridLayout( top, 2, 3, 5, 6 );
+	QGridLayout* layoutGeneral = new QGridLayout( top, 2, 3, 5, 6 );
 
+	int row = 0;
+	QLabel* vobFilesLabel = new QLabel( i18n( "Vob files" ), top );
+	vobFilesLabel->setAlignment( Qt::AlignTop );
+	layoutGeneral->addWidget( vobFilesLabel, row, 0 );
 	vobFilesList = new KListBox( top );
-	layoutGeneral->addWidget( vobFilesList, 0, 1 );
+	layoutGeneral->addWidget( vobFilesList, row, 1 );
 
-	prefixLabel = new QLabel( i18n( "Prefix" ), top );
-	layoutGeneral->addWidget( prefixLabel, 1, 0 );
-
-	prefixEdit = new KLineEdit( prefix, top );
-	layoutGeneral->addWidget( prefixEdit, 1, 1 );
-
-	layoutFilesLabel = new QVBoxLayout( 0, 0, 6 );
-	vobFilesLabel = new QLabel( i18n( "Vob files" ), top );
-	layoutFilesLabel->addWidget( vobFilesLabel );
-	layoutFilesLabel->addItem( new QSpacerItem( 20, 40, QSizePolicy::Minimum,
-									QSizePolicy::Expanding ) );
-	layoutGeneral->addLayout( layoutFilesLabel, 0, 0 );
-
-	layoutFilesButton = new QVBoxLayout( 0, 0, 6 );
-	vobFilesButton = new KPushButton ( top );
+	QVBoxLayout* layoutFilesButton = new QVBoxLayout( 0, 0, 6 );
+	KPushButton* vobFilesButton = new KPushButton ( top );
 	layoutFilesButton->addWidget( vobFilesButton );
 	layoutFilesButton->addItem( new QSpacerItem( 20, 40, QSizePolicy::Minimum,
-									QSizePolicy::Expanding ) );
-	layoutGeneral->addLayout( layoutFilesButton, 0, 2 );
+								QSizePolicy::Expanding ) );
+	layoutGeneral->addLayout( layoutFilesButton, row, 2 );
+
+	++row;
+	QLabel* dirLabel = new QLabel( i18n( "Directory" ), top );
+	layoutGeneral->addWidget( dirLabel, row, 0 );
+
+	dirEdit = new KLineEdit( top );
+	dirEdit->setValidator( new DirValidator( dirEdit ) );
+	dirEdit->setURLDropsEnabled( true );
+	KURLCompletion* complet = new KURLCompletion( KURLCompletion::DirCompletion );
+	dirEdit->setCompletionObject( complet );
+	layoutGeneral->addWidget( dirEdit, row, 1 );
+
+	KPushButton* dirButton = new KPushButton ( top );
+	layoutGeneral->addWidget( dirButton, row, 2 );
+
+	++row;
+	QLabel* prefixLabel = new QLabel( i18n( "Prefix" ), top );
+	layoutGeneral->addWidget( prefixLabel, row, 0 );
+	prefixEdit = new KLineEdit( prefix, top );
+	prefixEdit->setValidator( new QRegExpValidator( QRegExp( "\\S+" ), prefixEdit ) );
+	layoutGeneral->addWidget( prefixEdit, row, 1 );
 
 	enableButtonOK( false );
 	vobFilesButton->setPixmap( KGlobal::iconLoader()->loadIcon( "fileopen", KIcon::Small ) );
-	connect( vobFilesButton, SIGNAL( clicked() ), this, SLOT( selectVobs() ) );
-	connect( prefixEdit, SIGNAL( textChanged( const QString& ) ),
-			this, SLOT( prefixChanged( const QString& ) ) );
-}
+	dirButton->setPixmap( KGlobal::iconLoader()->loadIcon( "fileopen", KIcon::Small ) );
 
-NewProject::~NewProject() {}
+	connect( vobFilesButton, SIGNAL( clicked() ), this, SLOT( selectVobs() ) );
+	connect( dirButton, SIGNAL( clicked() ), this, SLOT( selectDir() ) );
+	connect( prefixEdit, SIGNAL( textChanged( const QString& ) ),
+			 this, SLOT( tryEnableButtonOk() ) );
+	connect( dirEdit, SIGNAL( textChanged( const QString& ) ),
+			 this, SLOT( tryEnableButtonOk() ) );
+}
 
 Project* NewProject::getProject() {
 	Project *prj = new Project();
+	prj->setDirectory( dirEdit->text() );
 	prj->setFiles( files );
 	prj->setBaseName( prefixEdit->text() );
 	return prj;
@@ -81,13 +121,32 @@ void NewProject::selectVobs() {
 				"*.vob|" + i18n( "VOB files" ), this, i18n( "Select VOB files" ) );
 	if ( files.isEmpty() ) return;
 
-	enableButtonOK( prefixEdit->text().find( ' ' ) == -1 );
 	vobFilesList->clear();
 	vobFilesList->insertStringList( files.toStringList() );
+	if ( dirEdit->text().isEmpty() && files[0].isLocalFile() )
+		dirEdit->setText( files[0].directory() );
+	tryEnableButtonOk();
 }
 
-void NewProject::prefixChanged( const QString& text ) {
-	enableButtonOK( vobFilesList->count() > 0 && text.find( ' ' ) == -1 );
+void NewProject::selectDir() {
+	KURL dir = KDirSelectDialog::selectDirectory( "/", true, this );
+	if ( dir.isEmpty() ) return;
+	dirEdit->setText( dir.path() );
+	tryEnableButtonOk();
+}
+
+void NewProject::tryEnableButtonOk()
+{
+	enableButtonOK( vobFilesList->count() > 0 && dirEdit->hasAcceptableInput() &&
+			prefixEdit->hasAcceptableInput() );
+}
+
+void NewProject::slotOk()
+{
+	if ( !QDir( dirEdit->text() ).exists() )
+		dirEdit->setText( KURL( dirEdit->text() ).path() );
+
+	KDialogBase::slotOk();
 }
 
 #include "newproject.moc"
