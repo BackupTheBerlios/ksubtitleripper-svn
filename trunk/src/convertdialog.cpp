@@ -24,6 +24,7 @@
 #include <qpainter.h>
 #include <qregexp.h>
 #include <qdir.h>
+#include <qsizepolicy.h>
 #include "convertdialog.h"
 
 ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
@@ -44,7 +45,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 						QSizePolicy::Minimum ) );
 	
 	image = new QLabel( top );
-    image->setMinimumSize( QSize( 0, 150 ) );
+	image->setSizePolicy( QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum ) );
 	image->setAlignment( image->alignment() | Qt::AlignHCenter );
 	image->setPixmap( QPixmap() );
 	layoutGeneral->addWidget( image );
@@ -96,8 +97,16 @@ void ConvertDialog::loadSubtitle( QRect rect ) {
 		image->pixmap()->resize( 0, 0 );
 		KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
 	}
-	int newWidth = image->pixmap()->width() + 2 * (marginGeneral+10);
-	resize( (newWidth > sizeHint().width()) ? newWidth : sizeHint().width() , height() );
+	QSize inc = image->pixmap()->size() - image->size();
+	image->setMinimumSize( image->pixmap()->size() );
+	
+	/*// Don't shrink the dialog
+	if ( inc.width() < 0 ) inc.setWidth( 0 );
+	if ( inc.height() < 0 ) inc.setHeight( 0 );*/
+	
+	QSize newSize = size() + inc;
+	if ( newSize.width() < sizeHint().width() ) newSize.setWidth( sizeHint().width() );
+	resize( newSize );
 	
 	// mark unknown characters
 	QPainter painter( image->pixmap() );
