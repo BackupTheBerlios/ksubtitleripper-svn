@@ -34,12 +34,11 @@
 #include "extractdialog.h"
 #include "createsrt.h"
 #include "project.h"
+#include "subtitleview.h"
 
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ) {
 	setModified( false );
-	scroll->addChild( image );
-	image->setPixmap( QPixmap() );
 	connect( text, SIGNAL( modificationChanged( bool ) ), this, SLOT( modify( bool ) ) );
 }
 
@@ -93,11 +92,7 @@ void KSubtitleRipperView::loadSubtitle() {
 	subtitle->setText( i18n( "Subtitle %1" ).arg( m_project->currentSub() ) );
 
 	// load image
-	if ( !image->pixmap()->load( filename ) || image->pixmap()->isNull() ) {
-		image->pixmap()->resize( 0, 0 );
-		KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
-	} else image->resize( image->pixmap()->size() );
-	image->update();
+	image->load( filename );
 
 	// load text
 	if ( m_project->isConverted() ) {
@@ -165,6 +160,7 @@ void KSubtitleRipperView::extractSub() {
 	cleanBeforeExtracting();
 	emit setState( "newProject" );
 
+	m_project->setConverted( false );
 	if ( ExtractDialog( m_project, this ).exec() == QDialog::Accepted ) {
 		m_project->setExtracted( true );
 		progress->setTotalSteps( m_project->numSub() );
@@ -183,7 +179,6 @@ void KSubtitleRipperView::extractSub() {
 						i18n("Extraction completed") );
 	} else {
 		m_project->setExtracted( false );
-		m_project->setConverted( false );
 	}
 	setModified( true );
 }
@@ -276,15 +271,13 @@ void KSubtitleRipperView::createSrtSuccess( CreateSRT *createSRT ) {
 
 void KSubtitleRipperView::cleanBeforeExtracting() {
 	subtitle->clear();
-	if ( image->pixmap() ) {
-		image->pixmap()->resize( 0, 0 );
-		image->update();
-	}
+	image->clearSubtitle();
 	cleanBeforeConverting();
 }
 
 void KSubtitleRipperView::cleanBeforeConverting() {
 	text->clear();
+	text->setEnabled( false );
 	progress->setValue( 0 );
 }
 

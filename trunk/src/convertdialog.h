@@ -32,7 +32,7 @@ class QLabel;
 class QCheckBox;
 class QVBoxLayout;
 class QHBoxLayout;
-class QScrollView;
+class SubtitleView;
 
 /**
 @author Sergio Cambra
@@ -67,8 +67,8 @@ private:
 	void setEnabledWidgetsInput( bool enable );
 
 	KLineEdit *line;
-	QScrollView *scroll;
-	QLabel *image, *subtitle, *text;
+	SubtitleView *image;
+	QLabel *subtitle, *text;
     KProgress *progress;
 	QCheckBox *checkbox;
 

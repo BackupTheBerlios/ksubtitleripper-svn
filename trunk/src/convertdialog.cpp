@@ -26,12 +26,11 @@
 #include <kprocess.h>
 #include <kdebug.h>
 #include <klocale.h>
-#include <kmessagebox.h>
-#include <qpainter.h>
 #include <qregexp.h>
 #include <qdir.h>
 #include <qsizepolicy.h>
-#include <qscrollview.h>
+
+#include "subtitleview.h"
 #include "project.h"
 #include "convertdialog.h"
 
@@ -52,13 +51,8 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
     layoutSub->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding,
 						QSizePolicy::Minimum ) );
 
-	scroll = new QScrollView( top );
-	image = new QLabel( scroll->viewport() );
-	image->setSizePolicy( QSizePolicy( QSizePolicy::Minimum, QSizePolicy::Minimum ) );
-	image->setAlignment( image->alignment() | Qt::AlignHCenter );
-	image->setPixmap( QPixmap() );
-	scroll->addChild( image );
-	layoutGeneral->addWidget( scroll );
+	image = new SubtitleView( top );
+	layoutGeneral->addWidget( image );
 
     progress = new KProgress( project->numSub(), top );
     layoutGeneral->addWidget( progress );
@@ -103,16 +97,7 @@ void ConvertDialog::loadSubtitle( QRect rect ) {
 	subtitle->setText( i18n( "Subtitle %1" ).arg( sub ) );
 
 	// load image
-	if ( !image->pixmap()->load( filename ) || image->pixmap()->isNull() ) {
-		image->pixmap()->resize( 0, 0 );
-		KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
-	} else image->resize( image->pixmap()->size() );
-
-	// mark unknown characters
-	QPainter painter( image->pixmap() );
-	painter.setPen( Qt::red );
-	painter.drawRect( rect );
-	image->update();
+	image->load( filename, rect );
 }
 
 void ConvertDialog::convertSub() {
@@ -235,10 +220,7 @@ void ConvertDialog::slotOk() {
 	setEnabledWidgetsInput( false );
 	enableButton( User1, false );
 
-	if ( image->pixmap() ) {
-		image->pixmap()->resize( 0, 0 );
-		image->update();
-	}
+	image->clearSubtitle();
 	subtitle->setText( QString::null );
 	line->clear();
 }
