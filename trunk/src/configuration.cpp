@@ -23,8 +23,8 @@
 #include <kapplication.h>
 #include <kconfig.h>
 
-const bool Configuration::m_defaultDoUnix2Dos = false;
-const bool Configuration::m_defaultCheckSpelling = true;
+const bool Configuration::defaultDoUnix2Dos = false;
+const bool Configuration::defaultCheckSpelling = true;
 
 Configuration::Configuration()
 {
@@ -35,8 +35,8 @@ void Configuration::read() {
 	KConfig *conf = kapp->config();
 
 	conf->setGroup( "General" );
-	m_doUnix2Dos = conf->readBoolEntry( "doDos2Unix", m_defaultDoUnix2Dos );
-	m_checkSpelling = conf->readBoolEntry( "checkSpelling", m_defaultCheckSpelling );
+	m_doUnix2Dos = conf->readBoolEntry( "doDos2Unix", defaultDoUnix2Dos );
+	m_checkSpelling = conf->readBoolEntry( "checkSpelling", defaultCheckSpelling );
 }
 
 void Configuration::write() const {
@@ -47,22 +47,6 @@ void Configuration::write() const {
 	conf->writeEntry( "checkSpelling", m_checkSpelling );
 
 	conf->sync();
-}
-
-bool Configuration::doUnix2Dos() const {
-	return m_doUnix2Dos;
-}
-
-void Configuration::setDoUnix2Dos( bool value ) {
-	m_doUnix2Dos = value;
-}
-
-bool Configuration::checkSpelling() const {
-	return m_checkSpelling;
-}
-
-void Configuration::setCheckSpelling( bool value ) {
-	m_checkSpelling = value;
 }
 
 Configuration& Config() {

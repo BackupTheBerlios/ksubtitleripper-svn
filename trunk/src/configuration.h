@@ -27,14 +27,14 @@ class Configuration{
 public:
 	void write() const;
 
-	bool doUnix2Dos() const;
-	bool checkSpelling() const;
+	bool doUnix2Dos() const { return m_doUnix2Dos; }
+	bool checkSpelling() const { return m_checkSpelling; }
 
-	void setDoUnix2Dos( bool value );
-	void setCheckSpelling( bool value );
+	void setDoUnix2Dos( bool value ) { m_doUnix2Dos = value; }
+	void setCheckSpelling( bool value ) { m_checkSpelling = value; }
 
-	static const bool m_defaultDoUnix2Dos;
-	static const bool m_defaultCheckSpelling;
+	static const bool defaultDoUnix2Dos;
+	static const bool defaultCheckSpelling;
 
 private:
 	Configuration();
