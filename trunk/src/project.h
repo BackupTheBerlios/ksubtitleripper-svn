@@ -62,9 +62,9 @@ public:
 	}
 
 	void setFiles( const KURL::List& list );
+	// set directory if it's empty and first url is local
 
 	QString coloursString() const;
-	//bool setColours( const QString& col );
 
 	void nextSub() { m_currentSub++; }
 	void prevSub() { m_currentSub--; }
@@ -82,8 +82,6 @@ private:
 		m_numSub = m_currentSub = 0;
 		m_extracted = m_converted = false;
 	}
-	//bool readField( QTextStream& stream, QString& field, QString& value ) const;
-	//bool load ( QTextStream& stream );
 
 	KURL::List m_files;
 	QString m_directory, m_baseName;
