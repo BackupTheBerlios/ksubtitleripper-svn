@@ -28,6 +28,7 @@ WaitingDialog::WaitingDialog( QWidget *parent, const char *name, const QString &
 {
 	progressBar()->setTotalSteps( 0 );
 	progressBar()->setPercentageVisible( 0 );
+	setAllowCancel( false );
 }
 
 void WaitingDialog::stop()
