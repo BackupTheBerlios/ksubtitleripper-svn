@@ -29,6 +29,7 @@ class KProcess;
 class KProcIO;
 class KProgressDialog;
 class KListBox;
+class KComboBox;
 class Project;
 
 /**
@@ -49,10 +50,13 @@ protected slots:
 	virtual void setColours();
 
 private:
+	void fillLanguages();
+
 	QVButtonGroup *groupIndex;
 	QRadioButton *radioButton[4];
 	QListBox *subtitleList;
 	KProgressDialog *progress;
+	KComboBox *languageList;
 
 	Project *m_project;
 	ExtractProcess *m_process;

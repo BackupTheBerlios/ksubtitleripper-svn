@@ -24,12 +24,15 @@
 #include <qlistbox.h>
 #include <qpixmap.h>
 #include <kmessagebox.h>
-#include <kprogress.h>
-
+#include <kcombobox.h>
+#include <qlabel.h>
+#include <kapplication.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include "previewdialog.h"
 #include "extractprocess.h"
+#include "seeklanguagesinvob.h"
+#include "waitingdialog.h"
 #include "project.h"
 
 const int numSubs = 8;
@@ -45,8 +48,17 @@ PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
 
 	QVBoxLayout* layoutGeneral = new QVBoxLayout( top, 5, 6 );
 
+	QLabel* languageLabel = new QLabel( i18n( "Languages" ), top );
+	languageLabel->setAlignment( Qt::AlignHCenter );
+	layoutGeneral->addWidget( languageLabel );
+
+	languageList = new KComboBox( top );
+	layoutGeneral->addWidget( languageList );
+	fillLanguages();
+
 	QHBoxLayout* layoutIndex = new QHBoxLayout( layoutGeneral );
     layoutIndex->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
+
 	groupIndex = new QVButtonGroup( i18n( "Choose filling colour index" ), top );
 
 	radioButton[0] = new QRadioButton( groupIndex );
@@ -152,6 +164,24 @@ void PreviewDialog::extractOutput( KProcIO *proc ) {
 void PreviewDialog::setColours() {
 	for (uint i = 0; i < 4; ++i)
 		m_project->colours[i] = ( radioButton[i]->isChecked() ) ? 0 : 255;
+}
+
+void PreviewDialog::fillLanguages()
+{
+	SeekLanguagesInVob proc( m_project->files()[0], m_project->directory() );
+	WaitingDialog dlg( this, 0, QString::null, i18n( "Seeking Languages" ) );
+
+	dlg.show();
+	proc.start();
+	do {
+		kapp->processEvents();
+	} while ( !proc.wait( 100 ) );
+	dlg.stop();
+
+	LanguageMap map = proc.languages();
+	if ( map.count() == 0 ) map.insert( "1", "0x20" );
+	for ( LanguageMap::iterator it = map.begin(); it != map.end(); ++it )
+		languageList->insertItem( it.key() );
 }
 
 #include "previewdialog.moc"
