@@ -24,6 +24,7 @@
 #include <qlistbox.h>
 #include <qpixmap.h>
 #include <kmessagebox.h>
+#include <kprogress.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -89,15 +90,24 @@ void PreviewDialog::preview()
 	setColours();
 	
 	process = new ExtractProcess( project, this );
-	*process << "-e" << QString( "00:00:00,%1" ).arg( 3 );
+	*process << "-e" << QString( "00:00:00,%1" ).arg( 8 );
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
 	connect( process, SIGNAL( readReady( KProcIO* ) ),
 			this, SLOT( extractOutput( KProcIO* ) ) );
 	
+	progress = new KProgressDialog( this, 0, i18n("Extracting..."), QString::null, true );
+	progress->setAutoClose( true );
+	progress->setMinimumDuration( 1000 );
+	progress->progressBar()->setTotalSteps( 8 );
+	
 	if ( !process->start( KProcess::NotifyOnExit, true ) )
-		kdError() << "error executing process\n";	
+		kdError() << "error executing process\n";
+	
+	progress->exec();
+	delete progress;
+	progress = 0;
 }
 
 void PreviewDialog::extractFinish( KProcess *proc ) {
@@ -129,7 +139,7 @@ void PreviewDialog::extractOutput( KProcIO *proc ) {
 	while ( proc->readln( line, false ) != -1 ) {
 		word = line.section( ' ', 0, 0 );
 		if ( word == "Generating" )
-			;//subtitle->setText( i18n( "Generating image %1" ).arg( line.section( ": ", 1, 1 ) ) );
+			progress->progressBar()->advance( 1 );
 		else if ( word == "Wrote" )
 			numSub = line.section( ' ', 1, 1 ).toUInt();
 	}

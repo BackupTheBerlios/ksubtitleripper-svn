@@ -30,6 +30,7 @@ class Project;
 class ExtractProcess;
 class KProcess;
 class KProcIO;
+class KProgressDialog;
 
 /**
 @author Sergio Cambra
@@ -50,9 +51,10 @@ protected slots:
 	virtual void restoreColours();
 
 private:
-	QVButtonGroup* groupIndex;
-	QRadioButton* radioButton[4];
-	QListBox* subtitleList;
+	QVButtonGroup *groupIndex;
+	QRadioButton *radioButton[4];
+	QListBox *subtitleList;
+	KProgressDialog *progress;
 
 	Project *project;
 	ExtractProcess *process;
