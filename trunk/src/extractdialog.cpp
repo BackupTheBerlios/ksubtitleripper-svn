@@ -86,16 +86,16 @@ void ExtractDialog::extractSub() {
 	process = new KProcIO();
 	
 	process->setUseShell( true );
-	process->setWorkingDirectory( project->getDirectory() );
+	process->setWorkingDirectory( project->directory() );
 	process->setComm( KProcess::Stderr );
 	process->enableReadSignals( true );
 	
 	// TODO check if cat, tcextract and subtitle2pgm are executable
 	
 	*process << "cat";
-	if ( !download( project->getFiles(), *process ) ) return;
+	if ( !download( project->files(), *process ) ) return;
 	*process << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << "0x20";
-	*process << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1" << "-o" << project->getBaseName();
+	*process << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1" << "-o" << project->baseName();
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );

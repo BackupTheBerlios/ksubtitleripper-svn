@@ -33,16 +33,16 @@ public:
 
 	~Project();
 	
-	QString getSubFilename( int sub );
-	QString getSubFilename();
+	QString subFilename( int sub );
+	QString subFilename();
 	void goFirst();
-	unsigned int getNumSub() const;
-	unsigned int getCurrentSub() const;
-	bool getExtracted() const;
-	bool getConverted() const;
-	QString getBaseName() const;
-	const KURL::List& getFiles() const;
-	QString getDirectory() const;
+	unsigned int numSub() const;
+	unsigned int currentSub() const;
+	bool isExtracted() const;
+	bool isConverted() const;
+	QString baseName() const;
+	const KURL::List& files() const;
+	QString directory() const;
 	
 	void setExtracted( bool value );
 	void setConverted( bool value );
@@ -59,10 +59,10 @@ private:
 	bool readField( QTextStream& stream, QString& field, QString& value ) const;
 	bool load ( QTextStream& stream );
 
-	KURL::List files;
-	QString directory, basename;
-	uint numSub, currentSub;
-	bool extracted, converted;
+	KURL::List v_files;
+	QString v_directory, v_baseName;
+	uint v_numSub, v_currentSub;
+	bool v_extracted, v_converted;
 };
 
 #endif

@@ -24,11 +24,11 @@
 #include <ktempdir.h>
 
 Project::Project( const KURL::List& list, const QString& base )
-		: files( list ), basename( base ) {
-	numSub = currentSub = 0;
-	extracted = converted = false;
-	if ( list[0].isLocalFile() ) directory = list[0].directory( false );
-	else directory = KTempDir().name();
+		: v_files( list ), v_baseName( base ) {
+	v_numSub = v_currentSub = 0;
+	v_extracted = v_converted = false;
+	if ( list[0].isLocalFile() ) v_directory = list[0].directory( false );
+	else v_directory = KTempDir().name();
 }
 
 Project::Project( const QString& path, bool& success ) {
@@ -56,34 +56,34 @@ bool Project::load( QTextStream& in ) {
 	KURL url;
 	bool success;
 	
-	files.empty();
-	directory = QString::null;
-	basename = "";
-	numSub = currentSub = 0;
-	extracted = converted = false;
+	v_files.empty();
+	v_directory = QString::null;
+	v_baseName = "";
+	v_numSub = v_currentSub = 0;
+	v_extracted = v_converted = false;
 	
 	while ( !readField( in, field, value ) ) {
 		if ( field == "File" ) {
 			url = value;
 			if ( url.isEmpty() || !url.isValid() ) return false;
-			files.append(url);
+			v_files.append(url);
 		} else if ( field == "Directory" ) {
 			if ( value.isEmpty() ) return false;
-			directory = value;
+			v_directory = value;
 		} else if ( field == "Basename" ) {
 			if ( value.isEmpty() ) return false;
-			basename = value;
+			v_baseName = value;
 		} else if ( field == "NumberSubtitles" ) {
-			numSub = value.toUInt( &success );
+			v_numSub = value.toUInt( &success );
 			if ( !success ) return false;
 		} else if ( field == "CurrentSubtitle" ) {
-			currentSub = value.toUInt( &success );
+			v_currentSub = value.toUInt( &success );
 			if ( !success ) return false;
 		} else if ( field == "Extracted" ) {
-			extracted = value.toInt( &success );
+			v_extracted = value.toInt( &success );
 			if ( !success ) return false;
 		} else if ( field == "Converted" ) {
-			converted = value.toInt( &success );
+			v_converted = value.toInt( &success );
 			if ( !success ) return false;
 		}
 	}
@@ -104,64 +104,64 @@ bool Project::readField( QTextStream& stream, QString& field, QString& value ) c
 	return false;
 }
 
-QString Project::getSubFilename( int sub ) {
+QString Project::subFilename( int sub ) {
 	QString number = QString::number( sub );
 	
 	if ( number.length() < 4 )
-		return basename + QString().fill( '0', 4-number.length() ) + number;
-	else return basename + number;
+		return v_baseName + QString().fill( '0', 4-number.length() ) + number;
+	else return v_baseName + number;
 }
 
-QString Project::getSubFilename() {
-	return getSubFilename( currentSub );
+QString Project::subFilename() {
+	return subFilename( v_currentSub );
 }
 
 void Project::goFirst() {
-	currentSub = 1;
+	v_currentSub = 1;
 }
 
-unsigned int Project::getNumSub() const {
-	return numSub;
+unsigned int Project::numSub() const {
+	return v_numSub;
 }
 
-unsigned int Project::getCurrentSub() const {
-	return currentSub;
+unsigned int Project::currentSub() const {
+	return v_currentSub;
 }
 
-bool Project::getExtracted() const {
-	return extracted;
+bool Project::isExtracted() const {
+	return v_extracted;
 }
 
-bool Project::getConverted() const {
-	return converted;
+bool Project::isConverted() const {
+	return v_converted;
 }
 
-QString Project::getBaseName() const {
-	return basename;
+QString Project::baseName() const {
+	return v_baseName;
 }
 
-const KURL::List& Project::getFiles() const {
-	return files;
+const KURL::List& Project::files() const {
+	return v_files;
 }
 
-QString Project::getDirectory() const {
-	return directory;
+QString Project::directory() const {
+	return v_directory;
 }
 
 void Project::nextSub() {
-	currentSub++;
+	v_currentSub++;
 }
 
 void Project::prevSub() {
-	currentSub--;
+	v_currentSub--;
 }
 
 bool Project::atFirst() const {
-	return currentSub == 1;
+	return v_currentSub == 1;
 }
 
 bool Project::atLast() const {
-	return currentSub == numSub;
+	return v_currentSub == v_numSub;
 }
 
 bool Project::save( const QString& path ) const {
@@ -169,29 +169,29 @@ bool Project::save( const QString& path ) const {
 	QTextStream out( &f );
 	if ( !f.open ( IO_WriteOnly ) ) return false;
 	
-	for ( uint i = 0; i < files.count(); i++ ) {
-		out << "File=" << files[i].url() << endl;
+	for ( uint i = 0; i < v_files.count(); i++ ) {
+		out << "File=" << v_files[i].url() << endl;
 	}
-	out << "Directory=" << directory << endl;
-	out << "Basename=" << basename << endl;
-	out << "NumberSubtitles=" << numSub << endl;
-	out << "CurrentSubtitle=" << currentSub << endl;
-	out << "Extracted=" << extracted << endl;
-	out << "Converted=" << converted << endl;
+	out << "Directory=" << v_directory << endl;
+	out << "Basename=" << v_baseName << endl;
+	out << "NumberSubtitles=" << v_numSub << endl;
+	out << "CurrentSubtitle=" << v_currentSub << endl;
+	out << "Extracted=" << v_extracted << endl;
+	out << "Converted=" << v_converted << endl;
 	
 	f.close();
 	return true;
 }
 
 void Project::setExtracted( bool value ) {
-	extracted = value;
+	v_extracted = value;
 }
 
 void Project::setConverted( bool value ) {
-	converted = value;
+	v_converted = value;
 }
 
 void Project::setNumSub( uint num ) {
-	numSub = num;
-	if ( currentSub > numSub ) currentSub = numSub;
+	v_numSub = num;
+	if ( v_currentSub > v_numSub ) v_currentSub = v_numSub;
 }

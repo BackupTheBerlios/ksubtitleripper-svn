@@ -26,7 +26,6 @@
 #include <qdir.h>
 #include "convertdialog.h"
 
-#include <iostream>
 ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
  : KDialogBase( parent, name, true, i18n( "Converting images to text" ), Ok|Cancel|Help|User1,
  		Ok, false, KStdGuiItem::clear() ), project( prj ), sending( false ) {
@@ -50,7 +49,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 	image->setPixmap( QPixmap() );
 	layoutGeneral->addWidget( image );
 	
-    progress = new KProgress( project->getNumSub(), top );
+    progress = new KProgress( project->numSub(), top );
     layoutGeneral->addWidget( progress );
 	
 	text = new QLabel( top );
@@ -87,7 +86,7 @@ void ConvertDialog::setEnabledWidgetsInput( bool enable ) {
 }
 
 void ConvertDialog::loadSubtitle( QRect rect ) {
-	QString filename = project->getDirectory() + project->getSubFilename( sub ) + ".pgm";
+	QString filename = project->directory() + project->subFilename( sub ) + ".pgm";
 	
 	// set label
 	subtitle->setText( i18n( "Subtitle %1" ).arg( sub ) );
@@ -111,8 +110,8 @@ void ConvertDialog::convertSub() {
 	process = new KProcess();
 	
 	process->setUseShell( true );
-	process->setWorkingDirectory( project->getDirectory() );
-	databasePath = KProcess::quote( project->getDirectory() + "db/" );
+	process->setWorkingDirectory( project->directory() );
+	databasePath = KProcess::quote( project->directory() + "db/" );
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( gocrFinish( KProcess* ) ) );
@@ -122,8 +121,8 @@ void ConvertDialog::convertSub() {
 			this, SLOT( sent( KProcess* ) ) );
 	
 	// mkdir ./db/ and create an empty file called db.lst
-	QDir( project->getDirectory() ).mkdir( "db" );
-	QFile( project->getDirectory() + "db/db.lst" ).open( IO_ReadWrite );
+	QDir( project->directory() ).mkdir( "db" );
+	QFile( project->directory() + "db/db.lst" ).open( IO_ReadWrite );
 	
 	sub = 1;
 	progress->setValue( 0 );
@@ -131,7 +130,7 @@ void ConvertDialog::convertSub() {
 }
 
 void ConvertDialog::startGocr( KProcess *proc ) {
-	QString filename = project->getSubFilename( sub );
+	QString filename = project->subFilename( sub );
 	proc->clearArguments();
 	
 	// TODO check if gocr is executable
@@ -148,7 +147,7 @@ void ConvertDialog::gocrFinish( KProcess *proc ) {
 	if ( proc->normalExit() ) {
 		progress->advance( 1 );
 		
-		if ( sub == project->getNumSub() ) {
+		if ( sub == project->numSub() ) {
 			delete proc;
 			accept();
 		} else {
