@@ -1,3 +1,10 @@
+  14-8-2004
+- Preview subtitles
+- Fix cancel button in convert to text dialog
+
+  13-8-2004
+- Save and load to project file colours to extract subtitles
+
   12-8-2004
 - Don't ask for saving subtitle after cancel the conversion
 - New dialog to choose the filling colour index in subtitles

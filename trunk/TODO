@@ -1,10 +1,13 @@
-- Usar los niveles de gris elegidos con subtitle2pgm (al extraer) y guardarlos en el proyecto.
+Versión 0.2
+-----------
 
 - Preguntar donde guardar el archivo .srt, y si se va a sobreescribir, preguntar.
 
 - Escribir errores de procesos (salida ignorada) a stderr (o kdError() o kdDebug())
 
 - Controlar errores en la generación del SRT
+
+--------------------
 
 - Permitir desactivar/activar corrección ortográfica
 
