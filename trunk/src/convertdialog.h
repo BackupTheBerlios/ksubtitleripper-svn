@@ -76,7 +76,7 @@ private:
 	Project *project;
 	uint sub;
 	QString databasePath;
-	QStringList toSent;
+	QValueList<char*> toSent;
 	KProcess *process;
 	bool sending;
 	

@@ -215,19 +215,20 @@ void ConvertDialog::convertQuestion( KProcess *proc, char *buffer, int buflen ) 
 }
 
 void ConvertDialog::sent( KProcess *proc ) {
+	delete[] toSent.first();
 	toSent.pop_front();
 	
 	if ( toSent.count() == 0 ) sending = false;
-	else proc->writeStdin( toSent.first().latin1(), toSent.first().length() );
+	else proc->writeStdin( toSent.first(), strlen( toSent.first() ) );
 }
 
 void ConvertDialog::writeStdin( KProcess *proc, QString data ) {
 	QString aux = data + '\n';
 	
-	toSent.append( aux );
+	toSent.append( qstrdup( aux.local8Bit().data() ) );
 	if ( !sending ) {
 		sending = true;
-		proc->writeStdin( aux.latin1(), aux.length() );
+		proc->writeStdin( toSent.first(), strlen( toSent.first() ) );
 	}
 }
 
