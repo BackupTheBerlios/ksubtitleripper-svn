@@ -42,7 +42,7 @@ public:
 	Project( const QString& path, bool& success );
 
 	~Project();
-	
+
 	QString subFilename( int sub );
 	QString subFilename();
 	void goFirst();
@@ -53,11 +53,11 @@ public:
 	QString baseName() const;
 	const KURL::List& files() const;
 	QString directory() const;
-	
+
 	void setExtracted( bool value );
 	void setConverted( bool value );
 	void setNumSub( uint num );
-	
+
 	QString coloursString() const;
 	bool setColours( const QString& col );
 
@@ -65,11 +65,11 @@ public:
 	void prevSub();
 	bool atFirst() const;
 	bool atLast() const;
-	
+
 	bool save( const QString& path ) const;
-	
+
 	Colours colours;
-	
+
 private:
 	bool readField( QTextStream& stream, QString& field, QString& value ) const;
 	bool load ( QTextStream& stream );

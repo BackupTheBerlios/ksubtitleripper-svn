@@ -24,11 +24,14 @@
 #include <qregexp.h>
 #include <ktempdir.h>
 #include <kdebug.h>
+#include "xmlwriter.h"
+#include <qvariant.h>
 
 Colours::Colours() {
-	for (uint i=0; i<4; ++i)
-		m_colours[i] = 255;
+	m_colours[0] = 255;
+	m_colours[1] = 255;
 	m_colours[2] = 0;
+	m_colours[3] = 255;
 }
 
 Colours::~Colours() {}
@@ -36,13 +39,13 @@ Colours::~Colours() {}
 uchar& Colours::operator[](uint index) {
 	if ( index > 3 )
 		kdFatal() << "Colours: Index out of bounds\n";
-	
+
 	return m_colours[index];
 }
 const uchar& Colours::operator[](uint index) const {
 	if ( index > 3 )
 		kdFatal() << "Colours: Index out of bounds\n";
-	
+
 	return m_colours[index];
 }
 
@@ -56,20 +59,15 @@ Project::Project( const KURL::List& list, const QString& base )
 
 Project::Project( const QString& path, bool& success ) {
 	QFile f( path );
-	
+
 	if ( !f.open ( IO_ReadOnly ) ){
 		success = false;
 		return;
 	}
-	
+
 	QTextStream in( &f );
-	if ( !load( in ) ) {
-		f.close();
-		success = false;
-		return;
-	}
-	
-	success = true;
+	success = load( in );
+	f.close();
 }
 
 Project::~Project() {}
@@ -78,13 +76,13 @@ bool Project::load( QTextStream& in ) {
 	QString field, value;
 	KURL url;
 	bool success;
-	
+
 	m_files.empty();
 	m_directory = QString::null;
 	m_baseName = "";
 	m_numSub = m_currentSub = 0;
 	m_extracted = m_converted = false;
-	
+
 	while ( !readField( in, field, value ) ) {
 		if ( field == "File" ) {
 			url = value;
@@ -112,17 +110,17 @@ bool Project::load( QTextStream& in ) {
 			if ( !setColours( value ) ) return false;
 		}
 	}
-	
+
 	return true;
 }
 
 bool Project::readField( QTextStream& stream, QString& field, QString& value ) const {
 	// return true on end of file
 	QString string;
-	
+
 	string = stream.readLine();
 	if ( string.isNull() ) return true; // EOF
-	
+
 	string = string.stripWhiteSpace();
 	field = string.section( '=', 0, 0 );
 	value = string.section( '=', 1 );
@@ -131,7 +129,7 @@ bool Project::readField( QTextStream& stream, QString& field, QString& value ) c
 
 QString Project::subFilename( int sub ) {
 	QString number = QString::number( sub );
-	
+
 	if ( number.length() < 4 )
 		return m_baseName + QString().fill( '0', 4-number.length() ) + number;
 	else return m_baseName + number;
@@ -193,18 +191,28 @@ bool Project::save( const QString& path ) const {
 	QFile f( path );
 	QTextStream out( &f );
 	if ( !f.open ( IO_WriteOnly ) ) return false;
-	
-	for ( uint i = 0; i < m_files.count(); i++ ) {
-		out << "File=" << m_files[i].url() << endl;
-	}
-	out << "Directory=" << m_directory << endl;
-	out << "Basename=" << m_baseName << endl;
-	out << "NumberSubtitles=" << m_numSub << endl;
-	out << "CurrentSubtitle=" << m_currentSub << endl;
-	out << "Extracted=" << m_extracted << endl;
-	out << "Converted=" << m_converted << endl;
-	out << "Colours=" << coloursString() << endl;
-	
+	XmlWriter xml( &f );
+	xml.setAutoNewLine( true );
+	xml.writeOpenTag( "ksubtitleripper_project" );
+
+	xml.writeOpenTag( "files" );
+	for ( uint i = 0; i < m_files.count(); i++ )
+		xml.writeTaggedString( "url", m_files[i].url() );
+	xml.writeCloseTag( "files" );
+
+	xml.writeTaggedString( "directory", m_directory );
+	xml.writeTaggedString( "basename", m_baseName );
+	xml.writeTaggedString( "numbersubtitles", m_numSub );
+	xml.writeTaggedString( "currentsubtitle", m_currentSub );
+	xml.writeTaggedString( "extracted", m_extracted );
+	xml.writeTaggedString( "converted", m_converted );
+
+	AttrMap attrs;
+	for ( uint i = 0; i < m_files.count(); i++ )
+		attrs.insert( "colour"+(i+1), QString::number( colours[i] ) );
+	xml.writeAtomTag( "colours", attrs );
+
+	xml.writeCloseTag( "ksubtitleripper_project" );
 	f.close();
 	return true;
 }
@@ -227,12 +235,12 @@ bool Project::setColours( const QString& col ) {
 	if ( re.exactMatch( col ) ) {
 		uint v[4];
 		bool success;
-		
+
 		for (uint i = 0; i < 4; ++i) {
 			v[i] = re.cap( i+1 ).toUInt( &success );
 			if ( !success || v[i] > 255 ) return false;
 		}
-		
+
 		// String is valid
 		for (uint i = 0; i < 4; ++i)
 			colours[i] = uchar( v[i] );
