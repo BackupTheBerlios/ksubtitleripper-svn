@@ -1,16 +1,14 @@
 Begin3
-Title:          KSubtitleRipper -- Some description
+Title:          KSubtitleRipper
 Version:        0.1
-Entered-date:   
-Description:    
-Keywords:       KDE Qt
-Author:         Sergio Cambra <sergio.cambra@hispalinux.es>
-Maintained-by:  Sergio Cambra <sergio.cambra@hispalinux.es>
-Home-page:      
+Entered-date:   2004-04-02
+Description:    KDE Subtitle Ripper
+Keywords:       KDE Qt Subtitle Ripper
+Author:         Sergio Cambra <runico@users.berlios.de>
+Maintained-by:  Sergio Cambra <runico@users.berlios.de>
+Home-page:      http://ksubtitleripper.berlios.de/
+Primary-site:   http://developer.berlios.de/projects/ksubtitleripper
 Alternate-site: 
-Primary-site:   ftp://ftp.kde.org/pub/kde/unstable/apps/utils
-                xxxxxx  ksubtitleripper-0.1.tar.gz
-                xxx     ksubtitleripper-0.1.lsm
 Platform:       Linux. Needs KDE
 Copying-policy: GPL
 End
