@@ -2,6 +2,9 @@
 - More code cleanup
 - Use more states of XML-UI.
 - Show in caption if project is modified
+- When close a project without saving, ask with filename instead of url
+- Use standard show statusbar and toolbar menu items, and remember the state
+- Added an option to enable/disable check spelling.
 
   5-3-2005
 - Fix how many subtitles have been extracted for last subtitleripper (using -v again)
