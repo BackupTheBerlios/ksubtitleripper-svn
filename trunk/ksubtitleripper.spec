@@ -1,7 +1,7 @@
 %define __libtoolize true
 %define name ksubtitleripper
 %define version 0.1
-%define release 2mdk
+%define release 3mdk
 
 Name: %{name}
 Version: %{version}
@@ -9,14 +9,13 @@ Release: %{release}
 Summary: Application to extract DVD subtitles to text
 Source: http://download.berlios.de/ksubtitleripper/%{name}-%{version}.tar.bz2
 URL: http://ksubtitleripper.berlios.de/
-Copyright: GPL
+License: GPL
 Group: Video
-BuildRoot: %{_tmppath}/%{name}-root
-Requires: subtitleripper gocr
+BuildRoot: %{_tmppath}/%{name}-buildroot
+Requires: subtitleripper gocr transcode
 
 %description
-KSubtitleRipper is a GUI for KDE to rip DVD subtitles. Extracts subtitle
-s from .vob files and creates subtitles in SRT format.
+KSubtitleRipper is a GUI for KDE to rip DVD subtitles. Extracts subtitles from .vob files and creates subtitles in SRT format.
 
 %prep
 rm -rf $RPM_BUILD_ROOT
@@ -73,7 +72,10 @@ rm -rf %{buildroot}
 %{_datadir}/doc/HTML/en/%{name}/*
 
 %changelog
-* Fri Apr 02 2004 Sergio Cambra <runico@users.berlios.de> 0.1-1mdk
+* Wed Aug 11 2004 Sergio Cambra <runico@users.berlios.de> 0.1-3mdk
+- Change Copyright to License, add transcode to Requires and fix changelog
+
+* Fri Apr 02 2004 Sergio Cambra <runico@users.berlios.de> 0.1-2mdk
 - Menu file added
 
 * Fri Apr 02 2004 Sergio Cambra <runico@users.berlios.de> 0.1-1mdk
