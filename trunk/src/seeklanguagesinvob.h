@@ -36,7 +36,7 @@ class SeekLanguagesInVob : public QObject, public QThread
 {
 	Q_OBJECT
 public:
-	SeekLanguagesInVob( const KURL& vob, const QString& dir, bool& success );
+	SeekLanguagesInVob( const QString& file, const QString& dir );
 	~SeekLanguagesInVob();
 	LanguageMap* languages() { return m_languages; }
 
@@ -48,8 +48,6 @@ private slots:
 	void vobOutput( KProcIO *proc );
 
 private:
-	bool download( const KURL& vob );
-
 	LanguageMap *m_languages;
 	KProcIO *m_proc;
 	uint m_numberSubs;

@@ -17,7 +17,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kio/netaccess.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -25,8 +24,8 @@
 #include "extractprocess.h"
 #include "project.h"
 
-ExtractProcess::ExtractProcess( const Project *prj, bool& success, QWidget *parent, QTextCodec *codec )
- : KProcIO( codec ), widget( parent )
+ExtractProcess::ExtractProcess( Project *prj, bool& success, QTextCodec *codec )
+ : KProcIO( codec )
 {
 	success = false;
 	// prj mustn't be 0
@@ -40,32 +39,17 @@ ExtractProcess::ExtractProcess( const Project *prj, bool& success, QWidget *pare
 	// TODO check if cat, tcextract and subtitle2pgm are executable
 
 	*this << "cat";
-	if ( !download( prj->files() ) ) return;
+
+	uint n = prj->files().count();
+	QString file;
+	for (uint i = 0; i < n; ++i ) {
+		if ( !prj->downloadVob( i, file ) ) return;
+		else *this << file;
+	}
+
 	*this << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << prj->codeLangSelected();
 	*this << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1";
 	*this << "-c" << prj->coloursString() << "-o" << prj->baseName();
 
 	success = true;
-}
-
-ExtractProcess::~ExtractProcess()
-{
-}
-
-bool ExtractProcess::download( const KURL::List& urls ) {
-	QString target;
-
-	for (uint i = 0; i < urls.count(); i++ ) {
-		if ( KIO::NetAccess::download( urls[i], target, widget ) ) {
-			*this << KProcess::quote( target );
-			KIO::NetAccess::removeTempFile( target );
-		} else {
-			QString error = KIO::NetAccess::lastErrorString();
-			if ( !error.isEmpty() )
-				KMessageBox::error( 0, error );
-			return false;
-		}
-	}
-
-	return true;
 }

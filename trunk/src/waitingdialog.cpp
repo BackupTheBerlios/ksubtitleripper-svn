@@ -43,9 +43,10 @@ void WaitingDialog::stop()
 
 void WaitingDialog::show()
 {
-	if ( m_timer ) return;
-	m_timer = new QTimer( this );
-	connect( m_timer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
+	if ( !m_timer ) {
+		m_timer = new QTimer( this );
+		connect( m_timer, SIGNAL( timeout() ), this, SLOT( slotProgress() ) );
+	}
 
 	KProgressDialog::show();
 	if ( !m_timer->start( 150, false ) )

@@ -21,9 +21,11 @@
 #define PROJECT_H
 
 #include <kurl.h>
+#include <qmap.h>
 #include "languagemap.h"
 
 class QStringList;
+typedef QMap<uint, QString> FilesMap;
 
 /**
 @author Sergio Cambra
@@ -43,9 +45,11 @@ class Project {
 public:
 	Project();
 	Project( const QString& path, bool& success );
-	~Project() {}
+	~Project();
 
 	bool save( const QString& path ) const;
+
+	bool downloadVob( uint i, QString& target );
 
 	QString subFilename( int sub );
 	QString subFilename() { return subFilename( m_currentSub ); }
@@ -94,6 +98,7 @@ private:
 	}
 
 	KURL::List m_files;
+	FilesMap* m_downloadedFiles;
 	QString m_directory, m_baseName, m_lang, m_code;
 	uint m_numSub, m_currentSub;
 	bool m_extracted, m_converted;

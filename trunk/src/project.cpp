@@ -30,6 +30,8 @@
 #include <qstringlist.h>
 #include <qvariant.h>
 #include <qxml.h>
+#include <kio/netaccess.h>
+#include <kmessagebox.h>
 
 Colours::Colours() {
 	m_colours[0] = 255;
@@ -172,7 +174,8 @@ class ProjectParser : public QXmlDefaultHandler
 		}
 };
 
-Project::Project( const QString& path, bool& success ) : m_langMap( 0 ) {
+Project::Project( const QString& path, bool& success ) : m_downloadedFiles( 0 ), m_langMap( 0 )
+{
 	init();
 
 	QFile f( path );
@@ -184,9 +187,18 @@ Project::Project( const QString& path, bool& success ) : m_langMap( 0 ) {
 	success = reader.parse( source );
 }
 
-Project::Project() : m_langMap( 0 )
+Project::Project() : m_downloadedFiles( 0 ), m_langMap( 0 )
 {
 	init();
+}
+
+Project::~Project()
+{
+	if ( m_downloadedFiles ) {
+		for ( FilesMap::Iterator it = m_downloadedFiles->begin(); it != m_downloadedFiles->end(); ++it )
+			KIO::NetAccess::removeTempFile( it.data() );
+		delete m_downloadedFiles;
+	}
 }
 
 QString Project::subFilename( int sub ) {
@@ -238,6 +250,28 @@ bool Project::save( const QString& path ) const {
 
 	xml.writeCloseTag( "ksubtitleripper_project" );
 	f.close();
+	return true;
+}
+
+bool Project::downloadVob( uint i, QString& target )
+{
+	if ( !m_downloadedFiles ) m_downloadedFiles = new FilesMap;
+
+
+	QString& file = (*m_downloadedFiles)[i];
+	if ( file != QString::null && QFile::exists( file ) ) {
+		target = file;
+		return true;
+	}
+
+	if ( !KIO::NetAccess::download( m_files[i], target, 0 ) ) {
+		KIO::NetAccess::removeTempFile( target );
+		QString error = KIO::NetAccess::lastErrorString();
+		if ( !error.isEmpty() )
+			KMessageBox::error( 0, error );
+		return false;
+	}
+	file = target;
 	return true;
 }
 

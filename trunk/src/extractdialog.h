@@ -55,6 +55,7 @@ private:
 
 	Project *m_project;
 	ExtractProcess *m_process;
+	bool m_extracted;
 };
 
 #endif

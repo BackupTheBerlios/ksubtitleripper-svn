@@ -30,7 +30,7 @@
 #include "extractprocess.h"
 
 ExtractDialog::ExtractDialog( Project *prj, QWidget *parent, const char *name )
-	: WaitingDialog( parent, name, i18n( "Extracting subtitles" ) ), m_project( prj ) {
+	: WaitingDialog( parent, name, i18n( "Extracting subtitles" ) ), m_project( prj ), m_extracted( false ) {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "ExtractDialog constructor: prj is null\n";
 
@@ -49,13 +49,15 @@ void ExtractDialog::slotCancel() {
 }
 
 void ExtractDialog::show() {
+	if ( m_extracted ) return; // fix a strange bug, sometimes is executed twice
 	extractSub();
 	WaitingDialog::show();
 }
 
 void ExtractDialog::extractSub() {
+	m_extracted = true;
 	bool success;
-	m_process = new ExtractProcess( m_project, success, this );
+	m_process = new ExtractProcess( m_project, success );
 	if ( !success ) reject();
 
 	connect( m_process, SIGNAL( processExited( KProcess* ) ),
@@ -63,6 +65,7 @@ void ExtractDialog::extractSub() {
 	connect( m_process, SIGNAL( readReady( KProcIO* ) ),
 			this, SLOT( extractOutput( KProcIO* ) ) );
 
+	m_project->setNumSub( 0 );
 	if ( !m_process->start( KProcess::NotifyOnExit, true ) )
 		kdError() << "error executing process\n";
 }

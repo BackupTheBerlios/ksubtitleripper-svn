@@ -17,8 +17,6 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include <kio/netaccess.h>
-#include <kurl.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
@@ -26,10 +24,9 @@
 
 #include "seeklanguagesinvob.h"
 
-SeekLanguagesInVob::SeekLanguagesInVob( const KURL& vob, const QString& dir, bool& success )
+SeekLanguagesInVob::SeekLanguagesInVob( const QString& file, const QString& dir )
 	: m_numberSubs ( 0 )
 {
-	success = false;
 	m_languages = new LanguageMap();
 	m_proc = new KProcIO();
 
@@ -40,15 +37,12 @@ SeekLanguagesInVob::SeekLanguagesInVob( const KURL& vob, const QString& dir, boo
 
 	// TODO check if tcprobe is executable
 
-	*m_proc << "tcprobe" << "-H" << "100" << "-i";
-	if ( !download( vob ) ) return;
+	*m_proc << "tcprobe" << "-H" << "100" << "-i" << file;
 
 	connect( m_proc, SIGNAL( processExited( KProcess* ) ),
 			 this, SLOT( vobFinish( KProcess* ) ) );
 	connect( m_proc, SIGNAL( readReady( KProcIO* ) ),
 			 this, SLOT( vobOutput( KProcIO* ) ) );
-
-	success = true;
 }
 
 SeekLanguagesInVob::~SeekLanguagesInVob() {
@@ -81,22 +75,6 @@ void SeekLanguagesInVob::vobOutput( KProcIO *proc )
 			m_numberSubs = re.cap( 1 ).toUInt();
 
 	proc->ackRead();
-}
-
-
-bool SeekLanguagesInVob::download( const KURL& vob ) {
-	QString target;
-
-	if ( KIO::NetAccess::download( vob, target, 0 ) ) {
-		*m_proc << KProcess::quote( target );
-		KIO::NetAccess::removeTempFile( target );
-		return true;
-	} else {
-		QString error = KIO::NetAccess::lastErrorString();
-		if ( !error.isEmpty() )
-			KMessageBox::error( 0, error );
-		return false;
-	}
 }
 
 #include "seeklanguagesinvob.moc"

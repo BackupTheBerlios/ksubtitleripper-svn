@@ -21,10 +21,8 @@
 #define EXTRACTPROCESS_H
 
 #include <kprocio.h>
-#include <kurl.h>
 
 class Project;
-class QWidget;
 
 /**
 @author Sergio Cambra
@@ -32,13 +30,8 @@ class QWidget;
 
 class ExtractProcess : public KProcIO {
 public:
-    ExtractProcess( const Project *prj, bool& success, QWidget *parent = 0, QTextCodec *codec = 0 );
-    ~ExtractProcess();
-
-private:
-	bool download( const KURL::List& urls );
-
-	QWidget *widget;
+    ExtractProcess( Project *prj, bool& success, QTextCodec *codec = 0 );
+	~ExtractProcess() {}
 };
 
 #endif

@@ -67,7 +67,7 @@ void PreviewDialog::preview()
 	setLanguage();
 
 	bool success;
-	m_process = new ExtractProcess( m_project, success, this );
+	m_process = new ExtractProcess( m_project, success );
 	if ( !success ) return;
 	*m_process << "-e" << QString( "00:00:00,%1" ).arg( m_central->numSubs->value() );
 
@@ -144,9 +144,9 @@ void PreviewDialog::setLanguage()
 
 bool PreviewDialog::fillLanguages()
 {
-	bool success;
-	SeekLanguagesInVob proc( m_project->files()[0], m_project->directory(), success );
-	if ( !success ) return false;
+	QString file;
+	if ( !m_project->downloadVob( 0, file ) ) return false;
+	SeekLanguagesInVob proc( file, m_project->directory() );
 
 	WaitingDialog dlg( this, 0, QString::null, i18n( "Seeking Languages" ) );
 
