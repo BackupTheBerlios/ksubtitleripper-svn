@@ -39,7 +39,7 @@ class SeekLanguagesInVob : public QObject, public QThread
 public:
 	SeekLanguagesInVob( const KURL& vob, const QString& dir );
 	~SeekLanguagesInVob();
-	const LanguageMap& languages() { return *m_languages; }
+	LanguageMap* languages() { return m_languages; }
 
 protected:
 	virtual void run();

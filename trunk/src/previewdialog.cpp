@@ -179,9 +179,9 @@ void PreviewDialog::fillLanguages()
 	dlg.stop();
 	dlg.close();
 
-	LanguageMap map = proc.languages();
-	if ( map.count() == 0 ) map.insert( "1", "0x20" );
-	for ( LanguageMap::iterator it = map.begin(); it != map.end(); ++it )
+	LanguageMap* map = proc.languages();
+	if ( map->count() == 0 ) map->insert( "1", "0x20" );
+	for ( LanguageMap::iterator it = map->begin(); it != map->end(); ++it )
 		languageList->insertItem( it.key() );
 }
 
