@@ -56,3 +56,5 @@ void WaitingDialog::slotProgress()
 {
 	progressBar()->setProgress( progressBar()->progress() + 4 );
 }
+
+#include "waitingdialog.moc"
