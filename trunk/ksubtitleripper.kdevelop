@@ -21,7 +21,7 @@
   <kdevautoproject>
     <general>
       <activetarget>src/ksubtitleripper</activetarget>
-      <useconfiguration>debug</useconfiguration>
+      <useconfiguration>default</useconfiguration>
     </general>
     <run>
       <mainprogram>src/ksubtitleripper</mainprogram>
@@ -245,12 +245,13 @@
     <version>0.1</version>
     <release>1mdk</release>
     <vendor></vendor>
-    <licence></licence>
-    <summary></summary>
+    <licence>GPL</licence>
+    <summary>Application to extract DVD subtitles to text</summary>
     <group>Video</group>
     <packager></packager>
-    <description></description>
-    <changelog></changelog>
+    <description>KSubtitleRipper is a GUI for KDE to rip DVD subtitles. Extracts subtitles from .vob files and creates subtitles in SRT format.</description>
+    <changelog>* Fri Apr 02 2004 Sergio Cambra &lt;runico@users.berlios.de> 0.1-1mdk
+Initial release</changelog>
     <devpackage>false</devpackage>
     <docspackage>false</docspackage>
     <appicon>false</appicon>
