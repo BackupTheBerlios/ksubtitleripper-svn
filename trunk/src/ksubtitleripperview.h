@@ -54,6 +54,7 @@ private:
 	void emptySubtitle();
 	void beforeExtracting();
 	void beforeConverting();
+	bool saveSRT();
 	void setSrtName( const KURL& url );
 	
 	bool modified;

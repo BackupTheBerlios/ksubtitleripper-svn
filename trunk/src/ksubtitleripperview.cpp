@@ -205,17 +205,46 @@ void KSubtitleRipperView::createSRT() {
 	if ( url.isLocalFile() && QFile::exists( url.path() ) &&
 		KMessageBox::warningContinueCancel( this, i18n( text ).arg( url.filename() ),
 		i18n( "Overwrite File?" ), i18n( "Overwrite" ) ) == KMessageBox::Cancel ) return;
+	
+	
+	if ( url.isLocalFile() ) {
+		if ( !saveSRT( url.path() ) ) {
+			KMessageBox::error( this,
+						i18n( "Couldn't write SRT file to %1" ).arg( url.prettyURL() ) );
+			return;
+		}
+	} else {
+		KTempFile tmp;
+		tmp.setAutoDelete(true);
+		if ( !saveSRT( tmp.name() ) ) {
+			KMessageBox::error( this,
+						i18n( "Couldn't write SRT file to %1" ).arg( tmp.name() ) );
+			return;
+		}
+		if ( !KIO::NetAccess::upload( tmp.name(), url, this ) ) {
+			KMessageBox::error(this,
+						i18n( "Couldn't save remote file %1" ).arg( url.prettyURL() ) );
+			return;
+		}
+	}
 	srtName = url.url();
-					
+}
+
+bool KSubtitleRipperView::saveSRT( QString path ) {
 	KProcIO process;
 	process.setWorkingDirectory( project->directory() );
 	
 	process << "srttool" << "-s";
 	process << "-i" << project->baseName() + ".srtx";
-	process << "-o" << url.path();
+	process << "-o" << path;
 	
-	if ( process.start( KProcess::DontCare, false ) ) process.detach();
-	else kdError() << "error executing process\n";
+	if ( process.start( KProcess::DontCare, false ) ) {
+		process.detach();
+		return true;
+	} else {
+		kdError() << "error executing process\n";
+		return false;
+	}
 }
 
 void KSubtitleRipperView::beforeExtracting() {
