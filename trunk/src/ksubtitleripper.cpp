@@ -77,7 +77,7 @@ void KSubtitleRipper::load( const KURL& url ) {
 void KSubtitleRipper::setupActions() {
 	KAction *saveSub, *prevSub, *nextSub;
 	KAction *extractSub, *convertSub, *createSRT;
-	
+
 	KStdAction::openNew( this, SLOT( fileNew() ), actionCollection() );
 	KStdAction::open( this, SLOT( fileOpen() ), actionCollection() );
 	KStdAction::save( this, SLOT( fileSave() ), actionCollection() );
@@ -117,7 +117,7 @@ void KSubtitleRipper::setupActions() {
 	        convertSub, SLOT( setEnabled( bool ) ) );
 	connect( m_view, SIGNAL( setEnabledCreateSRT( bool ) ),
 	        createSRT, SLOT( setEnabled( bool ) ) );
-	
+
 	createGUI();
 	stateChanged( "initial" );
 }
@@ -129,9 +129,9 @@ void KSubtitleRipper::saveProperties( KConfig *config ) {
 
 	if ( hasName() ) {
 #if KDE_IS_VERSION(3,1,3)
-		config->writePathEntry( "lastURL", project.url() );
+		config->writePathEntry( "lastURL", m_project.url() );
 #else
-		config->writeEntry( "lastURL", project.url() );
+		config->writeEntry( "lastURL", m_project.url() );
 #endif
 
 	}
@@ -169,7 +169,7 @@ void KSubtitleRipper::dropEvent( QDropEvent *event ) {
 
 void KSubtitleRipper::setProject( const KURL& url ) {
 	stateChanged( "withProject" );
-	project = url;
+	m_project = url;
 }
 
 void KSubtitleRipper::fileNew() {
@@ -206,16 +206,16 @@ void KSubtitleRipper::fileSave() {
 	// the Save shortcut is pressed (usually CTRL+S) or the Save toolbar
 	// button is clicked
 
-	if ( hasName() ) m_view->saveProject( project );
+	if ( hasName() ) m_view->saveProject( m_project );
 	else fileSaveAs();
 }
 
 void KSubtitleRipper::fileSaveAs() {
 	// this slot is called whenever the File->Save As menu is selected
 	QString text = "A file named \"%1\" already exists.\nAre you sure you want to overwrite it?";
-	
-	KURL url = KFileDialog::getSaveURL( project.url(), "*.srip|" + i18n("KSubtitleRipper Project Files"), this, i18n( "Save Project" ) );
-	
+
+	KURL url = KFileDialog::getSaveURL( m_project.url(), "*.srip|" + i18n("KSubtitleRipper Project Files"), this, i18n( "Save Project" ) );
+
 	if ( !url.isEmpty() && url.isValid() ) {
 		/*QString extension = QFileInfo( url.path() ).extension( false ).lower();
 		if ( extension != "srip" && ( !url.isLocalFile() || !QFile::exists( url.path() ) ) )
@@ -224,8 +224,8 @@ void KSubtitleRipper::fileSaveAs() {
 		if ( url.isLocalFile() && QFile::exists( url.path() ) &&
 			KMessageBox::warningContinueCancel( this, i18n( text ).arg( url.filename() ),
 			i18n( "Overwrite File?" ), i18n( "Overwrite" ) ) == KMessageBox::Cancel ) return;
-		
-		if ( m_view->saveProject( url ) ) project = url;
+
+		if ( m_view->saveProject( url ) ) m_project = url;
 	}
 }
 
@@ -286,7 +286,7 @@ void KSubtitleRipper::optionsPreferences() {
 		m_prefDialog = new PrefDialog( this );
 		connect(m_prefDialog, SIGNAL( settingsChanged() ), this, SLOT( applyPreferences() ) );
 	}
-	
+
 	m_prefDialog->updateDialog();
 	if ( m_prefDialog->exec() == QDialog::Accepted ) {
 		m_prefDialog->updateConfiguration();
@@ -314,7 +314,7 @@ bool KSubtitleRipper::canCloseProject() {
 	if ( !m_view->askIfModified() ) return false;
 	if ( !m_view->isModified() ) return true;
 
-	QString file = hasName() ? project.prettyURL() : i18n( "Untitled" );
+	QString file = hasName() ? m_project.prettyURL() : i18n( "Untitled" );
 	int answer = KMessageBox::warningYesNoCancel( this,
 		i18n( "The project \"%1\" has been modified.\n\nDo you want to save it?" ).arg( file ), i18n( "Save Project?" ), KStdGuiItem::save(), KStdGuiItem::discard() );
 
@@ -336,7 +336,7 @@ bool KSubtitleRipper::queryClose() {
 }
 
 bool KSubtitleRipper::hasName() {
-	return !project.isEmpty();
+	return !m_project.isEmpty();
 }
 
 #include "ksubtitleripper.moc"
