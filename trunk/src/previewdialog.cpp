@@ -31,7 +31,8 @@
 #include "previewdialog.h"
 #include "project.h"
 #include "extractprocess.h"
-#include <iostream>
+
+const int numSubs = 8;
 
 PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
  : KDialogBase( parent, name, true, i18n( "Converting images to text" ), Ok|Cancel|Help|User1,
@@ -91,7 +92,7 @@ void PreviewDialog::preview()
 	setColours();
 	
 	process = new ExtractProcess( project, this );
-	*process << "-e" << QString( "00:00:00,%1" ).arg( 8 );
+	*process << "-e" << QString( "00:00:00,%1" ).arg( numSubs );
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
@@ -102,7 +103,7 @@ void PreviewDialog::preview()
 	progress->setAllowCancel( false );
 	progress->setAutoClose( true );
 	progress->setMinimumDuration( 1000 );
-	progress->progressBar()->setTotalSteps( 8 );
+	progress->progressBar()->setTotalSteps( numSubs );
 	
 	if ( !process->start( KProcess::NotifyOnExit, true ) )
 		kdError() << "error executing process\n";
@@ -144,6 +145,7 @@ void PreviewDialog::extractOutput( KProcIO *proc ) {
 			progress->progressBar()->advance( 1 );
 		else if ( word == "Wrote" )
 			numSub = line.section( ' ', 1, 1 ).toUInt();
+		else kdWarning() << line << endl;
 	}
 	
 	proc->ackRead();

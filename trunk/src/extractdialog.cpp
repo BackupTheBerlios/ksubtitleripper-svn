@@ -103,6 +103,7 @@ void ExtractDialog::extractOutput( KProcIO *proc ) {
 			subtitle->setText( i18n( "Generating image %1" ).arg( line.section( ": ", 1, 1 ) ) );
 		else if ( word == "Wrote" )
 			project->setNumSub( line.section( ' ', 1, 1 ).toUInt() );
+		else kdWarning() << line << endl;
 	}
 	
 	proc->ackRead();
