@@ -1,5 +1,5 @@
 /***************************************************************************
-*   Copyright (C) 2004 by Sergio Cambra García                            *
+*   Copyright (C) 2004 by Sergio Cambra                                   *
 *   runico@users.berlios.de                                               *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +18,7 @@
 *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
 ***************************************************************************/ 
 /*
- * Copyright (C) 2004 Sergio Cambra GarcÃ­a <runico@users.berlios.de>
+ * Copyright (C) 2004 Sergio Cambra <runico@users.berlios.de>
  */
 
 #ifndef _KSUBTITLERIPPER_H_

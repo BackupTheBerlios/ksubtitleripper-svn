@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Sergio Cambra García                            *
+ *   Copyright (C) 2004 by Sergio Cambra                                   *
  *   runico@users.berlios.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
