@@ -1,7 +1,7 @@
 %define __libtoolize true
 %define name ksubtitleripper
-%define version 0.1
-%define release 3mdk
+%define version 0.2
+%define release 1plf
 
 Name: %{name}
 Version: %{version}
@@ -15,7 +15,10 @@ BuildRoot: %{_tmppath}/%{name}-buildroot
 Requires: subtitleripper gocr transcode
 
 %description
-KSubtitleRipper is a GUI for KDE to rip DVD subtitles. Extracts subtitles from .vob files and creates subtitles in SRT format.
+KSubtitleRipper is a GUI for KDE to rip DVD subtitles. Extracts
+subtitles from .vob files and creates subtitles in SRT format.
+
+This package is in PLF because it depends on a dvd-ripping tool.
 
 %prep
 rm -rf $RPM_BUILD_ROOT
@@ -72,7 +75,8 @@ rm -rf %{buildroot}
 %{_datadir}/doc/HTML/en/%{name}/*
 
 %changelog
-* Wed Aug 11 2004 Sergio Cambra <runico@users.berlios.de> 0.1-3mdk
+* Thu Aug 19 2004 Sergio Cambra <runico@users.berlios.de> 0.2-1plf
+- Release 0.2
 - Change Copyright to License, add transcode to Requires and fix changelog
 
 * Fri Apr 02 2004 Sergio Cambra <runico@users.berlios.de> 0.1-2mdk
