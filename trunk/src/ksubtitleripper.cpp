@@ -105,8 +105,8 @@ void KSubtitleRipper::setupActions() {
 			SLOT( prevSubtitle() ), actionCollection(), "prevSubtitle" );
 	nextSub = new KAction( i18n( "Next subtitle" ), "next", ALT+Key_Right, m_view,
 			SLOT( nextSubtitle() ), actionCollection(), "nextSubtitle" );
-	centerSub = new KAction( i18n( "Center subtitle" ), CTRL+Key_Return, m_view->subtitleView(),
-			SLOT( centerSubtitle() ), actionCollection(), "centerSubtitle" );
+	centerSub = new KAction( i18n( "Center subtitle" ), "center_subtitle", 0,
+			m_view->subtitleView(),	SLOT( centerSubtitle() ), actionCollection(), "centerSubtitle" );
 	extractSub = new KAction( i18n( "Extract subtitles" ), "extract_subtitles", 0,
 			m_view, SLOT( extractSub() ), actionCollection(), "extractSubtitle" );
 	convertSub = new KAction( i18n( "Convert subtitles to text" ), "convert_subtitles", 0,
