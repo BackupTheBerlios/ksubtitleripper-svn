@@ -77,6 +77,8 @@ private:
 	QStringList toSent;
 	KProcess *process;
 	bool sending;
+	
+	static const int marginGeneral = 5;
 };
 
 #endif

@@ -26,6 +26,7 @@
 #include <qdir.h>
 #include "convertdialog.h"
 
+#include <iostream>
 ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
  : KDialogBase( parent, name, true, i18n( "Converting images to text" ), Ok|Cancel|Help|User1,
  		Ok, false, KStdGuiItem::clear() ), project( prj ), sending( false ) {
@@ -33,7 +34,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 	if ( !prj ) kdFatal() << "ConvertDialog constructor: prj is null" << endl;
 	
 	QFrame *top = makeMainWidget();
-	layoutGeneral = new QVBoxLayout( top, 5, 6 );
+	layoutGeneral = new QVBoxLayout( top, marginGeneral, 6 );
 	
 	layoutSub = new QHBoxLayout( layoutGeneral ); 
     layoutSub->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding,
@@ -99,7 +100,8 @@ void ConvertDialog::loadSubtitle( QRect rect ) {
 		image->pixmap()->resize( 0, 0 );
 		KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
 	}
-	resize( image->pixmap()->width(), height() );
+	int newWidth = image->pixmap()->width() + 2 * (marginGeneral+10);
+	resize( (newWidth > sizeHint().width()) ? newWidth : sizeHint().width() , height() );
 	
 	// mark unknown characters
 	QPainter painter( image->pixmap() );
