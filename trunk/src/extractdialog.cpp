@@ -28,7 +28,7 @@
 ExtractDialog::ExtractDialog( Project *prj, QWidget *parent, const char *name )
  : KDialogBase( parent, name, true, i18n( "Extracting subtitles" ), 0 ), project( prj ) {
 	// prj mustn't be 0
-	if ( !prj ) kdFatal() << "ExtractDialog constructor: prj is null" << endl;
+	if ( !prj ) kdFatal() << "ExtractDialog constructor: prj is null\n";
 	
 	QFrame *top = makeMainWidget();
 	QVBoxLayout *layoutGeneral;
@@ -103,14 +103,14 @@ void ExtractDialog::extractSub() {
 			this, SLOT( extractOutput( KProcIO* ) ) );
 	
 	if ( !process->start( KProcess::NotifyOnExit, true ) )
-		kdError() << "error executing process" << endl;
+		kdError() << "error executing process\n";
 }
 
 void ExtractDialog::extractFinish( KProcess *proc ) {
-	bool normalExit = proc->normalExit();
+	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
 	
-	if ( normalExit ) accept();
+	if ( goodExit ) accept();
 	else reject();
 }
 
