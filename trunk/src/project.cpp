@@ -24,220 +24,187 @@
 #include <qregexp.h>
 #include <ktempdir.h>
 #include <kdebug.h>
+#include "xmlwriter.h"
+#include <qvariant.h>
+#include <qxml.h>
 
 Colours::Colours() {
-	for (uint i=0; i<4; ++i)
-		m_colours[i] = 255;
+	m_colours[0] = 255;
+	m_colours[1] = 255;
 	m_colours[2] = 0;
+	m_colours[3] = 255;
 }
-
-Colours::~Colours() {}
 
 uchar& Colours::operator[](uint index) {
 	if ( index > 3 )
 		kdFatal() << "Colours: Index out of bounds\n";
-	
+
 	return m_colours[index];
 }
+
 const uchar& Colours::operator[](uint index) const {
 	if ( index > 3 )
 		kdFatal() << "Colours: Index out of bounds\n";
-	
+
 	return m_colours[index];
 }
 
-Project::Project( const KURL::List& list, const QString& base )
-		: m_files( list ), m_baseName( base ) {
-	m_numSub = m_currentSub = 0;
-	m_extracted = m_converted = false;
-	if ( list[0].isLocalFile() ) m_directory = list[0].directory( false );
-	else m_directory = KTempDir().name();
-}
+class ProjectParser : public QXmlDefaultHandler
+{
+	public:
+		ProjectParser( Project* prj ) {
+			if ( !prj ) kdFatal() << "ProjectParser constructor: prj is null\n";
+			m_prj = prj;
+		}
+
+		bool startDocument() {
+			m_inProject = m_inFiles = m_inUrl = false;
+			return true;
+		}
+
+		bool endDocument() {
+			m_prj->setFiles( m_files );
+			return true;
+		}
+
+		bool endElement( const QString&, const QString&, const QString &name ) {
+			if( name == "ksubtitleripper_project" )
+				m_inProject = false;
+			else if ( name == "files" )
+				m_inFiles = false;
+			else if ( name == "url" )
+				m_inUrl = false;
+
+			return true;
+		}
+
+		bool startElement( const QString&, const QString&, const QString &name, const QXmlAttributes &attrs ) {
+			if( m_inProject ) {
+				if ( m_inFiles ) {
+					if ( name == "url" ) m_inUrl = true;
+				} else {
+					if ( name == "files" ) m_inFiles = true;
+					else if ( name == "params" ) fillProjectParams( attrs );
+					else if ( name == "colours" ) {
+						uint n;
+						bool success;
+						for( uint i=0; i < 4; ++i ) {
+							n = attrs.value( QString( "colour%1" ).arg( i+1 ) ).toUInt( &success );
+							if ( success ) m_prj->colours[i] = n;
+						}
+					}
+				}
+			} else if( name == "ksubtitleripper_project" )
+				m_inProject = true;
+
+			return true;
+		}
+
+		bool characters ( const QString & ch ) {
+			if ( m_inUrl ) {
+				KURL url = ch;
+				if ( !url.isEmpty() && url.isValid() ) m_files.append(url);
+			}
+			return true;
+		}
+
+	private:
+		bool m_inProject, m_inFiles, m_inUrl;
+		KURL::List m_files;
+		Project* m_prj;
+
+		void fillProjectParams( const QXmlAttributes& attrs ) {
+			uint n;
+			bool success;
+			QString aux;
+
+			for( int i=0; i < attrs.count(); ++i ) {
+				if( attrs.localName( i ) == "extracted" ) {
+					n = attrs.value( i ).toUInt( &success );
+					if ( success ) m_prj->setExtracted( n );
+
+				} else if( attrs.localName( i ) == "converted" ) {
+					n = attrs.value( i ).toUInt( &success );
+					if ( success ) m_prj->setConverted( n );
+
+				} else if( attrs.localName( i ) == "currentsubtitle" ) {
+					n = attrs.value( i ).toUInt( &success );
+					if ( success ) m_prj->goSub( n );
+
+				} else if( attrs.localName( i ) == "numbersubtitles" ) {
+					n = attrs.value( i ).toUInt( &success );
+					if ( success ) m_prj->setNumSub( n );
+
+				} else if( attrs.localName( i ) == "directory" ) {
+					aux = attrs.value( i );
+					if ( !aux.isEmpty() ) m_prj->setDirectory( aux );
+
+				} else if( attrs.localName( i ) == "basename" ) {
+					aux = attrs.value( i );
+					if ( !aux.isEmpty() ) m_prj->setBaseName( aux );
+				}
+			}
+		}
+};
 
 Project::Project( const QString& path, bool& success ) {
+	init();
+
 	QFile f( path );
-	
-	if ( !f.open ( IO_ReadOnly ) ){
-		success = false;
-		return;
-	}
-	
-	QTextStream in( &f );
-	if ( !load( in ) ) {
-		f.close();
-		success = false;
-		return;
-	}
-	
-	success = true;
-}
+	QXmlInputSource source( f );
+	QXmlSimpleReader reader;
+	ProjectParser parser( this );
 
-Project::~Project() {}
-
-bool Project::load( QTextStream& in ) {
-	QString field, value;
-	KURL url;
-	bool success;
-	
-	m_files.empty();
-	m_directory = QString::null;
-	m_baseName = "";
-	m_numSub = m_currentSub = 0;
-	m_extracted = m_converted = false;
-	
-	while ( !readField( in, field, value ) ) {
-		if ( field == "File" ) {
-			url = value;
-			if ( url.isEmpty() || !url.isValid() ) return false;
-			m_files.append(url);
-		} else if ( field == "Directory" ) {
-			if ( value.isEmpty() ) return false;
-			m_directory = value;
-		} else if ( field == "Basename" ) {
-			if ( value.isEmpty() ) return false;
-			m_baseName = value;
-		} else if ( field == "NumberSubtitles" ) {
-			m_numSub = value.toUInt( &success );
-			if ( !success ) return false;
-		} else if ( field == "CurrentSubtitle" ) {
-			m_currentSub = value.toUInt( &success );
-			if ( !success ) return false;
-		} else if ( field == "Extracted" ) {
-			m_extracted = value.toInt( &success );
-			if ( !success ) return false;
-		} else if ( field == "Converted" ) {
-			m_converted = value.toInt( &success );
-			if ( !success ) return false;
-		} else if ( field == "Colours" ) {
-			if ( !setColours( value ) ) return false;
-		}
-	}
-	
-	return true;
-}
-
-bool Project::readField( QTextStream& stream, QString& field, QString& value ) const {
-	// return true on end of file
-	QString string;
-	
-	string = stream.readLine();
-	if ( string.isNull() ) return true; // EOF
-	
-	string = string.stripWhiteSpace();
-	field = string.section( '=', 0, 0 );
-	value = string.section( '=', 1 );
-	return false;
+	reader.setContentHandler( &parser );
+	success = reader.parse( source );
 }
 
 QString Project::subFilename( int sub ) {
 	QString number = QString::number( sub );
-	
+
 	if ( number.length() < 4 )
 		return m_baseName + QString().fill( '0', 4-number.length() ) + number;
 	else return m_baseName + number;
-}
-
-QString Project::subFilename() {
-	return subFilename( m_currentSub );
-}
-
-void Project::goFirst() {
-	m_currentSub = 1;
-}
-
-unsigned int Project::numSub() const {
-	return m_numSub;
-}
-
-unsigned int Project::currentSub() const {
-	return m_currentSub;
-}
-
-bool Project::isExtracted() const {
-	return m_extracted;
-}
-
-bool Project::isConverted() const {
-	return m_converted;
-}
-
-QString Project::baseName() const {
-	return m_baseName;
-}
-
-const KURL::List& Project::files() const {
-	return m_files;
-}
-
-QString Project::directory() const {
-	return m_directory;
-}
-
-void Project::nextSub() {
-	m_currentSub++;
-}
-
-void Project::prevSub() {
-	m_currentSub--;
-}
-
-bool Project::atFirst() const {
-	return m_currentSub == 1;
-}
-
-bool Project::atLast() const {
-	return m_currentSub == m_numSub;
 }
 
 bool Project::save( const QString& path ) const {
 	QFile f( path );
 	QTextStream out( &f );
 	if ( !f.open ( IO_WriteOnly ) ) return false;
-	
-	for ( uint i = 0; i < m_files.count(); i++ ) {
-		out << "File=" << m_files[i].url() << endl;
-	}
-	out << "Directory=" << m_directory << endl;
-	out << "Basename=" << m_baseName << endl;
-	out << "NumberSubtitles=" << m_numSub << endl;
-	out << "CurrentSubtitle=" << m_currentSub << endl;
-	out << "Extracted=" << m_extracted << endl;
-	out << "Converted=" << m_converted << endl;
-	out << "Colours=" << coloursString() << endl;
-	
+	XmlWriter xml( &f );
+	xml.setAutoNewLine( true );
+	xml.writeOpenTag( "ksubtitleripper_project" );
+
+	AttrMap attrs;
+	attrs.insert( "directory", m_directory );
+	attrs.insert( "basename", m_baseName );
+	attrs.insert( "numbersubtitles", m_numSub );
+	attrs.insert( "currentsubtitle", m_currentSub );
+	attrs.insert( "extracted", m_extracted );
+	attrs.insert( "converted", m_converted );
+	xml.writeAtomTag( "params", attrs );
+
+	xml.writeOpenTag( "files" );
+	for ( uint i = 0; i < m_files.count(); i++ )
+		xml.writeTaggedString( "url", m_files[i].url() );
+	xml.writeCloseTag( "files" );
+
+	attrs.clear();
+	for ( uint i = 0; i < 4; i++ )
+		attrs.insert( QString( "colour%1" ).arg( i+1 ), uint( colours[i] ) );
+	xml.writeAtomTag( "colours", attrs );
+
+	xml.writeCloseTag( "ksubtitleripper_project" );
 	f.close();
 	return true;
 }
 
-void Project::setExtracted( bool value ) {
-	m_extracted = value;
-}
-
-void Project::setConverted( bool value ) {
-	m_converted = value;
-}
-
-void Project::setNumSub( uint num ) {
-	m_numSub = num;
-	if ( m_currentSub > m_numSub ) m_currentSub = m_numSub;
-}
-
-bool Project::setColours( const QString& col ) {
-	QRegExp re( "(\\d{1,3}),(\\d{1,3}),(\\d{1,3}),(\\d{1,3})" );
-	if ( re.exactMatch( col ) ) {
-		uint v[4];
-		bool success;
-		
-		for (uint i = 0; i < 4; ++i) {
-			v[i] = re.cap( i+1 ).toUInt( &success );
-			if ( !success || v[i] > 255 ) return false;
-		}
-		
-		// String is valid
-		for (uint i = 0; i < 4; ++i)
-			colours[i] = uchar( v[i] );
-		return true;
-	} else return false;
+void Project::setFiles( const KURL::List& list ) {
+	m_files = list;
+	if ( m_directory.isEmpty() ) {
+		if ( list[0].isLocalFile() ) m_directory = list[0].directory( false );
+		else m_directory = KTempDir().name();
+	}
 }
 
 QString Project::coloursString() const {

@@ -29,7 +29,7 @@
 class Colours {
 public:
 	Colours();
-	~Colours();
+	~Colours() {}
 	uchar& operator[](uint index);
 	const uchar& operator[](uint index) const;
 private:
@@ -38,41 +38,52 @@ private:
 
 class Project {
 public:
-	Project( const KURL::List& list, const QString& base );
+	Project() { init(); }
 	Project( const QString& path, bool& success );
+	~Project() {}
 
-	~Project();
-	
-	QString subFilename( int sub );
-	QString subFilename();
-	void goFirst();
-	unsigned int numSub() const;
-	unsigned int currentSub() const;
-	bool isExtracted() const;
-	bool isConverted() const;
-	QString baseName() const;
-	const KURL::List& files() const;
-	QString directory() const;
-	
-	void setExtracted( bool value );
-	void setConverted( bool value );
-	void setNumSub( uint num );
-	
-	QString coloursString() const;
-	bool setColours( const QString& col );
-
-	void nextSub();
-	void prevSub();
-	bool atFirst() const;
-	bool atLast() const;
-	
 	bool save( const QString& path ) const;
-	
+
+	QString subFilename( int sub );
+	QString subFilename() { return subFilename( m_currentSub ); }
+	bool isExtracted() const { return m_extracted; }
+	bool isConverted() const { return m_converted; }
+	QString baseName() const { return m_baseName; }
+	QString directory() const { return m_directory; }
+	const KURL::List& files() const { return m_files; }
+
+	void setBaseName( const QString& base ) { m_baseName = base; }
+	void setDirectory( const QString& dir ) { m_directory = dir; }
+	void setExtracted( bool value ) { m_extracted = value; }
+	void setConverted( bool value ) { m_converted = value; }
+	void setNumSub( uint num ) {
+		m_numSub = num;
+		if ( m_currentSub > m_numSub ) m_currentSub = m_numSub;
+	}
+
+	void setFiles( const KURL::List& list );
+
+	QString coloursString() const;
+	//bool setColours( const QString& col );
+
+	void nextSub() { m_currentSub++; }
+	void prevSub() { m_currentSub--; }
+	void goSub( uint i ) { m_currentSub = i; }
+	void goFirst() { m_currentSub = 1; }
+	bool atFirst() const { return m_currentSub == 1; }
+	bool atLast() const { return m_currentSub == m_numSub; }
+	uint numSub() const { return m_numSub; }
+	uint currentSub() const { return m_currentSub; }
+
 	Colours colours;
-	
+
 private:
-	bool readField( QTextStream& stream, QString& field, QString& value ) const;
-	bool load ( QTextStream& stream );
+	void init() {
+		m_numSub = m_currentSub = 0;
+		m_extracted = m_converted = false;
+	}
+	//bool readField( QTextStream& stream, QString& field, QString& value ) const;
+	//bool load ( QTextStream& stream );
 
 	KURL::List m_files;
 	QString m_directory, m_baseName;

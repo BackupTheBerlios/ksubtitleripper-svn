@@ -34,32 +34,32 @@
 NewProject::NewProject( QString prefix ) : KDialogBase( Plain,
 			i18n( "Create New Project" ), Help | Ok | Cancel, Ok ) {
 	QFrame* top = plainPage();
-	
-    layoutGeneral = new QGridLayout( top, 2, 3, 5, 6 );
 
-    vobFilesList = new KListBox( top );
-    layoutGeneral->addWidget( vobFilesList, 0, 1 );
-	
-    prefixLabel = new QLabel( i18n( "Prefix" ), top );
-    layoutGeneral->addWidget( prefixLabel, 1, 0 );
-    
-    prefixEdit = new KLineEdit( prefix, top );
-    layoutGeneral->addWidget( prefixEdit, 1, 1 );
-	
-    layoutFilesLabel = new QVBoxLayout( 0, 0, 6 ); 
-    vobFilesLabel = new QLabel( i18n( "Vob files" ), top );
-    layoutFilesLabel->addWidget( vobFilesLabel );
+	layoutGeneral = new QGridLayout( top, 2, 3, 5, 6 );
+
+	vobFilesList = new KListBox( top );
+	layoutGeneral->addWidget( vobFilesList, 0, 1 );
+
+	prefixLabel = new QLabel( i18n( "Prefix" ), top );
+	layoutGeneral->addWidget( prefixLabel, 1, 0 );
+
+	prefixEdit = new KLineEdit( prefix, top );
+	layoutGeneral->addWidget( prefixEdit, 1, 1 );
+
+	layoutFilesLabel = new QVBoxLayout( 0, 0, 6 );
+	vobFilesLabel = new QLabel( i18n( "Vob files" ), top );
+	layoutFilesLabel->addWidget( vobFilesLabel );
 	layoutFilesLabel->addItem( new QSpacerItem( 20, 40, QSizePolicy::Minimum,
 									QSizePolicy::Expanding ) );
-    layoutGeneral->addLayout( layoutFilesLabel, 0, 0 );
+	layoutGeneral->addLayout( layoutFilesLabel, 0, 0 );
 
-	layoutFilesButton = new QVBoxLayout( 0, 0, 6 ); 
+	layoutFilesButton = new QVBoxLayout( 0, 0, 6 );
 	vobFilesButton = new KPushButton ( top );
-    layoutFilesButton->addWidget( vobFilesButton );
+	layoutFilesButton->addWidget( vobFilesButton );
 	layoutFilesButton->addItem( new QSpacerItem( 20, 40, QSizePolicy::Minimum,
 									QSizePolicy::Expanding ) );
-    layoutGeneral->addLayout( layoutFilesButton, 0, 2 );
-    
+	layoutGeneral->addLayout( layoutFilesButton, 0, 2 );
+
 	enableButtonOK( false );
 	vobFilesButton->setPixmap( KGlobal::iconLoader()->loadIcon( "fileopen", KIcon::Small ) );
 	connect( vobFilesButton, SIGNAL( clicked() ), this, SLOT( selectVobs() ) );
@@ -70,14 +70,17 @@ NewProject::NewProject( QString prefix ) : KDialogBase( Plain,
 NewProject::~NewProject() {}
 
 Project* NewProject::getProject() {
-	return new Project( files, prefixEdit->text() );
+	Project *prj = new Project();
+	prj->setFiles( files );
+	prj->setBaseName( prefixEdit->text() );
+	return prj;
 }
 
 void NewProject::selectVobs() {
 	files = KFileDialog::getOpenURLs( QString::null,
 				"*.vob|" + i18n( "VOB files" ), this, i18n( "Select VOB files" ) );
 	if ( files.isEmpty() ) return;
-	
+
 	enableButtonOK( prefixEdit->text().find( ' ' ) == -1 );
 	vobFilesList->clear();
 	vobFilesList->insertStringList( files.toStringList() );
