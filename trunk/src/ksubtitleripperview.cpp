@@ -158,10 +158,11 @@ void KSubtitleRipperView::nextSubtitle() {
 }
 
 void KSubtitleRipperView::extractSub() {
+	if ( PreviewDialog( project, this ).exec() != QDialog::Accepted ) return;
+	
 	modified = true;
 	beforeExtracting();
 	
-	if ( PreviewDialog( project, this ).exec() != QDialog::Accepted ) return;
 	
 	if ( ExtractDialog( project, this ).exec() == QDialog::Accepted ) {
 		project->setExtracted( true );
