@@ -47,6 +47,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 	image = new QLabel( top );
     image->setMinimumSize( QSize( 0, 150 ) );
 	image->setAlignment( image->alignment() | Qt::AlignHCenter );
+	image->setPixmap( QPixmap() );
 	layoutGeneral->addWidget( image );
 	
     progress = new KProgress( project->getNumSub(), top );
@@ -90,10 +91,6 @@ void ConvertDialog::loadSubtitle( QRect rect ) {
 	
 	// set label
 	subtitle->setText( i18n( "Subtitle %1" ).arg( sub ) );
-	
-	// if image hasn't a pixmap, create one
-	if ( !image->pixmap() )
-		image->setPixmap( QPixmap() );
 	
 	// load image
 	if ( !image->pixmap()->load( filename ) || image->pixmap()->isNull() ) {
