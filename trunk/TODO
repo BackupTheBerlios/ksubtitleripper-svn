@@ -1,5 +1,3 @@
-- Choose subtitle language
-
 - Action to split subtitles in several files, for too long videos.
 
 - Add "What's this?"
@@ -7,6 +5,7 @@
 - Check spelling on all subtitles
 
 - Choose to extract from DVD or from VOB files
+  (subtitles: tcprobe -H 10 -i <dvd_device> -T <title_number>)
 
 - Filters to fix tipical errors of OCR conversion.
 
