@@ -21,14 +21,23 @@
 #define PREFGENERAL_H
 
 #include <prefgenerallayout.h>
+#include <qcheckbox.h>
+#include <kfontrequester.h>
 
 /**
 @author Sergio Cambra
 */
-class PrefGeneral : public PrefGeneralLayout {
+class PrefGeneral : protected PrefGeneralLayout
+{
 Q_OBJECT
 public:
-    PrefGeneral(QWidget *parent = 0, const char *name = 0, WFlags f = 0);
+	PrefGeneral( QWidget *parent = 0, const char *name = 0, WFlags f = 0 );
+
+	void setDoUnix2DosChecked( bool value ) { m_doUnix2DosChk->setChecked( value ); }
+	void setEditorFont( const QFont& font ) { m_editorFont->setFont( font ); }
+
+	bool isDoUnix2DosChecked() const { return m_doUnix2DosChk->isChecked(); }
+	QFont editorFont() const { return m_editorFont->font(); }
 
 protected slots:
 	void optionsChangedSlot();

@@ -20,6 +20,8 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
+#include <qfont.h>
+
 /**
 @author Sergio Cambra
 */
@@ -29,12 +31,15 @@ public:
 
 	bool doUnix2Dos() const { return m_doUnix2Dos; }
 	bool checkSpelling() const { return m_checkSpelling; }
+	QFont editorFont() const { return m_editorFont; }
 
 	void setDoUnix2Dos( bool value ) { m_doUnix2Dos = value; }
 	void setCheckSpelling( bool value ) { m_checkSpelling = value; }
+	void setEditorFont( const QFont& font ) { m_editorFont = font; }
 
 	static const bool defaultDoUnix2Dos;
 	static const bool defaultCheckSpelling;
+	static const QFont& defaultEditorFont();
 
 private:
 	Configuration();
@@ -44,6 +49,7 @@ private:
 
 	bool m_doUnix2Dos;
 	bool m_checkSpelling;
+	QFont m_editorFont;
 };
 
 Configuration& Config();

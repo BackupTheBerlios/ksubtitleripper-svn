@@ -25,36 +25,38 @@
 #include <klocale.h>
 #include <qframe.h>
 #include <qlayout.h>
-#include <qcheckbox.h>
 
 PrefDialog::PrefDialog(QWidget *parent, const char *name, WFlags f)
  : KDialogBase(IconList, i18n("Configure"), Help | Default | Ok | Apply | Cancel, Ok, parent, name, f)
 {
 	QFrame *frame;
 	frame = addPage( i18n( "General" ), i18n( "General options" ) );
-	
+
 	QVBoxLayout *layout = new QVBoxLayout( frame, 0, 0 );
 	m_prefGeneral = new PrefGeneral( frame );
 	layout->addWidget( m_prefGeneral );
-	
+
 	// connect interactive widgets and selfmade signals to the enableApply slotDefault
 	connect( m_prefGeneral, SIGNAL( optionsChanged() ), this, SLOT( enableApply() )  );
 }
 
 void PrefDialog::updateDialog() {
-    m_prefGeneral->m_doUnix2DosChk->setChecked( Config().doUnix2Dos() );
+	m_prefGeneral->setDoUnix2DosChecked( Config().doUnix2Dos() );
+	m_prefGeneral->setEditorFont( Config().editorFont() );
 	enableButtonApply( false );
 }
 
 void PrefDialog::updateConfiguration() {
-    Config().setDoUnix2Dos( m_prefGeneral->m_doUnix2DosChk->isChecked() );
+    Config().setDoUnix2Dos( m_prefGeneral->isDoUnix2DosChecked() );
+	Config().setEditorFont( m_prefGeneral->editorFont() );
 	enableButtonApply( false );
 }
 
 void PrefDialog::slotDefault() {
 	switch (activePageIndex()) {
 	case 1: // General
-		m_prefGeneral->m_doUnix2DosChk->setChecked( Configuration::m_defaultDoUnix2Dos );
+		m_prefGeneral->setDoUnix2DosChecked( Configuration::defaultDoUnix2Dos );
+		m_prefGeneral->setEditorFont( Configuration::defaultEditorFont() );
 		break;
 	default: return;
 	}

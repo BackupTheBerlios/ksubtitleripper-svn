@@ -22,6 +22,7 @@
 
 #include <kapplication.h>
 #include <kconfig.h>
+#include <kglobalsettings.h>
 
 const bool Configuration::defaultDoUnix2Dos = false;
 const bool Configuration::defaultCheckSpelling = true;
@@ -31,12 +32,19 @@ Configuration::Configuration()
 	read();
 }
 
+const QFont& Configuration::defaultEditorFont()
+{
+	static QFont *m_defaultEditorFont = new QFont( KGlobalSettings::fixedFont() );
+	return *m_defaultEditorFont;
+}
+
 void Configuration::read() {
 	KConfig *conf = kapp->config();
 
 	conf->setGroup( "General" );
 	m_doUnix2Dos = conf->readBoolEntry( "doDos2Unix", defaultDoUnix2Dos );
 	m_checkSpelling = conf->readBoolEntry( "checkSpelling", defaultCheckSpelling );
+	m_editorFont = conf->readFontEntry( "fontEditor", &defaultEditorFont() );
 }
 
 void Configuration::write() const {
@@ -45,6 +53,7 @@ void Configuration::write() const {
 	conf->setGroup( "General" );
 	conf->writeEntry( "doDos2Unix", m_doUnix2Dos );
 	conf->writeEntry( "checkSpelling", m_checkSpelling );
+	conf->writeEntry( "fontEditor", m_editorFont );
 
 	conf->sync();
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>PrefGeneralLayout</class>
 <widget class="QWidget">
     <property name="name">
@@ -8,18 +8,18 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>600</width>
-            <height>484</height>
+            <width>382</width>
+            <height>298</height>
         </rect>
     </property>
     <property name="caption">
         <string>General options</string>
     </property>
-    <vbox>
+    <grid>
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox">
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
             <property name="name">
                 <cstring>m_doUnix2DosChk</cstring>
             </property>
@@ -27,12 +27,48 @@
                 <string>Convert SRT file to DOS format</string>
             </property>
         </widget>
-    </vbox>
+        <widget class="KFontRequester" row="1" column="1">
+            <property name="name">
+                <cstring>m_editorFont</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="1" column="0">
+            <property name="name">
+                <cstring>m_textEditorFont</cstring>
+            </property>
+            <property name="text">
+                <string>Editor Font:</string>
+            </property>
+        </widget>
+        <spacer row="2" column="1">
+            <property name="name">
+                <cstring>m_spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>101</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
 </widget>
 <connections>
     <connection>
         <sender>m_doUnix2DosChk</sender>
         <signal>clicked()</signal>
+        <receiver>PrefGeneralLayout</receiver>
+        <slot>optionsChangedSlot()</slot>
+    </connection>
+    <connection>
+        <sender>m_editorFont</sender>
+        <signal>fontSelected(const QFont&amp;)</signal>
         <receiver>PrefGeneralLayout</receiver>
         <slot>optionsChangedSlot()</slot>
     </connection>
