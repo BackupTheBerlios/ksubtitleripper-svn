@@ -19,12 +19,15 @@
 ***************************************************************************/
 
 #include "project.h"
+#include "xmlwriter.h"
+
+#include <klocale.h>
 #include <qfile.h>
 #include <qtextstream.h>
 #include <qregexp.h>
 #include <ktempdir.h>
 #include <kdebug.h>
-#include "xmlwriter.h"
+#include <qstringlist.h>
 #include <qvariant.h>
 #include <qxml.h>
 
@@ -58,13 +61,19 @@ class ProjectParser : public QXmlDefaultHandler
 		}
 
 		bool startDocument() {
-			m_inProject = m_inFiles = m_inUrl = false;
+			m_inProject = m_inFiles = m_inUrl = m_inLanguages = false;
+			m_map = new LanguageMap();
 			return true;
 		}
 
 		bool endDocument() {
 			m_prj->setFiles( m_files );
-			return true;
+			if ( m_map->isEmpty() ) {
+				m_map->insert( "1", "0x20" );
+				m_language = "1";
+			}
+			m_prj->setLanguageMap( m_map );
+			return m_prj->setLanguage( m_language );
 		}
 
 		bool endElement( const QString&, const QString&, const QString &name ) {
@@ -74,6 +83,8 @@ class ProjectParser : public QXmlDefaultHandler
 				m_inFiles = false;
 			else if ( name == "url" )
 				m_inUrl = false;
+			else if ( name == "languages" )
+				m_inLanguages = false;
 
 			return true;
 		}
@@ -82,6 +93,15 @@ class ProjectParser : public QXmlDefaultHandler
 			if( m_inProject ) {
 				if ( m_inFiles ) {
 					if ( name == "url" ) m_inUrl = true;
+				} else if ( m_inLanguages ) {
+					if ( name == "language" ) {
+						QString lang = attrs.value( "name" );
+						if ( !lang.isEmpty() ) {
+							QString code = attrs.value( "code" );
+							if ( !code.isEmpty() )
+								m_map->insert( lang, code );
+						}
+					}
 				} else {
 					if ( name == "files" ) m_inFiles = true;
 					else if ( name == "params" ) fillProjectParams( attrs );
@@ -92,7 +112,7 @@ class ProjectParser : public QXmlDefaultHandler
 							n = attrs.value( QString( "colour%1" ).arg( i+1 ) ).toUInt( &success );
 							if ( success ) m_prj->colours[i] = n;
 						}
-					}
+					} else if ( name == "languages" ) m_inLanguages = true;
 				}
 			} else if( name == "ksubtitleripper_project" )
 				m_inProject = true;
@@ -109,8 +129,10 @@ class ProjectParser : public QXmlDefaultHandler
 		}
 
 	private:
-		bool m_inProject, m_inFiles, m_inUrl;
+		bool m_inProject, m_inFiles, m_inUrl, m_inLanguages;
 		KURL::List m_files;
+		QString m_language;
+		LanguageMap* m_map;
 		Project* m_prj;
 
 		void fillProjectParams( const QXmlAttributes& attrs ) {
@@ -119,35 +141,38 @@ class ProjectParser : public QXmlDefaultHandler
 			QString aux;
 
 			for( int i=0; i < attrs.count(); ++i ) {
-				if( attrs.localName( i ) == "extracted" ) {
+				if ( attrs.localName( i ) == "extracted" ) {
 					n = attrs.value( i ).toUInt( &success );
 					if ( success ) m_prj->setExtracted( n );
 
-				} else if( attrs.localName( i ) == "converted" ) {
+				} else if ( attrs.localName( i ) == "converted" ) {
 					n = attrs.value( i ).toUInt( &success );
 					if ( success ) m_prj->setConverted( n );
 
-				} else if( attrs.localName( i ) == "currentsubtitle" ) {
+				} else if ( attrs.localName( i ) == "currentsubtitle" ) {
 					n = attrs.value( i ).toUInt( &success );
 					if ( success ) m_prj->goSub( n );
 
-				} else if( attrs.localName( i ) == "numbersubtitles" ) {
+				} else if ( attrs.localName( i ) == "numbersubtitles" ) {
 					n = attrs.value( i ).toUInt( &success );
 					if ( success ) m_prj->setNumSub( n );
 
-				} else if( attrs.localName( i ) == "directory" ) {
+				} else if ( attrs.localName( i ) == "directory" ) {
 					aux = attrs.value( i );
 					if ( !aux.isEmpty() ) m_prj->setDirectory( aux );
 
-				} else if( attrs.localName( i ) == "basename" ) {
+				} else if ( attrs.localName( i ) == "basename" ) {
 					aux = attrs.value( i );
 					if ( !aux.isEmpty() ) m_prj->setBaseName( aux );
+				} else if ( attrs.localName( i ) == "lang" ) {
+					aux = attrs.value( i );
+					if ( !aux.isEmpty() ) m_language = aux;
 				}
 			}
 		}
 };
 
-Project::Project( const QString& path, bool& success ) {
+Project::Project( const QString& path, bool& success ) : m_langMap( 0 ) {
 	init();
 
 	QFile f( path );
@@ -157,6 +182,11 @@ Project::Project( const QString& path, bool& success ) {
 
 	reader.setContentHandler( &parser );
 	success = reader.parse( source );
+}
+
+Project::Project() : m_langMap( 0 )
+{
+	init();
 }
 
 QString Project::subFilename( int sub ) {
@@ -182,6 +212,7 @@ bool Project::save( const QString& path ) const {
 	attrs.insert( "currentsubtitle", m_currentSub );
 	attrs.insert( "extracted", m_extracted );
 	attrs.insert( "converted", m_converted );
+	attrs.insert( "lang", m_lang );
 	xml.writeAtomTag( "params", attrs );
 
 	xml.writeOpenTag( "files" );
@@ -194,8 +225,51 @@ bool Project::save( const QString& path ) const {
 		attrs.insert( QString( "colour%1" ).arg( i+1 ), uint( colours[i] ) );
 	xml.writeAtomTag( "colours", attrs );
 
+	if ( m_langMap ) {
+		attrs.clear();
+		xml.writeOpenTag( "languages" );
+		for ( LanguageMap::iterator it = m_langMap->begin(); it != m_langMap->end(); ++it ) {
+			attrs["name"] = it.key();
+			attrs["code"] = it.data();
+			xml.writeAtomTag( "language", attrs );
+		}
+		xml.writeCloseTag( "languages" );
+	}
+
 	xml.writeCloseTag( "ksubtitleripper_project" );
 	f.close();
+	return true;
+}
+
+QStringList Project::languages() const
+{
+	QStringList list;
+
+	if ( m_langMap ) {
+		for ( LanguageMap::iterator it = m_langMap->begin(); it != m_langMap->end(); ++it )
+			list.append( it.key() );
+	} else kdError() << "There isn't a language map\n";
+
+	return list;
+}
+
+bool Project::setLanguage( const QString& language )
+{
+	if ( !m_langMap ) {
+		m_error = i18n( "There isn't a language map" );
+		kdError() << m_error << endl;
+		return false;
+	}
+
+	LanguageMap::iterator it = m_langMap->find( language );
+	if ( it == m_langMap->end() ) {
+		m_error = i18n( "The language %1 doesn't exist" ).arg( language );
+		kdError() << m_error << endl;
+		return false;
+	}
+
+	m_code = it.data();
+	m_lang = language;
 	return true;
 }
 

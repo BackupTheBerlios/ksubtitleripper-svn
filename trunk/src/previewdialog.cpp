@@ -90,6 +90,7 @@ PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
 
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT( preview() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( setColours() ) );
+	connect( this, SIGNAL( okClicked() ), this, SLOT( setLanguage() ) );
 }
 
 PreviewDialog::~PreviewDialog()
@@ -100,6 +101,7 @@ void PreviewDialog::preview()
 {
 	m_numSub = 0;
 	setColours();
+	setLanguage();
 
 	m_process = new ExtractProcess( m_project, this );
 	*m_process << "-e" << QString( "00:00:00,%1" ).arg( numSubs );
@@ -166,6 +168,10 @@ void PreviewDialog::setColours() {
 		m_project->colours[i] = ( radioButton[i]->isChecked() ) ? 0 : 255;
 }
 
+void PreviewDialog::setLanguage() {
+	m_project->setLanguage( languageList->currentText() );
+}
+
 void PreviewDialog::fillLanguages()
 {
 	SeekLanguagesInVob proc( m_project->files()[0], m_project->directory() );
@@ -180,9 +186,11 @@ void PreviewDialog::fillLanguages()
 	dlg.close();
 
 	LanguageMap* map = proc.languages();
-	if ( map->count() == 0 ) map->insert( "1", "0x20" );
+	if ( map->isEmpty() ) map->insert( "1", "0x20" );
 	for ( LanguageMap::iterator it = map->begin(); it != map->end(); ++it )
 		languageList->insertItem( it.key() );
+
+	m_project->setLanguageMap( map );
 }
 
 #include "previewdialog.moc"

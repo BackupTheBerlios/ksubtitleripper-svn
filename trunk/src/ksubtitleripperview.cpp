@@ -324,8 +324,13 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 
 			setSrtName( url );
 		} else {
+			QString detail = aux->error();
+			QString error = i18n( "Couldn't open file %1" ).arg( target );
 			delete aux;
-			KMessageBox::error( this, i18n( "Couldn't open file %1" ).arg( target ) );
+
+			if ( detail.isEmpty() )
+				KMessageBox::error( this, error );
+			else KMessageBox::detailedError( this, error, detail );
 		}
 
 		KIO::NetAccess::removeTempFile( target );

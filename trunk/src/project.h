@@ -21,6 +21,9 @@
 #define PROJECT_H
 
 #include <kurl.h>
+#include "languagemap.h"
+
+class QStringList;
 
 /**
 @author Sergio Cambra
@@ -38,7 +41,7 @@ private:
 
 class Project {
 public:
-	Project() { init(); }
+	Project();
 	Project( const QString& path, bool& success );
 	~Project() {}
 
@@ -51,7 +54,11 @@ public:
 	QString baseName() const { return m_baseName; }
 	QString directory() const { return m_directory; }
 	const KURL::List& files() const { return m_files; }
+	QString codeLangSelected() const { return m_code; }
+	QString langSelected() const { return m_lang; }
+	QStringList languages() const;
 
+	void setLanguageMap( LanguageMap* map ) { m_langMap = map; }
 	void setBaseName( const QString& base ) { m_baseName = base; }
 	void setDirectory( const QString& dir ) { m_directory = dir; }
 	void setExtracted( bool value ) { m_extracted = value; }
@@ -61,9 +68,11 @@ public:
 		if ( m_currentSub > m_numSub ) m_currentSub = m_numSub;
 	}
 
+	bool setLanguage( const QString& language );
 	void setFiles( const KURL::List& list );
-	// set directory if it's empty and first url is local
+	// set directory if it's empty
 
+	QString error() const { return m_error; }
 	QString coloursString() const;
 
 	void nextSub() { m_currentSub++; }
@@ -81,12 +90,15 @@ private:
 	void init() {
 		m_numSub = m_currentSub = 0;
 		m_extracted = m_converted = false;
+		m_lang = "1"; m_code = "0x20";
 	}
 
 	KURL::List m_files;
-	QString m_directory, m_baseName;
+	QString m_directory, m_baseName, m_lang, m_code;
 	uint m_numSub, m_currentSub;
 	bool m_extracted, m_converted;
+	LanguageMap* m_langMap;
+	QString m_error;
 };
 
 #endif

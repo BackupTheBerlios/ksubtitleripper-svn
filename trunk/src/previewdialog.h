@@ -48,6 +48,7 @@ protected slots:
 	virtual void extractFinish( KProcess *proc );
 	virtual void extractOutput( KProcIO *proc );
 	virtual void setColours();
+	virtual void setLanguage();
 
 private:
 	void fillLanguages();
