@@ -24,6 +24,7 @@
 #include <ktempfile.h>
 #include <kmessagebox.h>
 #include <ktextedit.h>
+#include <kfiledialog.h>
 #include <qlabel.h>
 #include <qfile.h>
 #include "ksubtitleripperview.h"
@@ -189,17 +190,28 @@ void KSubtitleRipperView::convertSub() {
 }
 
 void KSubtitleRipperView::createSRT() {
+	// TODO check if srttool is executable
+	
 	if ( !askIfModified() ) return;
 
+	KURL url = KFileDialog::getSaveURL( QString::null, "*.srt|" + i18n("SRT Subtitles"), this, i18n( "Save Subtitles" ) );
+	if ( url.isEmpty() || !url.isValid() ) return;
+
+	QString extension = QFileInfo( url.path() ).extension( false ).lower();
+	if ( extension != "srt" && ( !url.isLocalFile() || !QFile::exists( url.path() ) ) )
+		url = url.url() + ".srt";
+
+	QString text = "A file named \"%1\" already exists.\nAre you sure you want to overwrite it?";
+	if ( url.isLocalFile() && QFile::exists( url.path() ) &&
+		KMessageBox::warningContinueCancel( this, i18n( text ).arg( url.filename() ),
+		i18n( "Overwrite File?" ), i18n( "Overwrite" ) ) == KMessageBox::Cancel ) return;
+					
 	KProcIO process;
-	
 	process.setWorkingDirectory( project->directory() );
-	
-	// TODO check if srttool is executable
 	
 	process << "srttool" << "-s";
 	process << "-i" << project->baseName() + ".srtx";
-	process << "-o" << project->baseName() + ".srt";
+	process << "-o" << url.path();
 	
 	if ( process.start( KProcess::DontCare, false ) ) process.detach();
 	else kdError() << "error executing process\n";
