@@ -29,7 +29,7 @@
 #include "ksubtitleripperview.h"
 #include "convertdialog.h"
 #include "extractdialog.h"
-
+#include "previewdialog.h"
 
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), project( 0 ) {
@@ -44,7 +44,7 @@ KSubtitleRipperView::~KSubtitleRipperView() {
 
 /*$SPECIALIZATION$*/
 void KSubtitleRipperView::writeSubtitle() {
-	QString filename = project->getDirectory() + project->getSubFilename() + ".pgm.txt";
+	QString filename = project->directory() + project->subFilename() + ".pgm.txt";
 	
 	QFile f( filename );
 	if ( !f.open ( IO_WriteOnly ) ){
@@ -68,10 +68,10 @@ void KSubtitleRipperView::saveSubtitle() {
 }
 
 void KSubtitleRipperView::loadSubtitle() {
-	QString filename = project->getDirectory() + project->getSubFilename() + ".pgm";
+	QString filename = project->directory() + project->subFilename() + ".pgm";
 	
 	// set label
-	subtitle->setText( i18n( "Subtitle %1" ).arg( project->getCurrentSub() ) );
+	subtitle->setText( i18n( "Subtitle %1" ).arg( project->currentSub() ) );
 	
 	// load image
 	if ( !image->pixmap()->load( filename ) || image->pixmap()->isNull() ) {
@@ -81,7 +81,7 @@ void KSubtitleRipperView::loadSubtitle() {
 	image->update();
 	
 	// load text
-	if ( project->getConverted() ) {
+	if ( project->isConverted() ) {
 		filename += ".txt";
 		QFile f( filename );
 		if ( !f.open ( IO_ReadOnly ) ){
@@ -93,7 +93,7 @@ void KSubtitleRipperView::loadSubtitle() {
 		text->setText( in.read() );
 		f.close();
 		
-		progress->setValue( project->getCurrentSub() );
+		progress->setValue( project->currentSub() );
 	} else {
 		text->setText( QString::null );
 		progress->setValue( 0 );
@@ -111,7 +111,7 @@ bool KSubtitleRipperView::askIfModified() {
 	// Ask for saving subtitle if has been modified
 	// and return if can load other subtitle
 	
-	if ( text->isModified() ) {
+	if ( text->isModified() && project != 0 && project->isConverted() ) {
 		int answer = KMessageBox::warningYesNoCancel( this,
 			i18n( "The subtitle has been modified.\n\nDo you want to save it?" ),
 			i18n( "Save Subtitle?" ), KStdGuiItem::save(), KStdGuiItem::discard() );
@@ -160,14 +160,15 @@ void KSubtitleRipperView::nextSubtitle() {
 void KSubtitleRipperView::extractSub() {
 	modified = true;
 	beforeExtracting();
-	
+	PreviewDialog().exec();
+	return;
 	if ( ExtractDialog( project, this ).exec() == QDialog::Accepted ) {
 		project->setExtracted( true );
-		progress->setTotalSteps( project->getNumSub() );
+		progress->setTotalSteps( project->numSub() );
 		
-		if ( project->getNumSub() > 0 ) {
+		if ( project->numSub() > 0 ) {
 			KMessageBox::information( this, i18n( "%n subtitle has been extracted",
-						"%n subtitles have been extracted", project->getNumSub() ),
+						"%n subtitles have been extracted", project->numSub() ),
 						i18n("Extraction completed") );
 						
 			project->goFirst();
@@ -201,13 +202,13 @@ void KSubtitleRipperView::createSRT() {
 
 	KProcIO process;
 	
-	process.setWorkingDirectory( project->getDirectory() );
+	process.setWorkingDirectory( project->directory() );
 	
 	// TODO check if srttool is executable
 	
 	process << "srttool" << "-s";
-	process << "-i" << project->getBaseName() + ".srtx";
-	process << "-o" << project->getBaseName() + ".srt";
+	process << "-i" << project->baseName() + ".srtx";
+	process << "-o" << project->baseName() + ".srt";
 	
 	if ( process.start( KProcess::DontCare, false ) ) process.detach();
 	else kdError() << "error executing process" << endl;
@@ -252,14 +253,14 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 		if ( success ) {
 			delete project;
 			project = aux;
-			progress->setTotalSteps( project->getNumSub() );
+			progress->setTotalSteps( project->numSub() );
 			modified = false;
 			emit signalChangeCaption( url.prettyURL() );
 			
 			// enable and disable some actions
 			emit setEnabledExtractSub( true );
-			emit setEnabledConvertSub( project->getExtracted() );
-			if ( project->getExtracted() ) {
+			emit setEnabledConvertSub( project->isExtracted() );
+			if ( project->isExtracted() ) {
 				loadSubtitle();
 				emit setEnabledPrevSub( !project->atFirst() );
 				emit setEnabledNextSub( !project->atLast() );
@@ -268,8 +269,8 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 				emit setEnabledPrevSub( false );
 				emit setEnabledNextSub( false );
 			}
-			emit setEnabledCreateSRT( project->getConverted() );
-			emit setEnabledSaveSub( project->getConverted() );
+			emit setEnabledCreateSRT( project->isConverted() );
+			emit setEnabledSaveSub( project->isConverted() );
 		} else KMessageBox::error( this, i18n( "Couldn't open file %1" ).arg( target ) );
 		
 		KIO::NetAccess::removeTempFile( target );
