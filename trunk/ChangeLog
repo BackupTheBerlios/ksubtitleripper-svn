@@ -1,4 +1,14 @@
-  02-8-2004
+  12-8-2004
+- Don't ask for saving subtitle after cancel the conversion
+- New dialog to choose the filling colour index in subtitles
+- Fix a bug on check right execution of gocr and subtitle2pgm
+
+  11-8-2004
+- Modify Makefile.am so as not to distribute full admin folder 
+- Add dist-bzip2 target
+- Some fixes in spec
+  
+  2-8-2004
 - Ask for saving the subtitle when the project is closing,
   before create SRT and on changing the subtitle
 
