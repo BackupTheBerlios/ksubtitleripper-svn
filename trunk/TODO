@@ -1,15 +1,4 @@
-Versión 0.2
------------
-
 - Bug en guardar subtitulo modificado (parece ser bug de KTextEdit)
-
-- "dos2unix --u2d" con dialogo de preferencias
-
-- Escribir errores de procesos (salida ignorada) a kdWarning()
-
-- Controlar errores en la generación del SRT
-
---------------------
 
 - Mirar activar/desactivar acciones con ksubtitleripperui.rc
 

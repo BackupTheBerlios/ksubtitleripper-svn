@@ -1,3 +1,11 @@
+  18-8-2004 (v0.2)
+- Write SRT file with a filename with spaces fixed
+- Implemented conversion to DOS format of SRT file
+- Check SRT is created successfully
+- Includes in header files changed to prototypes when it's possible
+- Write to stderr not used output of subtitle2pgm
+- Write to stderr output of srttool and dos2unix
+
   17-8-2004
 - Write SRT file remotely
 - Initial preferences dialog, with an option to convert SRT file to DOS format
