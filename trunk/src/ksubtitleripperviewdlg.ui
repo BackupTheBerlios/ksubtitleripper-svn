@@ -8,7 +8,7 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>466</width>
+            <width>485</width>
             <height>444</height>
         </rect>
     </property>
@@ -70,62 +70,48 @@
         </widget>
         <widget class="QSplitter">
             <property name="name">
-                <cstring>splitter2</cstring>
+                <cstring>splitter4</cstring>
             </property>
             <property name="orientation">
                 <enum>Vertical</enum>
             </property>
-            <widget class="QLayoutWidget">
+            <widget class="QScrollView">
                 <property name="name">
-                    <cstring>layout5</cstring>
+                    <cstring>scroll</cstring>
                 </property>
-                <vbox>
+                <property name="minimumSize">
+                    <size>
+                        <width>0</width>
+                        <height>100</height>
+                    </size>
+                </property>
+                <widget class="QLabel">
                     <property name="name">
-                        <cstring>unnamed</cstring>
+                        <cstring>image</cstring>
                     </property>
-                    <widget class="QLabel">
-                        <property name="name">
-                            <cstring>image</cstring>
-                        </property>
-                        <property name="sizePolicy">
-                            <sizepolicy>
-                                <hsizetype>1</hsizetype>
-                                <vsizetype>1</vsizetype>
-                                <horstretch>0</horstretch>
-                                <verstretch>0</verstretch>
-                            </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                            <size>
-                                <width>0</width>
-                                <height>100</height>
-                            </size>
-                        </property>
-                        <property name="text">
-                            <string></string>
-                        </property>
-                        <property name="alignment">
-                            <set>AlignCenter</set>
-                        </property>
-                    </widget>
-                    <spacer>
-                        <property name="name">
-                            <cstring>spacer5</cstring>
-                        </property>
-                        <property name="orientation">
-                            <enum>Vertical</enum>
-                        </property>
-                        <property name="sizeType">
-                            <enum>Fixed</enum>
-                        </property>
-                        <property name="sizeHint">
-                            <size>
-                                <width>20</width>
-                                <height>10</height>
-                            </size>
-                        </property>
-                    </spacer>
-                </vbox>
+                    <property name="geometry">
+                        <rect>
+                            <x>10</x>
+                            <y>20</y>
+                            <width>442</width>
+                            <height>55</height>
+                        </rect>
+                    </property>
+                    <property name="sizePolicy">
+                        <sizepolicy>
+                            <hsizetype>3</hsizetype>
+                            <vsizetype>3</vsizetype>
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                        </sizepolicy>
+                    </property>
+                    <property name="text">
+                        <string></string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignCenter</set>
+                    </property>
+                </widget>
             </widget>
             <widget class="KTextEdit">
                 <property name="name">
@@ -214,7 +200,28 @@
     </vbox>
 </widget>
 <customwidgets>
+    <customwidget>
+        <class>QScrollView</class>
+        <header location="global">/usr/lib/qt3/include/qscrollview.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>1</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+    </customwidget>
 </customwidgets>
+<images>
+    <image name="image0">
+        <data format="XBM.GZ" length="79">789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
+    </image>
+</images>
 <connections>
     <connection>
         <sender>bOk</sender>
@@ -252,6 +259,7 @@
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
+    <includehint>qscrollview.h</includehint>
     <includehint>ktextedit.h</includehint>
     <includehint>kprogress.h</includehint>
 </includehints>

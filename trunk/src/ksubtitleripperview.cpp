@@ -38,6 +38,7 @@
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ) {
 	setModified( false );
+	scroll->addChild( image );
 	image->setPixmap( QPixmap() );
 	connect( text, SIGNAL( modificationChanged( bool ) ), this, SLOT( modify( bool ) ) );
 }
@@ -95,7 +96,7 @@ void KSubtitleRipperView::loadSubtitle() {
 	if ( !image->pixmap()->load( filename ) || image->pixmap()->isNull() ) {
 		image->pixmap()->resize( 0, 0 );
 		KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
-	}
+	} else image->resize( image->pixmap()->size() );
 	image->update();
 
 	// load text
