@@ -106,8 +106,6 @@ private:
 
 	KSubtitleRipperView *m_view;
 
-	KToggleAction *m_toolbarAction;
-	KToggleAction *m_statusbarAction;
 	KURL m_project;
 	PrefDialog *m_prefDialog;
 	QString nameProject;
