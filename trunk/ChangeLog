@@ -1,7 +1,8 @@
   12-3-2005
 - Add an option to choose subtitles language
-- Add a animated bar in extract dialog
+- Add an animated bar in extract dialog
 - Add a control to choose how many subtitles are previewed
+- Don't allow cancel by default in waiting dialog
 
   11-3-2005
 - Add an option to set subtitle editor font
