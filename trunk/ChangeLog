@@ -3,6 +3,9 @@
 - Add an animated bar in extract dialog
 - Add a control to choose how many subtitles are previewed
 - Don't allow cancel by default in waiting dialog
+- Add a control to choose the project directory, where images and subtitles will be created
+- Use standard errors when a download fails, and don't show errors if download is canceled
+- Don't execute processes when a download fails or is canceled
 
   11-3-2005
 - Add an option to set subtitle editor font
