@@ -62,7 +62,7 @@ NewProject::NewProject( QString prefix ) : KDialogBase( Plain,
 	QGridLayout* layoutGeneral = new QGridLayout( top, 2, 3, 5, 6 );
 
 	int row = 0;
-	QLabel* vobFilesLabel = new QLabel( i18n( "Vob files" ), top );
+	QLabel* vobFilesLabel = new QLabel( i18n( "Vob or Sub files" ), top );
 	vobFilesLabel->setAlignment( Qt::AlignTop );
 	layoutGeneral->addWidget( vobFilesLabel, row, 0 );
 	vobFilesList = new KListBox( top );
@@ -118,7 +118,7 @@ Project* NewProject::getProject() {
 
 void NewProject::selectVobs() {
 	files = KFileDialog::getOpenURLs( QString::null,
-				"*.vob|" + i18n( "VOB files" ), this, i18n( "Select VOB files" ) );
+				"*.vob *.sub|" + i18n( "VOB and SUB files" ), this, i18n( "Select VOB or SUB files" ) );
 	if ( files.isEmpty() ) return;
 
 	vobFilesList->clear();
