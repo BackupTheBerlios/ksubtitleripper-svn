@@ -41,11 +41,6 @@
 #include <kstdaction.h>
 #include <kmessagebox.h>
 
-namespace {
-	QString untitled( i18n ( "Untitled" ) );
-//	QString projectFilter( "*.srip|" + i18n( "KSubtitleRipper Project Files" ) );
-}
-
 KSubtitleRipper::KSubtitleRipper() : KMainWindow( 0, "KSubtitleRipper" ),
 			m_view( new KSubtitleRipperView( this ) ), m_prefDialog( 0 ) {
 	// accept dnd
@@ -311,7 +306,7 @@ void KSubtitleRipper::changeStatusbar( const QString& text ) {
 void KSubtitleRipper::changeCaption( const QString& text ) {
 	// display the text on the caption
 	if ( text.isEmpty() )
-		setCaption( untitled + " - " + kapp->caption() );
+		setCaption( i18n( "Untitled" ) + " - " + kapp->caption() );
 	else setCaption( text + " - " + kapp->caption() );
 }
 
@@ -319,7 +314,7 @@ bool KSubtitleRipper::canCloseProject() {
 	if ( !m_view->askIfModified() ) return false;
 	if ( !m_view->isModified() ) return true;
 
-	QString file = hasName() ? project.prettyURL() : untitled;
+	QString file = hasName() ? project.prettyURL() : i18n( "Untitled" );
 	int answer = KMessageBox::warningYesNoCancel( this,
 		i18n( "The project \"%1\" has been modified.\n\nDo you want to save it?" ).arg( file ), i18n( "Save Project?" ), KStdGuiItem::save(), KStdGuiItem::discard() );
 
