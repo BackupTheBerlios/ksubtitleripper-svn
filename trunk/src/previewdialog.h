@@ -36,7 +36,7 @@ class PreviewDialogDlg;
 class PreviewDialog : public KDialogBase {
 	Q_OBJECT
 public:
-    PreviewDialog( Project *prj, QWidget *parent = 0, const char* name = 0 );
+    PreviewDialog( Project *prj, bool& success, QWidget *parent = 0, const char* name = 0 );
 	~PreviewDialog() {}
 
 public slots:
@@ -49,7 +49,7 @@ protected slots:
 	virtual void setLanguage();
 
 private:
-	void fillLanguages();
+	bool fillLanguages();
 
 	QRadioButton *radioButton[4];
 	KProgressDialog *progress;

@@ -33,10 +33,11 @@
 #include "waitingdialog.h"
 #include "project.h"
 
-PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
+PreviewDialog::PreviewDialog( Project *prj, bool& success, QWidget *parent, const char* name )
  : KDialogBase( parent, name, true, i18n( "Setup project" ), Ok|Cancel|Help|User1,
  		Ok, false, KGuiItem( i18n( "Preview" ), "thumbnail" ) ), m_project( prj )
 {
+	success = false;
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "PreviewDialog constructor: prj is null\n";
 
@@ -48,13 +49,15 @@ PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
 	radioButton[2] = m_central->radioButton3;
 	radioButton[3] = m_central->radioButton4;
 
-	fillLanguages();
+	if ( !fillLanguages() ) return;
 	for (uint i = 0; i < 4; ++i)
 		radioButton[i]->setChecked( prj->colours[i] == 0 );
 
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT( preview() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( setColours() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( setLanguage() ) );
+
+	success = true;
 }
 
 void PreviewDialog::preview()
@@ -137,9 +140,12 @@ void PreviewDialog::setLanguage()
 	m_project->setLanguage( m_central->languageList->currentText() );
 }
 
-void PreviewDialog::fillLanguages()
+bool PreviewDialog::fillLanguages()
 {
-	SeekLanguagesInVob proc( m_project->files()[0], m_project->directory() );
+	bool success;
+	SeekLanguagesInVob proc( m_project->files()[0], m_project->directory(), success );
+	if ( !success ) return false;
+
 	WaitingDialog dlg( this, 0, QString::null, i18n( "Seeking Languages" ) );
 
 	dlg.show();
@@ -156,6 +162,7 @@ void PreviewDialog::fillLanguages()
 		m_central->languageList->insertItem( it.key() );
 
 	m_project->setLanguageMap( map );
+	return true;
 }
 
 #include "previewdialog.moc"

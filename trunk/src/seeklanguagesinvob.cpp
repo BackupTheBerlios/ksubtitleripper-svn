@@ -26,9 +26,10 @@
 
 #include "seeklanguagesinvob.h"
 
-SeekLanguagesInVob::SeekLanguagesInVob( const KURL& vob, const QString& dir )
+SeekLanguagesInVob::SeekLanguagesInVob( const KURL& vob, const QString& dir, bool& success )
 	: m_numberSubs ( 0 )
 {
+	success = false;
 	m_languages = new LanguageMap();
 	m_proc = new KProcIO();
 
@@ -46,6 +47,8 @@ SeekLanguagesInVob::SeekLanguagesInVob( const KURL& vob, const QString& dir )
 			 this, SLOT( vobFinish( KProcess* ) ) );
 	connect( m_proc, SIGNAL( readReady( KProcIO* ) ),
 			 this, SLOT( vobOutput( KProcIO* ) ) );
+
+	success = true;
 }
 
 SeekLanguagesInVob::~SeekLanguagesInVob() {
@@ -89,7 +92,9 @@ bool SeekLanguagesInVob::download( const KURL& vob ) {
 		KIO::NetAccess::removeTempFile( target );
 		return true;
 	} else {
-		KMessageBox::error( 0, i18n( "Couldn't download file %1" ).arg( vob.prettyURL() ) );
+		QString error = KIO::NetAccess::lastErrorString();
+		if ( !error.isEmpty() )
+			KMessageBox::error( 0, error );
 		return false;
 	}
 }

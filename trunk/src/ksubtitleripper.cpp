@@ -191,7 +191,9 @@ void KSubtitleRipper::fileNew() {
 		NewProject dialog;
 		if ( dialog.exec() == QDialog::Accepted ) {
 			Project *prj = dialog.getProject();
-			if ( PreviewDialog( prj, this ).exec() == QDialog::Accepted )
+			bool success;
+			PreviewDialog dlg( prj, success, this );
+			if ( success && dlg.exec() == QDialog::Accepted )
 			{
 				stateChanged( "newProject" );
 				m_project = KURL();
