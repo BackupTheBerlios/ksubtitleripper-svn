@@ -27,12 +27,20 @@
                 <string>Convert SRT file to DOS format</string>
             </property>
         </widget>
-        <widget class="KFontRequester" row="1" column="1">
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_enableAutoCenter</cstring>
+            </property>
+            <property name="text">
+                <string>Enable auto center of subtitle</string>
+            </property>
+        </widget>
+        <widget class="KFontRequester" row="2" column="1">
             <property name="name">
                 <cstring>m_editorFont</cstring>
             </property>
         </widget>
-        <widget class="QLabel" row="1" column="0">
+        <widget class="QLabel" row="2" column="0">
             <property name="name">
                 <cstring>m_textEditorFont</cstring>
             </property>
@@ -40,7 +48,7 @@
                 <string>Editor Font:</string>
             </property>
         </widget>
-        <spacer row="2" column="1">
+        <spacer row="3" column="1">
             <property name="name">
                 <cstring>m_spacer1</cstring>
             </property>
@@ -53,12 +61,14 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>101</height>
+                    <height>170</height>
                 </size>
             </property>
         </spacer>
     </grid>
 </widget>
+<customwidgets>
+</customwidgets>
 <connections>
     <connection>
         <sender>m_doUnix2DosChk</sender>
@@ -80,4 +90,7 @@
     <slot access="protected">optionsChangedSlot()</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kfontrequester.h</includehint>
+</includehints>
 </UI>

@@ -31,14 +31,17 @@ public:
 
 	bool doUnix2Dos() const { return m_doUnix2Dos; }
 	bool checkSpelling() const { return m_checkSpelling; }
+	bool autoCenter() const { return m_autoCenter; }
 	QFont editorFont() const { return m_editorFont; }
 
 	void setDoUnix2Dos( bool value ) { m_doUnix2Dos = value; }
 	void setCheckSpelling( bool value ) { m_checkSpelling = value; }
+	void setAutoCenter( bool value ) { m_autoCenter = value; }
 	void setEditorFont( const QFont& font ) { m_editorFont = font; }
 
 	static const bool defaultDoUnix2Dos;
 	static const bool defaultCheckSpelling;
+	static const bool defaultAutoCenter;
 	static const QFont& defaultEditorFont();
 
 private:
@@ -49,6 +52,7 @@ private:
 
 	bool m_doUnix2Dos;
 	bool m_checkSpelling;
+	bool m_autoCenter;
 	QFont m_editorFont;
 };
 

@@ -34,9 +34,11 @@ public:
 	PrefGeneral( QWidget *parent = 0, const char *name = 0, WFlags f = 0 );
 
 	void setDoUnix2DosChecked( bool value ) { m_doUnix2DosChk->setChecked( value ); }
+	void setEnableAutoCenterChecked( bool value ) { m_enableAutoCenter->setChecked( value ); }
 	void setEditorFont( const QFont& font ) { m_editorFont->setFont( font ); }
 
 	bool isDoUnix2DosChecked() const { return m_doUnix2DosChk->isChecked(); }
+	bool isEnableAutoCenterChecked() const { return m_enableAutoCenter->isChecked(); }
 	QFont editorFont() const { return m_editorFont->font(); }
 
 protected slots:

@@ -42,12 +42,14 @@ PrefDialog::PrefDialog(QWidget *parent, const char *name, WFlags f)
 
 void PrefDialog::updateDialog() {
 	m_prefGeneral->setDoUnix2DosChecked( Config().doUnix2Dos() );
+	m_prefGeneral->setEnableAutoCenterChecked( Config().autoCenter() );
 	m_prefGeneral->setEditorFont( Config().editorFont() );
 	enableButtonApply( false );
 }
 
 void PrefDialog::updateConfiguration() {
-    Config().setDoUnix2Dos( m_prefGeneral->isDoUnix2DosChecked() );
+	Config().setDoUnix2Dos( m_prefGeneral->isDoUnix2DosChecked() );
+	Config().setAutoCenter( m_prefGeneral->isEnableAutoCenterChecked() );
 	Config().setEditorFont( m_prefGeneral->editorFont() );
 	enableButtonApply( false );
 }
@@ -56,6 +58,7 @@ void PrefDialog::slotDefault() {
 	switch (activePageIndex()) {
 	case 1: // General
 		m_prefGeneral->setDoUnix2DosChecked( Configuration::defaultDoUnix2Dos );
+		m_prefGeneral->setEnableAutoCenterChecked( Configuration::defaultAutoCenter );
 		m_prefGeneral->setEditorFont( Configuration::defaultEditorFont() );
 		break;
 	default: return;

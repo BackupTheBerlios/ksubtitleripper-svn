@@ -26,6 +26,7 @@
 
 const bool Configuration::defaultDoUnix2Dos = false;
 const bool Configuration::defaultCheckSpelling = true;
+const bool Configuration::defaultAutoCenter = true;
 
 Configuration::Configuration()
 {
@@ -45,6 +46,7 @@ void Configuration::read() {
 	m_doUnix2Dos = conf->readBoolEntry( "doDos2Unix", defaultDoUnix2Dos );
 	m_checkSpelling = conf->readBoolEntry( "checkSpelling", defaultCheckSpelling );
 	m_editorFont = conf->readFontEntry( "fontEditor", &defaultEditorFont() );
+	m_autoCenter = conf->readBoolEntry( "autoCenter", defaultAutoCenter );
 }
 
 void Configuration::write() const {
@@ -54,6 +56,7 @@ void Configuration::write() const {
 	conf->writeEntry( "doDos2Unix", m_doUnix2Dos );
 	conf->writeEntry( "checkSpelling", m_checkSpelling );
 	conf->writeEntry( "fontEditor", m_editorFont );
+	conf->writeEntry( "autoCenter", m_autoCenter );
 
 	conf->sync();
 }
