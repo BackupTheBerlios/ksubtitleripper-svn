@@ -99,6 +99,7 @@ void PreviewDialog::preview()
 			this, SLOT( extractOutput( KProcIO* ) ) );
 	
 	progress = new KProgressDialog( this, 0, i18n("Extracting..."), QString::null, true );
+	progress->setAllowCancel( false );
 	progress->setAutoClose( true );
 	progress->setMinimumDuration( 1000 );
 	progress->progressBar()->setTotalSteps( 8 );
