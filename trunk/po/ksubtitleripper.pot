@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-07-24 02:05+0200\n"
+"POT-Creation-Date: 2004-07-29 17:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,7 +79,7 @@ msgid "Generate SRT file"
 msgstr ""
 
 #: ksubtitleripper.cpp:196 ksubtitleripper.cpp:214
-msgid "*.srip|KSubtitleRipper Project Files"
+msgid "KSubtitleRipper Project Files"
 msgstr ""
 
 #: ksubtitleripper.cpp:196
@@ -117,7 +117,7 @@ msgstr ""
 #: ksubtitleripperview.cpp:140
 #, c-format
 msgid ""
-"_n: 1 subtitle has been extracted\n"
+"_n: %n subtitle has been extracted\n"
 "%n subtitles have been extracted"
 msgstr ""
 

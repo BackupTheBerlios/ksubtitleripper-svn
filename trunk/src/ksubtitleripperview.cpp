@@ -136,7 +136,7 @@ void KSubtitleRipperView::extractSub() {
 		progress->setTotalSteps( project->getNumSub() );
 		
 		if ( project->getNumSub() > 0 ) {
-			KMessageBox::information( this, i18n( "1 subtitle has been extracted",
+			KMessageBox::information( this, i18n( "%n subtitle has been extracted",
 						"%n subtitles have been extracted", project->getNumSub() ),
 						i18n("Extraction completed") );
 						

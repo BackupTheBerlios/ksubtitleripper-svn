@@ -1,9 +1,4 @@
-# translation of es.po to 
-# translation of es.po to
-# translation of es.po to
-# translation of es.po to
-# translation of es.po to
-# translation of es.po to
+# translation of es.po to Spanish
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Sergio Cambra García <sergio.cambra@hispalinux.es>, 2004.
@@ -11,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2004-07-24 02:05+0200\n"
-"PO-Revision-Date: 2004-07-24 02:02+0200\n"
+"POT-Creation-Date: 2004-07-29 17:23+0200\n"
+"PO-Revision-Date: 2004-07-29 17:32+0200\n"
 "Last-Translator: Sergio Cambra García <sergio.cambra@hispalinux.es>\n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +82,7 @@ msgid "Generate SRT file"
 msgstr "Generar archivo SRT"
 
 #: ksubtitleripper.cpp:196 ksubtitleripper.cpp:214
-msgid "*.srip|KSubtitleRipper Project Files"
+msgid "KSubtitleRipper Project Files"
 msgstr "Archivos de Proyecto de KSubtitleRipper"
 
 #: ksubtitleripper.cpp:196
@@ -128,10 +123,10 @@ msgstr "No se pudo escribir en el archivo %1"
 #: ksubtitleripperview.cpp:140
 #, c-format
 msgid ""
-"_n: 1 subtitle has been extracted\n"
+"_n: %n subtitle has been extracted\n"
 "%n subtitles have been extracted"
 msgstr ""
-"_n:Se ha extraído 1 subtítulo\n"
+"Se ha extraído %n subtítulo\n"
 "Se han extraído %n subtítulos"
 
 #: ksubtitleripperview.cpp:141 ksubtitleripperview.cpp:149
@@ -204,3 +199,4 @@ msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "runico@users.berlios.de"
+
