@@ -33,7 +33,7 @@ class KSubtitleRipperView : public KSubtitleRipperViewDlg {
 public:
 	KSubtitleRipperView( QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
 	~KSubtitleRipperView();
-	
+
 	void newProject( Project* prj );
 	bool loadProject( const KURL& url );
 	bool saveProject( const KURL& url );
@@ -49,6 +49,7 @@ public slots:
 	virtual void createSRT();
 	virtual void createSrtFailed( CreateSRT *createSRT, const QString& error );
 	virtual void createSrtSuccess( CreateSRT *createSRT );
+	virtual void modify( bool m ) const;
 
 private:
 	QString subFileName();
@@ -60,11 +61,11 @@ private:
 	bool saveSRT( const QString& path );
 	bool srtUnix2Dos( const QString& path );
 	void setSrtName( const KURL& url );
-	
-	bool modified;
-	Project *project;
-	QString srtName, tmpSrt;
-	KURL *newSrt;
+
+	bool m_modified;
+	Project *m_project;
+	QString m_srtName, m_tmpSrt;
+	KURL *m_newSrt;
 };
 
 #endif
