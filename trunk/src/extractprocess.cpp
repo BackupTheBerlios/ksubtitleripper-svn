@@ -57,8 +57,9 @@ bool ExtractProcess::download( const KURL::List& urls ) {
 			*this << KProcess::quote( target );
 			KIO::NetAccess::removeTempFile( target );
 		} else {
-			KMessageBox::error( widget,
-						i18n( "Couldn't download file %1" ).arg( urls[i].prettyURL() ) );
+			QString error = KIO::NetAccess::lastErrorString();
+			if ( !error.isEmpty() )
+				KMessageBox::error( 0, error );
 			return false;
 		}
 	}

@@ -336,7 +336,9 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 		KIO::NetAccess::removeTempFile( target );
 		return success;
 	} else {
-		KMessageBox::error( this, i18n( "Couldn't download file %1" ).arg( url.prettyURL() ) );
+		QString error = KIO::NetAccess::lastErrorString();
+		if ( !error.isEmpty() )
+			KMessageBox::error( 0, error );
 		return false;
 	}
 }
