@@ -95,7 +95,7 @@ void ExtractDialog::extractSub() {
 	*process << "cat";
 	if ( !download( project->getFiles(), *process ) ) return;
 	*process << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << "0x20";
-	*process << "|" << "subtitle2pgm" << "-v" << "-P" << "-o" << project->getBaseName();
+	*process << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1" << "-o" << project->getBaseName();
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
