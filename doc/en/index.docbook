@@ -50,9 +50,9 @@ as Authors, publish date, the abstract, and Keywords -->
 <author>
 <firstname></firstname>
 <othername></othername>
-<surname>Sergio Cambra Garc&#195;&#173;a</surname>
+<surname>Sergio Cambra</surname>
 <affiliation>
-<address><email>sergio&#46;cambra&#64;hispalinux&#46;es</email></address>
+<address><email>runico&#64;users&#46;berlios&#46;de</email></address>
 </affiliation>
 </author>
 </authorgroup>
@@ -62,7 +62,7 @@ as Authors, publish date, the abstract, and Keywords -->
 <copyright>
 <year>1999</year>
 <year>2004</year>
-<holder>Sergio Cambra Garc&#195;&#173;a</holder>
+<holder>Sergio Cambra</holder>
 </copyright>
 <!-- Translators: put here the copyright notice of the translation -->
 <!-- Put here the FDL notice.  Read the explanation in fdl-notice.docbook
@@ -436,7 +436,7 @@ distribution. -->
 &ksubtitleripper;
 </para>
 <para>
-Program copyright 2004 Sergio Cambra Garc&#195;&#173;a <email>sergio&#46;cambra&#64;hispalinux&#46;es</email>
+Program copyright 2004 Sergio Cambra <email>runico&#64;users&#46;berlios&#46;de</email>
 </para>
 <para>
 Contributors:
@@ -449,7 +449,7 @@ Contributors:
 </para>
 
 <para>
-Documentation copyright 2004 Sergio Cambra Garc&#195;&#173;a <email>sergio&#46;cambra&#64;hispalinux&#46;es</email>
+Documentation copyright 2004 Sergio Cambra <email>runico&#64;users&#46;berlios&#46;de</email>
 </para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
