@@ -1,3 +1,8 @@
+  9-3-2005
+- More code cleanup
+- Use more states of XML-UI.
+- Show in caption if project is modified
+
   5-3-2005
 - Fix how many subtitles have been extracted for last subtitleripper (using -v again)
 - Code cleanup
