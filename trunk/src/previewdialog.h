@@ -22,15 +22,13 @@
 
 #include <kdialogbase.h>
 
-class QVButtonGroup;
 class QRadioButton;
 class ExtractProcess;
 class KProcess;
 class KProcIO;
 class KProgressDialog;
-class KListBox;
-class KComboBox;
 class Project;
+class PreviewDialogDlg;
 
 /**
 @author Sergio Cambra
@@ -39,7 +37,7 @@ class PreviewDialog : public KDialogBase {
 	Q_OBJECT
 public:
     PreviewDialog( Project *prj, QWidget *parent = 0, const char* name = 0 );
-    ~PreviewDialog();
+	~PreviewDialog() {}
 
 public slots:
 	virtual void preview();
@@ -53,12 +51,10 @@ protected slots:
 private:
 	void fillLanguages();
 
-	QVButtonGroup *groupIndex;
 	QRadioButton *radioButton[4];
-	QListBox *subtitleList;
 	KProgressDialog *progress;
-	KComboBox *languageList;
 
+	PreviewDialogDlg *m_central;
 	Project *m_project;
 	ExtractProcess *m_process;
 	uint m_numSub;

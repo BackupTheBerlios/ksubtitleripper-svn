@@ -18,7 +18,7 @@ ksubtitleripper_SOURCES = main.cpp ksubtitleripper.cpp \
 	ksubtitleripperviewdlg.ui ksubtitleripperview.cpp project.cpp newproject.cpp convertdialog.cpp \
 	extractdialog.cpp previewdialog.cpp extractprocess.cpp configuration.cpp \
 	prefgenerallayout.ui prefdialog.cpp prefgeneral.cpp createsrt.cpp xmlwriter.cpp \
-	seeklanguagesinvob.cpp waitingdialog.cpp
+	seeklanguagesinvob.cpp waitingdialog.cpp previewdialogdlg.ui
 
 # these are the headers for your project
 noinst_HEADERS = ksubtitleripper.h ksubtitleripperview.h project.h newproject.h \

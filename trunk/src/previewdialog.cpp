@@ -18,83 +18,43 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include <qvbuttongroup.h>
 #include <qradiobutton.h>
-#include <qlayout.h>
-#include <qlistbox.h>
+#include <knuminput.h>
 #include <qpixmap.h>
 #include <kmessagebox.h>
 #include <kcombobox.h>
-#include <qlabel.h>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include "previewdialog.h"
+#include "previewdialogdlg.h"
 #include "extractprocess.h"
 #include "seeklanguagesinvob.h"
 #include "waitingdialog.h"
 #include "project.h"
 
-const int numSubs = 8;
-
 PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
- : KDialogBase( parent, name, true, i18n( "Converting images to text" ), Ok|Cancel|Help|User1,
+ : KDialogBase( parent, name, true, i18n( "Setup project" ), Ok|Cancel|Help|User1,
  		Ok, false, KGuiItem( i18n( "Preview" ), "thumbnail" ) ), m_project( prj )
 {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "PreviewDialog constructor: prj is null\n";
 
-	QFrame *top = makeMainWidget();
+	m_central = new PreviewDialogDlg( this );
+	setMainWidget( m_central );
 
-	QVBoxLayout* layoutGeneral = new QVBoxLayout( top, 5, 6 );
+	radioButton[0] = m_central->radioButton1;
+	radioButton[1] = m_central->radioButton2;
+	radioButton[2] = m_central->radioButton3;
+	radioButton[3] = m_central->radioButton4;
 
-	QLabel* languageLabel = new QLabel( i18n( "Languages" ), top );
-	languageLabel->setAlignment( Qt::AlignHCenter );
-	layoutGeneral->addWidget( languageLabel );
-
-	languageList = new KComboBox( top );
-	layoutGeneral->addWidget( languageList );
 	fillLanguages();
-
-	QHBoxLayout* layoutIndex = new QHBoxLayout( layoutGeneral );
-    layoutIndex->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
-
-	groupIndex = new QVButtonGroup( i18n( "Choose filling colour index" ), top );
-
-	radioButton[0] = new QRadioButton( groupIndex );
-	radioButton[0]->setText( i18n( "Colour %1" ).arg(1) );
-	groupIndex->insert( radioButton[0] );
-
-	radioButton[1] = new QRadioButton( groupIndex );
-	radioButton[1]->setText( i18n( "Colour %1" ).arg(2) );
-	groupIndex->insert( radioButton[1] );
-
-	radioButton[2] = new QRadioButton( groupIndex );
-	radioButton[2]->setText( i18n( "Colour %1" ).arg(3) );
-	groupIndex->insert( radioButton[2] );
-
-	radioButton[3] = new QRadioButton( groupIndex );
-	radioButton[3]->setText( i18n( "Colour %1" ).arg(4) );
-	groupIndex->insert( radioButton[3] );
-
-	layoutIndex->addWidget( groupIndex );
-	layoutIndex->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
-
-	subtitleList = new QListBox( top );
-	subtitleList->setSelectionMode( QListBox::NoSelection );
-	subtitleList->setMinimumHeight( 200 );
-	layoutGeneral->addWidget( subtitleList );
-
 	for (uint i = 0; i < 4; ++i)
 		radioButton[i]->setChecked( prj->colours[i] == 0 );
 
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT( preview() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( setColours() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( setLanguage() ) );
-}
-
-PreviewDialog::~PreviewDialog()
-{
 }
 
 void PreviewDialog::preview()
@@ -104,7 +64,7 @@ void PreviewDialog::preview()
 	setLanguage();
 
 	m_process = new ExtractProcess( m_project, this );
-	*m_process << "-e" << QString( "00:00:00,%1" ).arg( numSubs );
+	*m_process << "-e" << QString( "00:00:00,%1" ).arg( m_central->numSubs->value() );
 
 	connect( m_process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
@@ -115,7 +75,7 @@ void PreviewDialog::preview()
 	progress->setAllowCancel( false );
 	progress->setAutoClose( true );
 	progress->setMinimumDuration( 1000 );
-	progress->progressBar()->setTotalSteps( numSubs );
+	progress->progressBar()->setTotalSteps( m_central->numSubs->value() );
 
 	if ( !m_process->start( KProcess::NotifyOnExit, true ) )
 		kdError() << "error executing process\n";
@@ -125,12 +85,13 @@ void PreviewDialog::preview()
 	progress = 0;
 }
 
-void PreviewDialog::extractFinish( KProcess *proc ) {
+void PreviewDialog::extractFinish( KProcess *proc )
+{
 	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
 
 	if ( goodExit ) {
-		subtitleList->clear();
+		m_central->subtitleList->clear();
 		QPixmap blank(1, 20);
 		blank.fill();
 
@@ -141,14 +102,15 @@ void PreviewDialog::extractFinish( KProcess *proc ) {
 			if ( image.isNull() )
 				KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
 			else {
-				subtitleList->insertItem( image );
-				if ( i != m_numSub ) subtitleList->insertItem( blank );
+				m_central->subtitleList->insertItem( image );
+				if ( i != m_numSub ) m_central->subtitleList->insertItem( blank );
 			}
 		}
 	} else KMessageBox::error( this, i18n( "Error extracting subtitles" ) );
 }
 
-void PreviewDialog::extractOutput( KProcIO *proc ) {
+void PreviewDialog::extractOutput( KProcIO *proc )
+{
 	QString line, word;
 
 	while ( proc->readln( line, false ) != -1 ) {
@@ -163,13 +125,15 @@ void PreviewDialog::extractOutput( KProcIO *proc ) {
 	proc->ackRead();
 }
 
-void PreviewDialog::setColours() {
+void PreviewDialog::setColours()
+{
 	for (uint i = 0; i < 4; ++i)
 		m_project->colours[i] = ( radioButton[i]->isChecked() ) ? 0 : 255;
 }
 
-void PreviewDialog::setLanguage() {
-	m_project->setLanguage( languageList->currentText() );
+void PreviewDialog::setLanguage()
+{
+	m_project->setLanguage( m_central->languageList->currentText() );
 }
 
 void PreviewDialog::fillLanguages()
@@ -188,7 +152,7 @@ void PreviewDialog::fillLanguages()
 	LanguageMap* map = proc.languages();
 	if ( map->isEmpty() ) map->insert( "1", "0x20" );
 	for ( LanguageMap::iterator it = map->begin(); it != map->end(); ++it )
-		languageList->insertItem( it.key() );
+		m_central->languageList->insertItem( it.key() );
 
 	m_project->setLanguageMap( map );
 }
