@@ -1,3 +1,19 @@
+  5-3-2005
+- Fix how many subtitles have been extracted for last subtitleripper (using -v again)
+- Code cleanup
+- Change project file to xml format.
+- Rewrite constructors of Project class.
+
+  4-3-2005
+- Fix a memleak, project wasn't deleted when loading fails
+
+  3-3-2005
+- Read XGETTEXT and MSGMERGE environment variables if they exist, to use patched gettext for KDE
+
+  22-9-2004
+- Try to fix a problem with encoding in Convert Dialog
+- Don't use -v in subtitle2pgm
+
   18-8-2004 (v0.2)
 - Write SRT file with a filename with spaces fixed
 - Implemented conversion to DOS format of SRT file
@@ -33,10 +49,10 @@
 - Fix a bug on check right execution of gocr and subtitle2pgm
 
   11-8-2004
-- Modify Makefile.am so as not to distribute full admin folder 
+- Modify Makefile.am so as not to distribute full admin folder
 - Add dist-bzip2 target
 - Some fixes in spec
-  
+
   2-8-2004
 - Ask for saving the subtitle when the project is closing,
   before create SRT and on changing the subtitle
