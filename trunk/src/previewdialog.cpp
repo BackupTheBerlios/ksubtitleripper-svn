@@ -70,6 +70,7 @@ PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
 	
 	subtitleList = new QListBox( top );
 	subtitleList->setSelectionMode( QListBox::NoSelection );
+	subtitleList->setMinimumHeight( 200 );
 	layoutGeneral->addWidget( subtitleList );
 	
 	for (uint i = 0; i < 4; ++i)
