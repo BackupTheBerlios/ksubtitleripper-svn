@@ -89,6 +89,11 @@ void KSubtitleRipper::setupActions() {
 	createStandardStatusBarAction();
 	setStandardToolBarMenuEnabled( true );
 
+	m_enableCheckSpelling = new KToggleAction( i18n( "Enable Check &Spelling" ), KShortcut::null(),
+											   this, SLOT( switchCheckSpelling() ),
+											   actionCollection(), "enableCheckSpelling" );
+	m_enableCheckSpelling->setCheckedState( i18n( "Disable Check &Spelling" ) );
+
 	KStdAction::keyBindings( this, SLOT( optionsConfigureKeys() ), actionCollection() );
 	KStdAction::configureToolbars( this, SLOT( optionsConfigureToolbars() ), actionCollection() );
 	KStdAction::preferences( this, SLOT( optionsPreferences() ), actionCollection() );
@@ -119,6 +124,9 @@ void KSubtitleRipper::setupActions() {
 	        createSRT, SLOT( setEnabled( bool ) ) );
 	connect( m_view, SIGNAL( setState( const QString& ) ),
 			 this, SLOT( setState( const QString& ) ) );
+
+	m_enableCheckSpelling->setChecked( Config().checkSpelling() );
+	m_view->setCheckSpellingEnabled( Config().checkSpelling() );
 
 	createGUI();
 	stateChanged( "initial" );
@@ -282,6 +290,12 @@ void KSubtitleRipper::optionsPreferences() {
 }
 
 void KSubtitleRipper::applyPreferences() {
+	Config().write();
+}
+
+void KSubtitleRipper::switchCheckSpelling() {
+	m_view->setCheckSpellingEnabled( m_enableCheckSpelling->isChecked() );
+	Config().setCheckSpelling( m_enableCheckSpelling->isChecked() );
 	Config().write();
 }
 

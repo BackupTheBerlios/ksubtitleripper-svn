@@ -39,7 +39,6 @@
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ) {
 	setModified( false );
-	text->setCheckSpellingEnabled( true );
 	image->setPixmap( QPixmap() );
 	connect( text, SIGNAL( modificationChanged( bool ) ), this, SLOT( modify( bool ) ) );
 }
@@ -49,6 +48,10 @@ KSubtitleRipperView::~KSubtitleRipperView() {
 }
 
 /*$SPECIALIZATION$*/
+void KSubtitleRipperView::setCheckSpellingEnabled( bool enabled ) {
+	text->setCheckSpellingEnabled( enabled );
+}
+
 void KSubtitleRipperView::setModified( bool modif ) {
 	m_modified = modif;
 	emit signalProjectModified();

@@ -91,6 +91,7 @@ private slots:
 	void optionsPreferences();
 	void newToolbarConfig();
 	void applyPreferences();
+	void switchCheckSpelling();
 
 	void changeStatusbar( const QString& text );
 	void changeCaption( const QString& text );
@@ -104,6 +105,7 @@ private:
 
 	KSubtitleRipperView *m_view;
 
+	KToggleAction *m_enableCheckSpelling;
 	KURL m_project;
 	PrefDialog *m_prefDialog;
 	QString nameProject;

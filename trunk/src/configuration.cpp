@@ -24,6 +24,7 @@
 #include <kconfig.h>
 
 const bool Configuration::m_defaultDoUnix2Dos = false;
+const bool Configuration::m_defaultCheckSpelling = true;
 
 Configuration::Configuration()
 {
@@ -32,26 +33,36 @@ Configuration::Configuration()
 
 void Configuration::read() {
 	KConfig *conf = kapp->config();
-	
-	conf->setGroup("General");
-	m_doUnix2Dos = conf->readBoolEntry("doDos2Unix", m_defaultDoUnix2Dos);
+
+	conf->setGroup( "General" );
+	m_doUnix2Dos = conf->readBoolEntry( "doDos2Unix", m_defaultDoUnix2Dos );
+	m_checkSpelling = conf->readBoolEntry( "checkSpelling", m_defaultCheckSpelling );
 }
 
 void Configuration::write() const {
-	KConfig *conf=kapp->config();
-	
-	conf->setGroup("General");
-	conf->writeEntry("doDos2Unix", m_doUnix2Dos);
-	
+	KConfig *conf = kapp->config();
+
+	conf->setGroup( "General" );
+	conf->writeEntry( "doDos2Unix", m_doUnix2Dos );
+	conf->writeEntry( "checkSpelling", m_checkSpelling );
+
 	conf->sync();
 }
 
-bool Configuration::doUnix2Dos() {
+bool Configuration::doUnix2Dos() const {
 	return m_doUnix2Dos;
 }
 
 void Configuration::setDoUnix2Dos( bool value ) {
 	m_doUnix2Dos = value;
+}
+
+bool Configuration::checkSpelling() const {
+	return m_checkSpelling;
+}
+
+void Configuration::setCheckSpelling( bool value ) {
+	m_checkSpelling = value;
 }
 
 Configuration& Config() {

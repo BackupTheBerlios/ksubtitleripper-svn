@@ -25,20 +25,25 @@
 */
 class Configuration{
 public:
-	void read();
 	void write() const;
-	
-	bool doUnix2Dos();
+
+	bool doUnix2Dos() const;
+	bool checkSpelling() const;
+
 	void setDoUnix2Dos( bool value );
-	
+	void setCheckSpelling( bool value );
+
 	static const bool m_defaultDoUnix2Dos;
+	static const bool m_defaultCheckSpelling;
 
 private:
 	Configuration();
-	
+	void read();
+
 	friend Configuration& Config();
-	
+
 	bool m_doUnix2Dos;
+	bool m_checkSpelling;
 };
 
 Configuration& Config();

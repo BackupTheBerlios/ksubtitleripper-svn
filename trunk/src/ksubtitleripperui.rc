@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="ksubtitleripper" version="2">
 <MenuBar>
-  <Menu name="subtitle"><text>&amp;Subtitles</text>
+  <Menu name="subtitle"><text>S&amp;ubtitles</text>
 	<Action name="prevSubtitle"/>
 	<Action name="nextSubtitle"/>
     <Action name="saveSubtitle"/>
@@ -9,6 +9,9 @@
 	<Action name="extractSubtitle"/>
 	<Action name="convertSubtitle"/>
 	<Action name="createSRT"/>
+  </Menu>
+  <Menu name="settings">
+    <Action name="enableCheckSpelling" append="save_merge"/>
   </Menu>
 </MenuBar>
 <ToolBar fullWidth="true" name="mainToolBar">
