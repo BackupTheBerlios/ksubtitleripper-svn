@@ -52,6 +52,7 @@ public slots:
 	void createSrtSuccess( CreateSRT *createSRT );
 	void modify( bool m ) const;
 	void setCheckSpellingEnabled( bool enabled );
+	void setEditorFont( const QFont& font );
 
 signals:
 	void signalProjectModified();

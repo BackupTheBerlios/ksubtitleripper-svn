@@ -34,7 +34,6 @@
 #include "extractdialog.h"
 #include "createsrt.h"
 #include "project.h"
-//#include "configuration.h"
 
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ) {
@@ -50,6 +49,11 @@ KSubtitleRipperView::~KSubtitleRipperView() {
 /*$SPECIALIZATION$*/
 void KSubtitleRipperView::setCheckSpellingEnabled( bool enabled ) {
 	text->setCheckSpellingEnabled( enabled );
+}
+
+void KSubtitleRipperView::setEditorFont( const QFont& font )
+{
+	text->setFont( font );
 }
 
 void KSubtitleRipperView::setModified( bool modif ) {

@@ -127,6 +127,7 @@ void KSubtitleRipper::setupActions() {
 
 	m_enableCheckSpelling->setChecked( Config().checkSpelling() );
 	m_view->setCheckSpellingEnabled( Config().checkSpelling() );
+	m_view->setEditorFont( Config().editorFont() );
 
 	createGUI();
 	stateChanged( "initial" );
@@ -283,14 +284,13 @@ void KSubtitleRipper::optionsPreferences() {
 	}
 
 	m_prefDialog->updateDialog();
-	if ( m_prefDialog->exec() == QDialog::Accepted ) {
-		m_prefDialog->updateConfiguration();
-		applyPreferences();
-	}
+	if ( m_prefDialog->exec() == QDialog::Accepted )
+		m_prefDialog->slotApply();
 }
 
 void KSubtitleRipper::applyPreferences() {
 	Config().write();
+	m_view->setEditorFont( Config().editorFont() );
 }
 
 void KSubtitleRipper::switchCheckSpelling() {
