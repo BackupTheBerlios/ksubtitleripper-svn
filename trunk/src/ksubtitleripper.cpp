@@ -319,21 +319,12 @@ bool KSubtitleRipper::canCloseProject() {
 	if ( !m_view->askIfModified() ) return false;
 	if ( !m_view->isModified() ) return true;
 
-	QString file = hasName() ? m_project.prettyURL() : i18n( "Untitled" );
+	QString file = hasName() ? m_project.filename() : i18n( "Untitled" );
 	int answer = KMessageBox::warningYesNoCancel( this,
 		i18n( "The project \"%1\" has been modified.\n\nDo you want to save it?" ).arg( file ), i18n( "Save Project?" ), KStdGuiItem::save(), KStdGuiItem::discard() );
 
-	switch ( answer ) {
-	case KMessageBox::Yes:
-		fileSave();
-		return true;
-		break;
-	case KMessageBox::No:
-		return true;
-		break;
-	default: // Cancel
-		return false;
-	}
+	if ( answer == KMessageBox::Yes ) fileSave();
+	return answer != KMessageBox::Cancel;
 }
 
 bool KSubtitleRipper::queryClose() {
