@@ -5,6 +5,7 @@
 	<Action name="prevSubtitle"/>
 	<Action name="nextSubtitle"/>
     <Action name="saveSubtitle"/>
+	<Action name="centerSubtitle"/>
 	<Separator/>
 	<Action name="extractSubtitle"/>
 	<Action name="convertSubtitle"/>

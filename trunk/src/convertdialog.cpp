@@ -30,6 +30,7 @@
 #include <qdir.h>
 #include <qsizepolicy.h>
 
+#include "configuration.h"
 #include "subtitleview.h"
 #include "project.h"
 #include "convertdialog.h"
@@ -52,6 +53,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 						QSizePolicy::Minimum ) );
 
 	image = new SubtitleView( top );
+	image->setAutoCenterEnabled( Config().autoCenter() );
 	layoutGeneral->addWidget( image );
 
     progress = new KProgress( project->numSub(), top );

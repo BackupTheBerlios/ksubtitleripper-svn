@@ -40,7 +40,11 @@ public:
     void clearSubtitle();
 
 	bool isAutoCenterEnabled() const { return m_autoCenter; }
-	void setAutoCenterEnabled( bool value ) { m_autoCenter = value; }
+	void setAutoCenterEnabled( bool value )
+	{
+		m_autoCenter = value;
+		if ( m_autoCenter ) centerSubtitle();
+	}
 
 private:
     void searchCenter();

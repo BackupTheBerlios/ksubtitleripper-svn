@@ -40,6 +40,7 @@ public:
 	bool saveProject( const KURL& url );
 	bool isModified() const;
 	bool askIfModified();
+	SubtitleView* subtitleView() const { return image; }
 
 public slots:
 	void saveSubtitle();

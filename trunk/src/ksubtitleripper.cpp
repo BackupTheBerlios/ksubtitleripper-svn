@@ -25,6 +25,7 @@
 #include "configuration.h"
 #include "prefdialog.h"
 #include "project.h"
+#include "subtitleview.h"
 
 #include <kapplication.h>
 #include <kglobal.h>
@@ -77,7 +78,7 @@ void KSubtitleRipper::load( const KURL& url ) {
 }
 
 void KSubtitleRipper::setupActions() {
-	KAction *saveSub, *prevSub, *nextSub;
+	KAction *saveSub, *prevSub, *nextSub, *centerSub;
 	KAction *extractSub, *convertSub, *createSRT;
 
 	KStdAction::openNew( this, SLOT( fileNew() ), actionCollection() );
@@ -98,14 +99,16 @@ void KSubtitleRipper::setupActions() {
 	KStdAction::configureToolbars( this, SLOT( optionsConfigureToolbars() ), actionCollection() );
 	KStdAction::preferences( this, SLOT( optionsPreferences() ), actionCollection() );
 
-	saveSub = new KAction( i18n( "Save subtitle" ), CTRL+Key_Return,
-			m_view, SLOT( saveSubtitle() ), actionCollection(), "saveSubtitle" );
+	saveSub = new KAction( i18n( "Save subtitle" ), CTRL+Key_Return, m_view,
+			SLOT( saveSubtitle() ), actionCollection(), "saveSubtitle" );
 	prevSub = new KAction( i18n( "Previous subtitle" ), "previous", ALT+Key_Left, m_view,
 			SLOT( prevSubtitle() ), actionCollection(), "prevSubtitle" );
 	nextSub = new KAction( i18n( "Next subtitle" ), "next", ALT+Key_Right, m_view,
 			SLOT( nextSubtitle() ), actionCollection(), "nextSubtitle" );
+	centerSub = new KAction( i18n( "Center subtitle" ), CTRL+Key_Return, m_view->subtitleView(),
+			SLOT( centerSubtitle() ), actionCollection(), "centerSubtitle" );
 	extractSub = new KAction( i18n( "Extract subtitles" ), "extract_subtitles", 0,
-			m_view,SLOT( extractSub() ), actionCollection(), "extractSubtitle" );
+			m_view, SLOT( extractSub() ), actionCollection(), "extractSubtitle" );
 	convertSub = new KAction( i18n( "Convert subtitles to text" ), "convert_subtitles", 0,
 			m_view, SLOT( convertSub() ), actionCollection(), "convertSubtitle" );
 	createSRT = new KAction( i18n( "Generate SRT file" ), "create_srt", 0,
@@ -128,6 +131,7 @@ void KSubtitleRipper::setupActions() {
 	m_enableCheckSpelling->setChecked( Config().checkSpelling() );
 	m_view->setCheckSpellingEnabled( Config().checkSpelling() );
 	m_view->setEditorFont( Config().editorFont() );
+	m_view->subtitleView()->setAutoCenterEnabled( Config().autoCenter() );
 
 	createGUI();
 	stateChanged( "initial" );
@@ -293,6 +297,7 @@ void KSubtitleRipper::optionsPreferences() {
 void KSubtitleRipper::applyPreferences() {
 	Config().write();
 	m_view->setEditorFont( Config().editorFont() );
+	m_view->subtitleView()->setAutoCenterEnabled( Config().autoCenter() );
 }
 
 void KSubtitleRipper::switchCheckSpelling() {
