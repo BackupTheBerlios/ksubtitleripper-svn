@@ -1,19 +1,19 @@
-# translation of fr.po to Français
-# translation of ksubtitleripper.po to Français
+# translation of fr.po to FranÃ§ais
+# translation of ksubtitleripper.po to FranÃ§ais
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Guillaume Bedot <littletux@zarb.org>, 2004.
-# Sergio Cambra García <sergio.cambra@hispalinux.es>, 2004.
+# Sergio Cambra GarcÃ­a <sergio.cambra@hispalinux.es>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2004-07-29 17:23+0200\n"
 "PO-Revision-Date: 2004-07-29 17:32+0200\n"
-"Last-Translator: Sergio Cambra García <sergio.cambra@hispalinux.es>\n"
+"Last-Translator: Sergio Cambra GarcÃ­a <sergio.cambra@hispalinux.es>\n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
 "X-Generator: KBabel 1.3.1\n"
@@ -27,13 +27,13 @@ msgid ""
 "The marked chars were not recognized. Enter correct ASCII char, \"string\" "
 "or 4 to 8 digit hex unicode."
 msgstr ""
-"Le(s) caractère(s) encadré(s) n'ont pas été reconnu(s). Entrez le(s) "
-"caractère(s) ASCII correct(s) (entre double-quotes s'il y en a plusieurs : "
-"\"chaîne\") ou l'identifiant unicode (4 à 8 chiffres hexadécimaux)."
+"Le(s) caractÃ¨re(s) encadrÃ©(s) n'ont pas Ã©tÃ© reconnu(s). Entrez le(s) "
+"caractÃ¨re(s) ASCII correct(s) (entre double-quotes s'il y en a plusieurs : "
+"\"chaÃ®ne\") ou l'identifiant unicode (4 Ã  8 chiffres hexadÃ©cimaux)."
 
 #: convertdialog.cpp:65
 msgid "Save to database"
-msgstr "Sauver dans la base de données"
+msgstr "Sauver dans la base de donnÃ©es"
 
 #: convertdialog.cpp:91 ksubtitleripperview.cpp:68
 #, c-format
@@ -52,12 +52,12 @@ msgstr "Extraction des sous-titres"
 #: extractdialog.cpp:77 ksubtitleripperview.cpp:246
 #, c-format
 msgid "Couldn't download file %1"
-msgstr "Impossible de télécharger le fichier %1"
+msgstr "Impossible de tÃ©lÃ©charger le fichier %1"
 
 #: extractdialog.cpp:123
 #, c-format
 msgid "Generating image %1"
-msgstr "Génération de l'image %1"
+msgstr "GÃ©nÃ©ration de l'image %1"
 
 #: ksubtitleripper.cpp:95
 msgid "Save subtitle"
@@ -65,7 +65,7 @@ msgstr "Sauvergarder le sous-titre"
 
 #: ksubtitleripper.cpp:97
 msgid "Previous subtitle"
-msgstr "Sous-titre précédent"
+msgstr "Sous-titre prÃ©cÃ©dent"
 
 #: ksubtitleripper.cpp:99
 msgid "Next subtitle"
@@ -81,7 +81,7 @@ msgstr "Convertir les sous-titres en texte"
 
 #: ksubtitleripper.cpp:105
 msgid "Generate SRT file"
-msgstr "Générer un fichier .SRT"
+msgstr "GÃ©nÃ©rer un fichier .SRT"
 
 #: ksubtitleripper.cpp:196 ksubtitleripper.cpp:214
 msgid "KSubtitleRipper Project Files"
@@ -97,11 +97,11 @@ msgstr "Sauvegarder le Projet"
 
 #: ksubtitleripper.cpp:223
 msgid "Overwrite File?"
-msgstr "Écraser le fichier ?"
+msgstr "Ã‰craser le fichier ?"
 
 #: ksubtitleripper.cpp:223
 msgid "Overwrite"
-msgstr "Écraser"
+msgstr "Ã‰craser"
 
 #: ksubtitleripper.cpp:306
 msgid ""
@@ -109,7 +109,7 @@ msgid ""
 "\n"
 "Do you want to save it?"
 msgstr ""
-"Le projet \"%1\" a été modifié.\n"
+"Le projet \"%1\" a Ã©tÃ© modifiÃ©.\n"
 "\n"
 "Voulez-vous le sauvegarder?"
 
@@ -120,7 +120,7 @@ msgstr "Sauvegarder le projet ?"
 #: ksubtitleripperview.cpp:54
 #, c-format
 msgid "Couldn't write to file %1"
-msgstr "Impossible d'écrire dans le fichier %1"
+msgstr "Impossible d'Ã©crire dans le fichier %1"
 
 #: ksubtitleripperview.cpp:140
 #, c-format
@@ -128,16 +128,16 @@ msgid ""
 "_n: %n subtitle has been extracted\n"
 "%n subtitles have been extracted"
 msgstr ""
-"%n sous-titre a été extrait\n"
-"%n sous-titres ont été extraits"
+"%n sous-titre a Ã©tÃ© extrait\n"
+"%n sous-titres ont Ã©tÃ© extraits"
 
 #: ksubtitleripperview.cpp:141 ksubtitleripperview.cpp:149
 msgid "Extraction completed"
-msgstr "Extraction terminée"
+msgstr "Extraction terminÃ©e"
 
 #: ksubtitleripperview.cpp:148
 msgid "No subtitles have been extracted"
-msgstr "Aucun sous-titre n'a été extrait"
+msgstr "Aucun sous-titre n'a Ã©tÃ© extrait"
 
 #: ksubtitleripperview.cpp:241
 #, c-format
@@ -156,11 +156,11 @@ msgstr "Impossible de sauvegarder le fichier distant %1"
 
 #: main.cpp:29
 msgid "A KDE GUI for subtitleripper package."
-msgstr "Une interface graphique à subtitleripper pour KDE."
+msgstr "Une interface graphique Ã  subtitleripper pour KDE."
 
 #: main.cpp:35
 msgid "Project to open."
-msgstr "Projet à ouvrir"
+msgstr "Projet Ã  ouvrir"
 
 #: main.cpp:40
 msgid "KSubtitleRipper"
@@ -168,11 +168,11 @@ msgstr "KSubtitleRipper"
 
 #: newproject.cpp:30
 msgid "Create New Project"
-msgstr "Créer un Nouveau Projet"
+msgstr "CrÃ©er un Nouveau Projet"
 
 #: newproject.cpp:38
 msgid "Prefix"
-msgstr "Préfixe"
+msgstr "PrÃ©fixe"
 
 #: newproject.cpp:45
 msgid "Vob files"
@@ -184,7 +184,7 @@ msgstr "Fichiers VOB"
 
 #: newproject.cpp:73
 msgid "Select VOB files"
-msgstr "Sélectionnez les fichiers VOB"
+msgstr "SÃ©lectionnez les fichiers VOB"
 
 #: rc.cpp:1
 msgid "&Subtitles"
