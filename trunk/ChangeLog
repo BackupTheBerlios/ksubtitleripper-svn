@@ -1,7 +1,16 @@
+  17-8-2004
+- Write SRT file remotely
+- Initial preferences dialog, with an option to convert SRT file to DOS format
+
+  16-8-2004
+- Show a default name in save dialogs
+- Remove unnecessary code because it's managed by KFileDialog
+
   15-8-2004
 - Show preview dialog only on project creation
 - Disable actions on projet creation
-- Take off cancel button on preview progress dialog
+- Remove cancel button on preview progress dialog
+- Save dialog on SRT creation
 
   14-8-2004
 - Preview subtitles
