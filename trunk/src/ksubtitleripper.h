@@ -86,8 +86,6 @@ private slots:
 	void fileOpen();
 	void fileSave();
 	void fileSaveAs();
-	void optionsShowToolbar();
-	void optionsShowStatusbar();
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();
 	void optionsPreferences();

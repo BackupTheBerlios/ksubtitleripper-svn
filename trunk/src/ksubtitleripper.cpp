@@ -231,21 +231,6 @@ void KSubtitleRipper::fileSaveAs() {
 	}
 }
 
-
-void KSubtitleRipper::optionsShowToolbar() {
-	if ( m_toolbarAction->isChecked() )
-		toolBar() ->show();
-	else
-		toolBar() ->hide();
-}
-
-void KSubtitleRipper::optionsShowStatusbar() {
-	if ( m_statusbarAction->isChecked() )
-		statusBar() ->show();
-	else
-		statusBar() ->hide();
-}
-
 void KSubtitleRipper::optionsConfigureKeys() {
 	KKeyDialog::configure( actionCollection() );
 }
