@@ -36,3 +36,6 @@ kdelnk_DATA = ksubtitleripper.desktop
 # this is where the XML-GUI resource file goes
 rcdir = $(kde_datadir)/ksubtitleripper
 rc_DATA = ksubtitleripperui.rc
+
+dist-hook:
+	cd $(distdir) && rm ksubtitleripperviewdlg.cpp prefgenerallayout.cpp
