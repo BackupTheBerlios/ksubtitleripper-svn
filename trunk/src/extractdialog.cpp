@@ -33,16 +33,16 @@ ExtractDialog::ExtractDialog( Project *prj, QWidget *parent, const char *name )
  : KDialogBase( parent, name, true, i18n( "Extracting subtitles" ), 0 ), project( prj ) {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "ExtractDialog constructor: prj is null\n";
-	
+
 	QFrame *top = makeMainWidget();
 	QVBoxLayout *layoutGeneral;
 	layoutGeneral = new QVBoxLayout( top, 5, 6 );
-	
+
 	subtitle = new QLabel( top );
 	layoutGeneral->addWidget( subtitle );
-	
+
 	QHBoxLayout *layoutButton;
-	layoutButton = new QHBoxLayout( layoutGeneral ); 
+	layoutButton = new QHBoxLayout( layoutGeneral );
     layoutButton->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding,
 						QSizePolicy::Minimum ) );
     cancel = new KPushButton( KStdGuiItem::cancel(), top );
@@ -71,12 +71,12 @@ void ExtractDialog::show() {
 
 void ExtractDialog::extractSub() {
 	process = new ExtractProcess( project, this );
-	
+
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
 	connect( process, SIGNAL( readReady( KProcIO* ) ),
 			this, SLOT( extractOutput( KProcIO* ) ) );
-	
+
 	if ( !process->start( KProcess::NotifyOnExit, true ) )
 		kdError() << "error executing process\n";
 }
@@ -85,7 +85,7 @@ void ExtractDialog::extractFinish( KProcess *proc ) {
 	bool signalled = proc->signalled();
 	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
-	
+
 	if ( signalled ) reject();
 	else if ( goodExit ) accept();
 	else {
@@ -96,16 +96,16 @@ void ExtractDialog::extractFinish( KProcess *proc ) {
 
 void ExtractDialog::extractOutput( KProcIO *proc ) {
 	QString line, word;
-	
+
 	while ( proc->readln( line, false ) != -1 ) {
 		word = line.section( ' ', 0, 0 );
 		if ( word == "Generating" )
 			subtitle->setText( i18n( "Generating image %1" ).arg( line.section( ": ", 1, 1 ) ) );
 		else if ( word == "Wrote" )
 			project->setNumSub( line.section( ' ', 1, 1 ).toUInt() );
-		else kdWarning() << line << endl;
+		else if ( line != "Conversion finished" ) kdWarning() << line << endl;
 	}
-	
+
 	proc->ackRead();
 }
 

@@ -143,7 +143,7 @@ void PreviewDialog::extractOutput( KProcIO *proc ) {
 			progress->progressBar()->advance( 1 );
 		else if ( word == "Wrote" )
 			m_numSub = line.section( ' ', 1, 1 ).toUInt();
-		else kdWarning() << line << endl;
+		else if ( line != "Conversion finished" ) kdWarning() << line << endl;
 	}
 
 	proc->ackRead();
