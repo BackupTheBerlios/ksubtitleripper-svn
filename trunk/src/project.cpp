@@ -24,12 +24,33 @@
 #include <qregexp.h>
 #include <ktempdir.h>
 
+Colours::Colours() {
+	for (uint i=0; i<4; ++i)
+		m_colours[i] = 255;
+	m_colours[2] = 0;
+}
+
+Colours::~Colours() {}
+
+uchar& Colours::operator[](uint index) {
+	if ( index > 3 )
+		kdFatal() << "Colours: Index out of bounds\n";
+	
+	return m_colours[index];
+}
+const uchar& Colours::operator[](uint index) const {
+	if ( index > 3 )
+		kdFatal() << "Colours: Index out of bounds\n";
+	
+	return m_colours[index];
+}
+
 Project::Project( const KURL::List& list, const QString& base )
-		: v_files( list ), v_baseName( base ) {
-	v_numSub = v_currentSub = 0;
-	v_extracted = v_converted = false;
-	if ( list[0].isLocalFile() ) v_directory = list[0].directory( false );
-	else v_directory = KTempDir().name();
+		: m_files( list ), m_baseName( base ) {
+	m_numSub = m_currentSub = 0;
+	m_extracted = m_converted = false;
+	if ( list[0].isLocalFile() ) m_directory = list[0].directory( false );
+	else m_directory = KTempDir().name();
 }
 
 Project::Project( const QString& path, bool& success ) {
@@ -57,34 +78,34 @@ bool Project::load( QTextStream& in ) {
 	KURL url;
 	bool success;
 	
-	v_files.empty();
-	v_directory = QString::null;
-	v_baseName = "";
-	v_numSub = v_currentSub = 0;
-	v_extracted = v_converted = false;
+	m_files.empty();
+	m_directory = QString::null;
+	m_baseName = "";
+	m_numSub = m_currentSub = 0;
+	m_extracted = m_converted = false;
 	
 	while ( !readField( in, field, value ) ) {
 		if ( field == "File" ) {
 			url = value;
 			if ( url.isEmpty() || !url.isValid() ) return false;
-			v_files.append(url);
+			m_files.append(url);
 		} else if ( field == "Directory" ) {
 			if ( value.isEmpty() ) return false;
-			v_directory = value;
+			m_directory = value;
 		} else if ( field == "Basename" ) {
 			if ( value.isEmpty() ) return false;
-			v_baseName = value;
+			m_baseName = value;
 		} else if ( field == "NumberSubtitles" ) {
-			v_numSub = value.toUInt( &success );
+			m_numSub = value.toUInt( &success );
 			if ( !success ) return false;
 		} else if ( field == "CurrentSubtitle" ) {
-			v_currentSub = value.toUInt( &success );
+			m_currentSub = value.toUInt( &success );
 			if ( !success ) return false;
 		} else if ( field == "Extracted" ) {
-			v_extracted = value.toInt( &success );
+			m_extracted = value.toInt( &success );
 			if ( !success ) return false;
 		} else if ( field == "Converted" ) {
-			v_converted = value.toInt( &success );
+			m_converted = value.toInt( &success );
 			if ( !success ) return false;
 		} else if ( field == "Colours" ) {
 			if ( !setColours( value ) ) return false;
@@ -111,60 +132,60 @@ QString Project::subFilename( int sub ) {
 	QString number = QString::number( sub );
 	
 	if ( number.length() < 4 )
-		return v_baseName + QString().fill( '0', 4-number.length() ) + number;
-	else return v_baseName + number;
+		return m_baseName + QString().fill( '0', 4-number.length() ) + number;
+	else return m_baseName + number;
 }
 
 QString Project::subFilename() {
-	return subFilename( v_currentSub );
+	return subFilename( m_currentSub );
 }
 
 void Project::goFirst() {
-	v_currentSub = 1;
+	m_currentSub = 1;
 }
 
 unsigned int Project::numSub() const {
-	return v_numSub;
+	return m_numSub;
 }
 
 unsigned int Project::currentSub() const {
-	return v_currentSub;
+	return m_currentSub;
 }
 
 bool Project::isExtracted() const {
-	return v_extracted;
+	return m_extracted;
 }
 
 bool Project::isConverted() const {
-	return v_converted;
+	return m_converted;
 }
 
 QString Project::baseName() const {
-	return v_baseName;
+	return m_baseName;
 }
 
 const KURL::List& Project::files() const {
-	return v_files;
+	return m_files;
 }
 
 QString Project::directory() const {
-	return v_directory;
+	return m_directory;
 }
 
 void Project::nextSub() {
-	v_currentSub++;
+	m_currentSub++;
 }
 
 void Project::prevSub() {
-	v_currentSub--;
+	m_currentSub--;
 }
 
 bool Project::atFirst() const {
-	return v_currentSub == 1;
+	return m_currentSub == 1;
 }
 
 bool Project::atLast() const {
-	return v_currentSub == v_numSub;
+	return m_currentSub == m_numSub;
 }
 
 bool Project::save( const QString& path ) const {
@@ -172,15 +193,15 @@ bool Project::save( const QString& path ) const {
 	QTextStream out( &f );
 	if ( !f.open ( IO_WriteOnly ) ) return false;
 	
-	for ( uint i = 0; i < v_files.count(); i++ ) {
-		out << "File=" << v_files[i].url() << endl;
+	for ( uint i = 0; i < m_files.count(); i++ ) {
+		out << "File=" << m_files[i].url() << endl;
 	}
-	out << "Directory=" << v_directory << endl;
-	out << "Basename=" << v_baseName << endl;
-	out << "NumberSubtitles=" << v_numSub << endl;
-	out << "CurrentSubtitle=" << v_currentSub << endl;
-	out << "Extracted=" << v_extracted << endl;
-	out << "Converted=" << v_converted << endl;
+	out << "Directory=" << m_directory << endl;
+	out << "Basename=" << m_baseName << endl;
+	out << "NumberSubtitles=" << m_numSub << endl;
+	out << "CurrentSubtitle=" << m_currentSub << endl;
+	out << "Extracted=" << m_extracted << endl;
+	out << "Converted=" << m_converted << endl;
 	out << "Colours=" << coloursString() << endl;
 	
 	f.close();
@@ -188,16 +209,16 @@ bool Project::save( const QString& path ) const {
 }
 
 void Project::setExtracted( bool value ) {
-	v_extracted = value;
+	m_extracted = value;
 }
 
 void Project::setConverted( bool value ) {
-	v_converted = value;
+	m_converted = value;
 }
 
 void Project::setNumSub( uint num ) {
-	v_numSub = num;
-	if ( v_currentSub > v_numSub ) v_currentSub = v_numSub;
+	m_numSub = num;
+	if ( m_currentSub > m_numSub ) m_currentSub = m_numSub;
 }
 
 bool Project::setColours( const QString& col ) {

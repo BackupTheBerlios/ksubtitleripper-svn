@@ -26,27 +26,16 @@
 /**
 @author Sergio Cambra
 */
-namespace {
-	class Colours {
-	public:
-		Colours() { for (uint i=0; i<4; ++i) v_colours[i] = 255; v_colours[2] = 0; };
-		~Colours() {};
-		uchar& operator[](uint index) {
-			if ( index > 3 )
-				kdFatal() << "Colours: Index out of bounds\n";
-			
-			return v_colours[index];
-		};
-		const uchar& operator[](uint index) const {
-			if ( index > 3 )
-				kdFatal() << "Colours: Index out of bounds\n";
-			
-			return v_colours[index];
-		};
-	private:
-		uchar v_colours[4];
-	};
-}
+
+class Colours {
+public:
+	Colours();
+	~Colours();
+	uchar& operator[](uint index);
+	const uchar& operator[](uint index) const;
+private:
+	uchar m_colours[4];
+};
 
 class Project {
 public:
@@ -86,10 +75,10 @@ private:
 	bool readField( QTextStream& stream, QString& field, QString& value ) const;
 	bool load ( QTextStream& stream );
 
-	KURL::List v_files;
-	QString v_directory, v_baseName;
-	uint v_numSub, v_currentSub;
-	bool v_extracted, v_converted;
+	KURL::List m_files;
+	QString m_directory, m_baseName;
+	uint m_numSub, m_currentSub;
+	bool m_extracted, m_converted;
 };
 
 #endif
