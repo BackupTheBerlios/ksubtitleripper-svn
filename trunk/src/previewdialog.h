@@ -21,10 +21,10 @@
 #define PREVIEWDIALOG_H
 
 #include <kdialogbase.h>
+#include "project.h"
 
 class QVButtonGroup;
 class QRadioButton;
-class Project;
 class ExtractProcess;
 class KProcess;
 class KProcIO;
@@ -55,10 +55,10 @@ private:
 	QListBox *subtitleList;
 	KProgressDialog *progress;
 
-	Project *project;
-	ExtractProcess *process;
-	uint numSub;
-	QString coloursOld;
+	Project *m_project;
+	ExtractProcess *m_process;
+	uint m_numSub;
+	Colours m_coloursOld;
 };
 
 #endif

@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include <qvbuttongroup.h>
-#include <qradiobutton.h> 
+#include <qradiobutton.h>
 #include <qlayout.h>
 #include <qlistbox.h>
 #include <qpixmap.h>
@@ -29,51 +29,50 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include "previewdialog.h"
-#include "project.h"
 #include "extractprocess.h"
 
 const int numSubs = 8;
 
 PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
  : KDialogBase( parent, name, true, i18n( "Converting images to text" ), Ok|Cancel|Help|User1,
- 		Ok, false, KGuiItem( i18n( "Preview" ), "thumbnail" ) ), project( prj )
+ 		Ok, false, KGuiItem( i18n( "Preview" ), "thumbnail" ) ), m_project( prj )
 {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "PreviewDialog constructor: prj is null\n";
-	coloursOld = prj->coloursString();
-	
+	m_coloursOld = prj->colours;
+
 	QFrame *top = makeMainWidget();
-	
+
 	QVBoxLayout* layoutGeneral = new QVBoxLayout( top, 5, 6 );
-	
+
 	QHBoxLayout* layoutIndex = new QHBoxLayout( layoutGeneral );
     layoutIndex->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
 	groupIndex = new QVButtonGroup( i18n( "Choose filling colour index" ), top );
-	
+
 	radioButton[0] = new QRadioButton( groupIndex );
 	radioButton[0]->setText( i18n( "Colour %1" ).arg(1) );
 	groupIndex->insert( radioButton[0] );
-	
+
 	radioButton[1] = new QRadioButton( groupIndex );
 	radioButton[1]->setText( i18n( "Colour %1" ).arg(2) );
 	groupIndex->insert( radioButton[1] );
-	
+
 	radioButton[2] = new QRadioButton( groupIndex );
 	radioButton[2]->setText( i18n( "Colour %1" ).arg(3) );
 	groupIndex->insert( radioButton[2] );
-	
+
 	radioButton[3] = new QRadioButton( groupIndex );
 	radioButton[3]->setText( i18n( "Colour %1" ).arg(4) );
 	groupIndex->insert( radioButton[3] );
-	
+
 	layoutIndex->addWidget( groupIndex );
 	layoutIndex->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum ) );
-	
+
 	subtitleList = new QListBox( top );
 	subtitleList->setSelectionMode( QListBox::NoSelection );
 	subtitleList->setMinimumHeight( 200 );
 	layoutGeneral->addWidget( subtitleList );
-	
+
 	for (uint i = 0; i < 4; ++i)
 		radioButton[i]->setChecked( prj->colours[i] == 0 );
 
@@ -88,26 +87,26 @@ PreviewDialog::~PreviewDialog()
 
 void PreviewDialog::preview()
 {
-	numSub = 0;
+	m_numSub = 0;
 	setColours();
-	
-	process = new ExtractProcess( project, this );
-	*process << "-e" << QString( "00:00:00,%1" ).arg( numSubs );
-	
-	connect( process, SIGNAL( processExited( KProcess* ) ),
+
+	m_process = new ExtractProcess( m_project, this );
+	*m_process << "-e" << QString( "00:00:00,%1" ).arg( numSubs );
+
+	connect( m_process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
-	connect( process, SIGNAL( readReady( KProcIO* ) ),
+	connect( m_process, SIGNAL( readReady( KProcIO* ) ),
 			this, SLOT( extractOutput( KProcIO* ) ) );
-	
+
 	progress = new KProgressDialog( this, 0, i18n("Extracting..."), QString::null, true );
 	progress->setAllowCancel( false );
 	progress->setAutoClose( true );
 	progress->setMinimumDuration( 1000 );
 	progress->progressBar()->setTotalSteps( numSubs );
-	
-	if ( !process->start( KProcess::NotifyOnExit, true ) )
+
+	if ( !m_process->start( KProcess::NotifyOnExit, true ) )
 		kdError() << "error executing process\n";
-	
+
 	progress->exec();
 	delete progress;
 	progress = 0;
@@ -116,21 +115,21 @@ void PreviewDialog::preview()
 void PreviewDialog::extractFinish( KProcess *proc ) {
 	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
-	
+
 	if ( goodExit ) {
 		subtitleList->clear();
 		QPixmap blank(1, 20);
 		blank.fill();
-		
-		for (uint i = 1; i <= numSub; ++i) {
-			QString filename = project->directory() + project->subFilename( i ) + ".pgm";
+
+		for (uint i = 1; i <= m_numSub; ++i) {
+			QString filename = m_project->directory() + m_project->subFilename( i ) + ".pgm";
 			QPixmap image( filename );
-			
+
 			if ( image.isNull() )
 				KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
 			else {
 				subtitleList->insertItem( image );
-				if ( i != numSub ) subtitleList->insertItem( blank );
+				if ( i != m_numSub ) subtitleList->insertItem( blank );
 			}
 		}
 	} else KMessageBox::error( this, i18n( "Error extracting subtitles" ) );
@@ -138,26 +137,26 @@ void PreviewDialog::extractFinish( KProcess *proc ) {
 
 void PreviewDialog::extractOutput( KProcIO *proc ) {
 	QString line, word;
-	
+
 	while ( proc->readln( line, false ) != -1 ) {
 		word = line.section( ' ', 0, 0 );
 		if ( word == "Generating" )
 			progress->progressBar()->advance( 1 );
 		else if ( word == "Wrote" )
-			numSub = line.section( ' ', 1, 1 ).toUInt();
+			m_numSub = line.section( ' ', 1, 1 ).toUInt();
 		else kdWarning() << line << endl;
 	}
-	
+
 	proc->ackRead();
 }
 
 void PreviewDialog::setColours() {
 	for (uint i = 0; i < 4; ++i)
-		project->colours[i] = ( radioButton[i]->isChecked() ) ? 0 : 255;
+		m_project->colours[i] = ( radioButton[i]->isChecked() ) ? 0 : 255;
 }
 
 void PreviewDialog::restoreColours() {
-	project->setColours( coloursOld );
+	m_project->colours = m_coloursOld;
 }
 
 #include "previewdialog.moc"
