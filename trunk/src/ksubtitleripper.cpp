@@ -305,13 +305,13 @@ void KSubtitleRipper::changeStatusbar( const QString& text ) {
 }
 
 void KSubtitleRipper::changeCaption( const QString& text ) {
-	if ( text.isEmpty() ) nameProject = i18n( "Untitled" );
-	else nameProject = text;
+	if ( text.isEmpty() ) m_nameProject = i18n( "Untitled" );
+	else m_nameProject = text;
 	updateCaption();
 }
 
 void KSubtitleRipper::updateCaption() {
-	setCaption( nameProject, m_view->isModified() );
+	setCaption( m_nameProject, m_view->isModified() );
 }
 
 bool KSubtitleRipper::canCloseProject() {

@@ -108,7 +108,7 @@ private:
 	KToggleAction *m_enableCheckSpelling;
 	KURL m_project;
 	PrefDialog *m_prefDialog;
-	QString nameProject;
+	QString m_nameProject;
 };
 
 #endif // _KSUBTITLERIPPER_H_
