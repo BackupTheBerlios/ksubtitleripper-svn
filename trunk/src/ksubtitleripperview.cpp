@@ -196,15 +196,16 @@ void KSubtitleRipperView::createSRT() {
 
 	KURL url = KFileDialog::getSaveURL( srtName, "*.srt|" + i18n("SRT Subtitles"), this, i18n( "Save Subtitles" ) );
 	if ( url.isEmpty() || !url.isValid() ) return;
-
+	
 	QString extension = QFileInfo( url.path() ).extension( false ).lower();
 	if ( extension != "srt" && ( !url.isLocalFile() || !QFile::exists( url.path() ) ) )
 		url = url.url() + ".srt";
-
+	
 	QString text = "A file named \"%1\" already exists.\nAre you sure you want to overwrite it?";
 	if ( url.isLocalFile() && QFile::exists( url.path() ) &&
 		KMessageBox::warningContinueCancel( this, i18n( text ).arg( url.filename() ),
 		i18n( "Overwrite File?" ), i18n( "Overwrite" ) ) == KMessageBox::Cancel ) return;
+	srtName = url.url();
 					
 	KProcIO process;
 	process.setWorkingDirectory( project->directory() );
@@ -274,11 +275,7 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 				emit setEnabledNextSub( !project->atLast() );
 			} else beforeExtracting();
 			
-			srtName = url.path();
-			if ( !url.isLocalFile() ) srtName = QFileInfo( srtName ).fileName();
-			int index = srtName.findRev( '.' );
-			if ( index != -1 ) srtName.truncate( index );
-			srtName += ".srt";
+			setSrtName( url );	
 		} else KMessageBox::error( this, i18n( "Couldn't open file %1" ).arg( target ) );
 		
 		KIO::NetAccess::removeTempFile( target );
@@ -296,7 +293,6 @@ bool KSubtitleRipperView::saveProject( const KURL& url ) {
 						i18n( "Couldn't save project to %1" ).arg( url.prettyURL() ) );
 			return false;
 		}
-		srtName = url.path();
 	} else {
 		KTempFile tmp;
 		tmp.setAutoDelete(true);
@@ -310,13 +306,9 @@ bool KSubtitleRipperView::saveProject( const KURL& url ) {
 						i18n( "Couldn't save remote file %1" ).arg( url.prettyURL() ) );
 			return false;
 		}
-		srtName = QFileInfo( url.path() ).fileName();
 	}
 		
-	int index = srtName.findRev( '.' );
-	if ( index != -1 ) srtName.truncate( index );
-	srtName += ".srt";
-	
+	setSrtName( url );	
 	emit signalChangeCaption( url.prettyURL() );
 	modified = false;
 	return true;
@@ -324,6 +316,13 @@ bool KSubtitleRipperView::saveProject( const KURL& url ) {
 
 bool KSubtitleRipperView::isModified() const {
 	return modified;
+}
+
+void KSubtitleRipperView::setSrtName( const KURL& url ) {
+	srtName = url.url();
+	int index = srtName.findRev( '.' );
+	if ( index != -1 ) srtName.truncate( index );
+	srtName += ".srt";
 }
 
 #include "ksubtitleripperview.moc"

@@ -214,8 +214,8 @@ void KSubtitleRipper::fileSave() {
 void KSubtitleRipper::fileSaveAs() {
 	// this slot is called whenever the File->Save As menu is selected
 	QString text = "A file named \"%1\" already exists.\nAre you sure you want to overwrite it?";
-
-	KURL url = KFileDialog::getSaveURL( QString::null, "*.srip|" + i18n("KSubtitleRipper Project Files"), this, i18n( "Save Project" ) );
+	
+	KURL url = KFileDialog::getSaveURL( project.url(), "*.srip|" + i18n("KSubtitleRipper Project Files"), this, i18n( "Save Project" ) );
 	
 	if ( !url.isEmpty() && url.isValid() ) {
 		QString extension = QFileInfo( url.path() ).extension( false ).lower();

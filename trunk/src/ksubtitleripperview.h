@@ -54,7 +54,8 @@ private:
 	void emptySubtitle();
 	void beforeExtracting();
 	void beforeConverting();
-
+	void setSrtName( const KURL& url );
+	
 	bool modified;
 	Project *project;
 	QString srtName;
