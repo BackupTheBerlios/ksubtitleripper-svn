@@ -21,6 +21,8 @@
 #include "ksubtitleripper.h"
 #include "newproject.h"
 #include "previewdialog.h"
+#include "configuration.h"
+#include "prefdialog.h"
 
 #include <kglobal.h>
 #include <klocale.h>
@@ -43,7 +45,7 @@ namespace {
 }
 
 KSubtitleRipper::KSubtitleRipper() : KMainWindow( 0, "KSubtitleRipper" ),
-			m_view( new KSubtitleRipperView( this ) ) {
+			m_view( new KSubtitleRipperView( this ) ), m_prefDialog( 0 ) {
 	// accept dnd
 	setAcceptDrops( true );
 
@@ -90,7 +92,7 @@ void KSubtitleRipper::setupActions() {
 
 	KStdAction::keyBindings( this, SLOT( optionsConfigureKeys() ), actionCollection() );
 	KStdAction::configureToolbars( this, SLOT( optionsConfigureToolbars() ), actionCollection() );
-	//KStdAction::preferences( this, SLOT( optionsPreferences() ), actionCollection() );
+	KStdAction::preferences( this, SLOT( optionsPreferences() ), actionCollection() );
 
 	saveSub = new KAction( i18n( "Save subtitle" ), CTRL+Key_Return,
 			m_view, SLOT( saveSubtitle() ), actionCollection(), "saveSubtitle" );
@@ -282,13 +284,22 @@ void KSubtitleRipper::newToolbarConfig() {
 #endif
 }
 
-/*void KSubtitleRipper::optionsPreferences() {
-	// popup some sort of preference dialog, here
-	KSubtitleRipperPreferences dlg;
-	if ( dlg.exec() ) {
-		// TODO redo your settings
+void KSubtitleRipper::optionsPreferences() {
+	if ( m_prefDialog == 0) {
+		m_prefDialog = new PrefDialog( this );
+		connect(m_prefDialog, SIGNAL( settingsChanged() ), this, SLOT( applyPreferences() ) );
 	}
-}*/
+	
+	m_prefDialog->updateDialog();
+	if ( m_prefDialog->exec() == QDialog::Accepted ) {
+		m_prefDialog->updateConfiguration();
+		applyPreferences();
+	}
+}
+
+void KSubtitleRipper::applyPreferences() {
+	Config().write();
+}
 
 void KSubtitleRipper::changeStatusbar( const QString& text ) {
 	// display the text on the statusbar

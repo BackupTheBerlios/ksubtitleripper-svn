@@ -35,6 +35,7 @@
 
 class KToggleAction;
 class KURL;
+class PrefDialog;
 
 /**
  * This class serves as the main window for KSubtitleRipper.  It handles the
@@ -92,8 +93,9 @@ private slots:
 	void optionsShowStatusbar();
 	void optionsConfigureKeys();
 	void optionsConfigureToolbars();
-	//void optionsPreferences();
+	void optionsPreferences();
 	void newToolbarConfig();
+	void applyPreferences();
 
 	void changeStatusbar( const QString& text );
 	void changeCaption( const QString& text );
@@ -109,6 +111,7 @@ private:
 	KToggleAction *m_toolbarAction;
 	KToggleAction *m_statusbarAction;
 	KURL project;
+	PrefDialog *m_prefDialog;
 };
 
 #endif // _KSUBTITLERIPPER_H_

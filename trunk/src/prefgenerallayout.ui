@@ -1,0 +1,47 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>PrefGeneralLayout</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>PrefGeneralLayout</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>600</width>
+            <height>482</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox">
+            <property name="name">
+                <cstring>m_doUnix2DosChk</cstring>
+            </property>
+            <property name="text">
+                <string>Convert SRT file to DOS format</string>
+            </property>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>m_doUnix2DosChk</sender>
+        <signal>clicked()</signal>
+        <receiver>PrefGeneralLayout</receiver>
+        <slot>optionsChangedSlot()</slot>
+    </connection>
+</connections>
+<signals>
+    <signal>optionsChanged()</signal>
+</signals>
+<slots>
+    <slot access="protected">optionsChangedSlot()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
