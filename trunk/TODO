@@ -1,3 +1,5 @@
+- Indicar si está modificado el proyecto
+
 - Bug en guardar subtitulo modificado (parece ser bug de KTextEdit)
 
 - Mirar activar/desactivar acciones con ksubtitleripperui.rc
@@ -13,3 +15,5 @@
 - Añadir "¿Qué es esto?"
 
 - Elegir idioma de los subtitulos
+
+- Extraer desde el DVD y no desde los VOB
