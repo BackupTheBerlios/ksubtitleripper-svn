@@ -1,0 +1,13 @@
+- Si un subtitulo está modificado (sin guardar) y se quiere cerrar el proyecto o generar el archivo .srt o cambiar de subtitulo, preguntar si se quiere guardar.
+
+- Preguntar donde guardar el archivo .srt, y si se va a sobreescribir, preguntar.
+
+- Permitir desactivar/activar corrección ortográfica
+
+- Permitir elegir idioma para el filtro de pgm2txt (en conversión) y guardarlo junto con el proyecto.
+
+- Permitir elegir los niveles de gris de las imagenes de salida para subtitle2pgm (al extraer) y guardarlo junto con el proyecto.
+
+- Permitir dividir los subtitulos en varios archivos para cuando el dvd no cabe en un cd.
+
+- Permitir elegir fuente para el editor de subtitulos
