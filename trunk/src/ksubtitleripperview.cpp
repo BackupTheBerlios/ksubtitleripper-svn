@@ -230,7 +230,7 @@ void KSubtitleRipperView::createSRT() {
 	srtName = url.url();
 }
 
-bool KSubtitleRipperView::saveSRT( QString path ) {
+bool KSubtitleRipperView::saveSRT( const QString& path ) {
 	KProcIO process;
 	process.setWorkingDirectory( project->directory() );
 	
