@@ -163,7 +163,6 @@ void KSubtitleRipperView::extractSub() {
 	modified = true;
 	beforeExtracting();
 	
-	
 	if ( ExtractDialog( project, this ).exec() == QDialog::Accepted ) {
 		project->setExtracted( true );
 		progress->setTotalSteps( project->numSub() );

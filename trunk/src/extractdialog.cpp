@@ -19,11 +19,11 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-#include <kio/netaccess.h>
 #include <klocale.h>
 #include <qlayout.h>
 #include <kmessagebox.h>
 #include "extractdialog.h"
+#include "extractprocess.h"
 
 ExtractDialog::ExtractDialog( Project *prj, QWidget *parent, const char *name )
  : KDialogBase( parent, name, true, i18n( "Extracting subtitles" ), 0 ), project( prj ) {
@@ -65,38 +65,8 @@ void ExtractDialog::show() {
 	KDialogBase::show();
 }
 
-bool ExtractDialog::download( const KURL::List& urls, KProcIO& process ) {
-	QString target;
-	
-	for (uint i = 0; i < urls.count(); i++ ) {
-		if ( KIO::NetAccess::download( urls[i], target, this ) ) {
-			process << KProcess::quote( target );
-			KIO::NetAccess::removeTempFile( target );
-		} else {
-			KMessageBox::error( this,
-						i18n( "Couldn't download file %1" ).arg( urls[i].prettyURL() ) );
-			return false;
-		}
-	}
-	
-	return true;
-}
-
 void ExtractDialog::extractSub() {
-	process = new KProcIO();
-	
-	process->setUseShell( true );
-	process->setWorkingDirectory( project->directory() );
-	process->setComm( KProcess::Stderr );
-	process->enableReadSignals( true );
-	
-	// TODO check if cat, tcextract and subtitle2pgm are executable
-	
-	*process << "cat";
-	if ( !download( project->files(), *process ) ) return;
-	*process << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << "0x20";
-	*process << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1";
-	*process << "-c" << project->coloursString() << "-o" << project->baseName();
+	process = new ExtractProcess( project, this );
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
@@ -108,12 +78,14 @@ void ExtractDialog::extractSub() {
 }
 
 void ExtractDialog::extractFinish( KProcess *proc ) {
+	bool signalled = proc->signalled();
 	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
 	
-	if ( goodExit ) accept();
+	if ( signalled ) reject();
+	else if ( goodExit ) accept();
 	else {
-		KMessageBox::error( this, i18n( "No subtitle could be extracted" ) );
+		KMessageBox::error( this, i18n( "Error extracting subtitles" ) );
 		reject();
 	}
 }

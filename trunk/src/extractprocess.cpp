@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Sergio Cambra                                   *
+ *   Copyright (C) 2004 by Sergio Cambra García                            *
  *   runico@users.berlios.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,47 +17,51 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef EXTRACTDIALOG_H
-#define EXTRACTDIALOG_H
+#include <kio/netaccess.h>
+#include <kdebug.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
-#include <kdialogbase.h>
-#include <kpushbutton.h>
-#include <qlabel.h>
-#include <qevent.h>
-#include <kprocio.h>
+#include "extractprocess.h"
 #include "project.h"
 
-class ExtractProcess;
-
-/**
-@author Sergio Cambra
-*/
-class ExtractDialog : public KDialogBase {
-Q_OBJECT
-public:
-    ExtractDialog( Project *prj, QWidget *parent = 0, const char *name = 0 );
-
-    ~ExtractDialog();
+ExtractProcess::ExtractProcess( const Project *prj, QWidget *parent, QTextCodec *codec )
+ : KProcIO( codec ), widget( parent )
+{
+	// prj mustn't be 0
+	if ( !prj ) kdFatal() << "ExtractProcess constructor: prj is null\n";
 	
-public slots:
-	virtual void show();
-
-protected:
-	virtual void keyPressEvent( QKeyEvent *e );
-
-protected slots:
-	virtual void slotCancel();
-	virtual void extractFinish( KProcess *proc );
-	virtual void extractOutput( KProcIO *proc );
-
-private:
-	void extractSub();
-
-	QLabel *subtitle;
-	KPushButton *cancel;
+	setUseShell( true );
+	setWorkingDirectory( prj->directory() );
+	setComm( KProcess::Stderr );
+	enableReadSignals( true );
 	
-	Project *project;
-	ExtractProcess *process;
-};
+	// TODO check if cat, tcextract and subtitle2pgm are executable
+	
+	*this << "cat";
+	if ( !download( prj->files() ) ) return;
+	*this << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << "0x20";
+	*this << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1";
+	*this << "-c" << prj->coloursString() << "-o" << prj->baseName();
+}
 
-#endif
+ExtractProcess::~ExtractProcess()
+{
+}
+
+bool ExtractProcess::download( const KURL::List& urls ) {
+	QString target;
+	
+	for (uint i = 0; i < urls.count(); i++ ) {
+		if ( KIO::NetAccess::download( urls[i], target, widget ) ) {
+			*this << KProcess::quote( target );
+			KIO::NetAccess::removeTempFile( target );
+		} else {
+			KMessageBox::error( widget,
+						i18n( "Couldn't download file %1" ).arg( urls[i].prettyURL() ) );
+			return false;
+		}
+	}
+	
+	return true;
+}

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Sergio Cambra                                   *
+ *   Copyright (C) 2004 by Sergio Cambra García                            *
  *   runico@users.berlios.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,47 +17,27 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef EXTRACTDIALOG_H
-#define EXTRACTDIALOG_H
+#ifndef EXTRACTPROCESS_H
+#define EXTRACTPROCESS_H
 
-#include <kdialogbase.h>
-#include <kpushbutton.h>
-#include <qlabel.h>
-#include <qevent.h>
 #include <kprocio.h>
-#include "project.h"
 
-class ExtractProcess;
+class Project;
+class QWidget;
 
 /**
 @author Sergio Cambra
 */
-class ExtractDialog : public KDialogBase {
-Q_OBJECT
+
+class ExtractProcess : public KProcIO {
 public:
-    ExtractDialog( Project *prj, QWidget *parent = 0, const char *name = 0 );
-
-    ~ExtractDialog();
-	
-public slots:
-	virtual void show();
-
-protected:
-	virtual void keyPressEvent( QKeyEvent *e );
-
-protected slots:
-	virtual void slotCancel();
-	virtual void extractFinish( KProcess *proc );
-	virtual void extractOutput( KProcIO *proc );
+    ExtractProcess( const Project *prj, QWidget *parent = 0, QTextCodec *codec = 0 );
+    ~ExtractProcess();
 
 private:
-	void extractSub();
-
-	QLabel *subtitle;
-	KPushButton *cancel;
+	bool download( const KURL::List& urls );
 	
-	Project *project;
-	ExtractProcess *process;
+	QWidget *widget;
 };
 
 #endif
