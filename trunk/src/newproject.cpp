@@ -124,14 +124,14 @@ void NewProject::selectVobs() {
 	vobFilesList->clear();
 	vobFilesList->insertStringList( files.toStringList() );
 	if ( dirEdit->text().isEmpty() && files[0].isLocalFile() )
-		dirEdit->setText( files[0].directory() );
+		dirEdit->setText( files[0].directory( false ) );
 	tryEnableButtonOk();
 }
 
 void NewProject::selectDir() {
 	KURL dir = KDirSelectDialog::selectDirectory( "/", true, this );
 	if ( dir.isEmpty() ) return;
-	dirEdit->setText( dir.path() );
+	dirEdit->setText( dir.path( 1 ) );
 	tryEnableButtonOk();
 }
 
@@ -143,8 +143,10 @@ void NewProject::tryEnableButtonOk()
 
 void NewProject::slotOk()
 {
-	if ( !QDir( dirEdit->text() ).exists() )
-		dirEdit->setText( KURL( dirEdit->text() ).path() );
+	if ( QDir( dirEdit->text() ).exists() ) {
+		if ( dirEdit->text().right( 1 ) != "/" )
+			dirEdit->setText( dirEdit->text() + '/' );
+	} else dirEdit->setText( KURL( dirEdit->text() ).path( 1 ) );
 
 	KDialogBase::slotOk();
 }
