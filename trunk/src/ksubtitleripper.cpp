@@ -86,8 +86,8 @@ void KSubtitleRipper::setupActions() {
 	KStdAction::saveAs( this, SLOT( fileSaveAs() ), actionCollection() );
 	KStdAction::quit( kapp, SLOT( quit() ), actionCollection() );
 
-	m_toolbarAction = KStdAction::showToolbar( this, SLOT( optionsShowToolbar() ), actionCollection() );
-	m_statusbarAction = KStdAction::showStatusbar( this, SLOT( optionsShowStatusbar() ), actionCollection() );
+	createStandardStatusBarAction();
+	setStandardToolBarMenuEnabled( true );
 
 	KStdAction::keyBindings( this, SLOT( optionsConfigureKeys() ), actionCollection() );
 	KStdAction::configureToolbars( this, SLOT( optionsConfigureToolbars() ), actionCollection() );
