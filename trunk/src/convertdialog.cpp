@@ -128,6 +128,7 @@ void ConvertDialog::convertSub() {
 			this, SLOT( convertQuestion( KProcess*, char*, int ) ) );
 	connect( process, SIGNAL( wroteStdin( KProcess* ) ),
 			this, SLOT( sent( KProcess* ) ) );
+	connect( this, SIGNAL( cancelClicked() ), this, SLOT( killProcess() ) );
 	
 	// mkdir ./db/ and create an empty file called db.lst
 	QDir( project->directory() ).mkdir( "db" );
@@ -153,6 +154,7 @@ void ConvertDialog::startGocr( KProcess *proc ) {
 }
 
 void ConvertDialog::gocrFinish( KProcess *proc ) {
+	disconnect( this, SIGNAL( cancelClicked() ), this, SLOT( killProcess() ) );
 	if ( proc->exitStatus() == 0 ) {
 		progress->advance( 1 );
 		
@@ -240,7 +242,7 @@ void ConvertDialog::slotOk() {
 	line->clear();
 }
 
-void ConvertDialog::slotCancel() {
+void ConvertDialog::killProcess() {
 	process->kill();
 }
 

@@ -46,13 +46,13 @@ public slots:
 
 protected slots:
 	virtual void slotOk();
-	virtual void slotCancel();
 
 private slots:
 	void editChanged( const QString& text );
 	virtual void convertQuestion( KProcess *proc, char *buffer, int buflen );
 	virtual void gocrFinish( KProcess *proc );
 	virtual void sent( KProcess *proc );
+	virtual void killProcess();
 
 private:
 	void convertSub();
