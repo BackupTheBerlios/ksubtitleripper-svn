@@ -30,17 +30,19 @@ class QTimer;
 
 class WaitingDialog : private KProgressDialog
 {
-	Q_OBJECT
-	public:
-		WaitingDialog( QWidget *parent=0, const char *name=0, const QString &caption=QString::null, const QString &text=QString::null, bool modal=false );
-		virtual void show();
-		void stop();
+Q_OBJECT
+public:
+	WaitingDialog( QWidget *parent = 0, const char *name = 0,
+				   const QString &caption = QString::null, const QString &text = QString::null,
+				   bool modal = true );
+	virtual void show();
+	void stop();
 
-	private slots:
-		void slotProgress();
+private slots:
+	void slotProgress();
 
-	private:
-		QTimer *m_timer;
+private:
+	QTimer *m_timer;
 };
 
 #endif
