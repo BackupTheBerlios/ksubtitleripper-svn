@@ -42,15 +42,15 @@ public:
 	bool askIfModified();
 
 public slots:
-	virtual void saveSubtitle();
-	virtual void prevSubtitle();
-	virtual void nextSubtitle();
-	virtual void extractSub();
-	virtual void convertSub();
-	virtual void createSRT();
-	virtual void createSrtFailed( CreateSRT *createSRT, const QString& error );
-	virtual void createSrtSuccess( CreateSRT *createSRT );
-	virtual void modify( bool m ) const;
+	void saveSubtitle();
+	void prevSubtitle();
+	void nextSubtitle();
+	void extractSub();
+	void convertSub();
+	void createSRT();
+	void createSrtFailed( CreateSRT *createSRT, const QString& error );
+	void createSrtSuccess( CreateSRT *createSRT );
+	void modify( bool m ) const;
 
 signals:
 	void signalProjectModified();
