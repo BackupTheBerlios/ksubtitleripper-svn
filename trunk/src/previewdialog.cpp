@@ -105,8 +105,10 @@ void PreviewDialog::extractFinish( KProcess *proc ) {
 	delete proc;
 	
 	if ( goodExit ) {
-		KMessageBox::information( this, "fin" );
 		subtitleList->clear();
+		QPixmap blank(1, 20);
+		blank.fill();
+		
 		for (uint i = 1; i <= numSub; ++i) {
 			QString filename = project->directory() + project->subFilename( i ) + ".pgm";
 			QPixmap image( filename );
@@ -115,7 +117,7 @@ void PreviewDialog::extractFinish( KProcess *proc ) {
 				KMessageBox::error( this, i18n( "Couldn't load file %1" ).arg( filename ) );
 			else {
 				subtitleList->insertItem( image );
-				if ( i != numSub ) subtitleList->insertItem( QPixmap(1, 20) );
+				if ( i != numSub ) subtitleList->insertItem( blank );
 			}
 		}
 	} else KMessageBox::error( this, i18n( "Error extracting subtitles" ) );
