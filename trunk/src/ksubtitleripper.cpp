@@ -218,9 +218,9 @@ void KSubtitleRipper::fileSaveAs() {
 	KURL url = KFileDialog::getSaveURL( QString::null, "*.srip|" + i18n("KSubtitleRipper Project Files"), this, i18n( "Save Project" ) );
 	
 	if ( !url.isEmpty() && url.isValid() ) {
-		if ( !url.isLocalFile() || !QFile::exists( url.path() ) ) {
-			if ( QFileInfo( url.path() ).extension( false ) != "srip" ) url = url.url() + ".srip";
-		}
+		QString extension = QFileInfo( url.path() ).extension( false ).lower();
+		if ( extension != "srip" && ( !url.isLocalFile() || !QFile::exists( url.path() ) ) )
+			url = url.url() + ".srip";
 		
 		if ( url.isLocalFile() && QFile::exists( url.path() ) &&
 			KMessageBox::warningContinueCancel( this, i18n( text ).arg( url.filename() ),
