@@ -1,0 +1,15 @@
+- Bug en guardar subtitulo modificado (parece ser bug de KTextEdit)
+
+- Mirar activar/desactivar acciones con ksubtitleripperui.rc
+
+- Permitir desactivar/activar corrección ortográfica
+
+- Permitir elegir idioma para el filtro de pgm2txt (en conversión) y guardarlo junto con el proyecto.
+
+- Permitir dividir los subtitulos en varios archivos para cuando el dvd no cabe en un cd.
+
+- Permitir elegir fuente para el editor de subtitulos
+
+- Añadir "¿Qué es esto?"
+
+- Elegir idioma de los subtitulos
