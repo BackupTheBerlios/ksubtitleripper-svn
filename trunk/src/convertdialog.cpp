@@ -100,9 +100,9 @@ void ConvertDialog::loadSubtitle( QRect rect ) {
 	QSize inc = image->pixmap()->size() - image->size();
 	image->setMinimumSize( image->pixmap()->size() );
 	
-	/*// Don't shrink the dialog
+	// Don't shrink the dialog
 	if ( inc.width() < 0 ) inc.setWidth( 0 );
-	if ( inc.height() < 0 ) inc.setHeight( 0 );*/
+	if ( inc.height() < 0 ) inc.setHeight( 0 );
 	
 	QSize newSize = size() + inc;
 	if ( newSize.width() < sizeHint().width() ) newSize.setWidth( sizeHint().width() );
