@@ -57,6 +57,7 @@ private:
 
 	bool modified;
 	Project *project;
+	QString srtName;
 };
 
 #endif

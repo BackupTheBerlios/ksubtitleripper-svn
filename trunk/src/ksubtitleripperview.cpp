@@ -194,7 +194,7 @@ void KSubtitleRipperView::createSRT() {
 	
 	if ( !askIfModified() ) return;
 
-	KURL url = KFileDialog::getSaveURL( QString::null, "*.srt|" + i18n("SRT Subtitles"), this, i18n( "Save Subtitles" ) );
+	KURL url = KFileDialog::getSaveURL( srtName, "*.srt|" + i18n("SRT Subtitles"), this, i18n( "Save Subtitles" ) );
 	if ( url.isEmpty() || !url.isValid() ) return;
 
 	QString extension = QFileInfo( url.path() ).extension( false ).lower();
@@ -273,6 +273,12 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 				emit setEnabledPrevSub( !project->atFirst() );
 				emit setEnabledNextSub( !project->atLast() );
 			} else beforeExtracting();
+			
+			srtName = url.path();
+			if ( !url.isLocalFile() ) srtName = QFileInfo( srtName ).fileName();
+			int index = srtName.findRev( '.' );
+			if ( index != -1 ) srtName.truncate( index );
+			srtName += ".srt";
 		} else KMessageBox::error( this, i18n( "Couldn't open file %1" ).arg( target ) );
 		
 		KIO::NetAccess::removeTempFile( target );
@@ -290,6 +296,7 @@ bool KSubtitleRipperView::saveProject( const KURL& url ) {
 						i18n( "Couldn't save project to %1" ).arg( url.prettyURL() ) );
 			return false;
 		}
+		srtName = url.path();
 	} else {
 		KTempFile tmp;
 		tmp.setAutoDelete(true);
@@ -303,7 +310,12 @@ bool KSubtitleRipperView::saveProject( const KURL& url ) {
 						i18n( "Couldn't save remote file %1" ).arg( url.prettyURL() ) );
 			return false;
 		}
+		srtName = QFileInfo( url.path() ).fileName();
 	}
+		
+	int index = srtName.findRev( '.' );
+	if ( index != -1 ) srtName.truncate( index );
+	srtName += ".srt";
 	
 	emit signalChangeCaption( url.prettyURL() );
 	modified = false;
