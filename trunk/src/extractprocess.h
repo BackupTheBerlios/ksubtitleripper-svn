@@ -21,6 +21,7 @@
 #define EXTRACTPROCESS_H
 
 #include <kprocio.h>
+#include <kurl.h>
 
 class Project;
 class QWidget;
@@ -36,7 +37,7 @@ public:
 
 private:
 	bool download( const KURL::List& urls );
-	
+
 	QWidget *widget;
 };
 
