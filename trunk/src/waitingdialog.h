@@ -28,7 +28,7 @@ class QTimer;
 @author Sergio Cambra
  */
 
-class WaitingDialog : private KProgressDialog
+class WaitingDialog : protected KProgressDialog
 {
 Q_OBJECT
 public:

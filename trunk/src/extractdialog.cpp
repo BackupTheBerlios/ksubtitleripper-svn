@@ -30,33 +30,17 @@
 #include "extractprocess.h"
 
 ExtractDialog::ExtractDialog( Project *prj, QWidget *parent, const char *name )
-	: KDialogBase( parent, name, true, i18n( "Extracting subtitles" ), 0 ), m_project( prj ) {
+	: WaitingDialog( parent, name, i18n( "Extracting subtitles" ) ), m_project( prj ) {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "ExtractDialog constructor: prj is null\n";
 
-	QFrame *top = makeMainWidget();
-	QVBoxLayout *layoutGeneral;
-	layoutGeneral = new QVBoxLayout( top, 5, 6 );
-
-	m_subtitle = new QLabel( top );
-	layoutGeneral->addWidget( m_subtitle );
-
-	QHBoxLayout *layoutButton;
-	layoutButton = new QHBoxLayout( layoutGeneral );
-    layoutButton->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding,
-						QSizePolicy::Minimum ) );
-	m_cancel = new KPushButton( KStdGuiItem::cancel(), top );
-	layoutButton->addWidget( m_cancel );
-    layoutButton->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding,
-						QSizePolicy::Minimum ) );
-
-	connect( m_cancel, SIGNAL( clicked() ), this, SLOT( slotCancel() ) );
+	setAllowCancel( true );
 }
 
 ExtractDialog::~ExtractDialog() {}
 
 void ExtractDialog::keyPressEvent( QKeyEvent *e ) {
-	if ( e->key() == Qt::Key_Escape ) m_cancel->animateClick();
+	if ( e->key() == Qt::Key_Escape ) slotCancel();
 	else KDialogBase::keyPressEvent( e );
 }
 
@@ -66,7 +50,7 @@ void ExtractDialog::slotCancel() {
 
 void ExtractDialog::show() {
 	extractSub();
-	KDialogBase::show();
+	WaitingDialog::show();
 }
 
 void ExtractDialog::extractSub() {
@@ -82,6 +66,7 @@ void ExtractDialog::extractSub() {
 }
 
 void ExtractDialog::extractFinish( KProcess *proc ) {
+	stop();
 	bool signalled = proc->signalled();
 	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
@@ -100,7 +85,7 @@ void ExtractDialog::extractOutput( KProcIO *proc ) {
 	while ( proc->readln( line, false ) != -1 ) {
 		word = line.section( ' ', 0, 0 );
 		if ( word == "Generating" )
-			m_subtitle->setText( i18n( "Generating image %1" ).arg( line.section( ": ", 1, 1 ) ) );
+			setLabel( i18n( "Generating image %1" ).arg( line.section( ": ", 1, 1 ) ) );
 		else if ( word == "Wrote" )
 			m_project->setNumSub( line.section( ' ', 1, 1 ).toUInt() );
 		else if ( line != "Conversion finished" ) kdWarning() << line << endl;

@@ -20,11 +20,9 @@
 #ifndef EXTRACTDIALOG_H
 #define EXTRACTDIALOG_H
 
-#include <kdialogbase.h>
+#include "waitingdialog.h"
 #include "project.h"
 
-class KPushButton;
-class QLabel;
 class QKeyEvent;
 class KProcess;
 class KProcIO;
@@ -33,12 +31,13 @@ class ExtractProcess;
 /**
 @author Sergio Cambra
 */
-class ExtractDialog : public KDialogBase {
+class ExtractDialog : public WaitingDialog {
 Q_OBJECT
 public:
     ExtractDialog( Project *prj, QWidget *parent = 0, const char *name = 0 );
 
     ~ExtractDialog();
+	int exec() { return WaitingDialog::exec(); }
 
 public slots:
 	virtual void show();
@@ -53,9 +52,6 @@ protected slots:
 
 private:
 	void extractSub();
-
-	QLabel *m_subtitle;
-	KPushButton *m_cancel;
 
 	Project *m_project;
 	ExtractProcess *m_process;
