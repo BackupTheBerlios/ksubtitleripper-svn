@@ -32,6 +32,7 @@ class QLabel;
 class QCheckBox;
 class QVBoxLayout;
 class QHBoxLayout;
+class QScrollView;
 
 /**
 @author Sergio Cambra
@@ -42,7 +43,7 @@ public:
     ConvertDialog( Project *prj, QWidget *parent = 0, const char* name = 0 );
 
     ~ConvertDialog();
-	
+
 public slots:
 	virtual void show();
 
@@ -61,25 +62,26 @@ private:
 	void startGocr( KProcess *proc );
 	void writeStdin( KProcess *proc, QString data );
 	void writeStdin( KProcess *proc, int data );
-	
+
 	void loadSubtitle( QRect rect );
 	void setEnabledWidgetsInput( bool enable );
-	
+
 	KLineEdit *line;
+	QScrollView *scroll;
 	QLabel *image, *subtitle, *text;
     KProgress *progress;
 	QCheckBox *checkbox;
-	
+
 	QVBoxLayout *layoutGeneral;
 	QHBoxLayout *layoutSub, *layoutCheckBox;
-	
+
 	Project *project;
 	uint sub;
 	QString databasePath;
 	QValueList<char*> toSent;
 	KProcess *process;
 	bool sending;
-	
+
 	static const int marginGeneral = 5;
 };
 
