@@ -1,3 +1,6 @@
+  17-3-2005
+- Fix for remote vob files, and keep them until closing project
+
   12-3-2005
 - Add an option to choose subtitles language
 - Add an animated bar in extract dialog
