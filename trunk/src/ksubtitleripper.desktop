@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=KSubtitleRipper
+Exec=ksubtitleripper %i %m -caption "%c"
+Icon=ksubtitleripper
+Type=Application
+DocPath=ksubtitleripper/index.html
+Comment=An application to extract DVD subtitles
+Comment[es]=Una aplicación para extraer subtítulos de DVD
+Terminal=0

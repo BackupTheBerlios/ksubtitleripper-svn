@@ -1,0 +1,40 @@
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui name="ksubtitleripper" version="1">
+<MenuBar>
+  <Menu name="subtitle"><text>&amp;Subtitles</text>
+	<Action name="prevSubtitle"/>
+	<Action name="nextSubtitle"/>
+    <Action name="saveSubtitle"/>
+	<Separator/>
+	<Action name="extractSubtitle"/>
+	<Action name="convertSubtitle"/>
+	<Action name="createSRT"/>
+  </Menu>
+</MenuBar>
+<ToolBar fullWidth="true" name="mainToolBar">
+  <Action name="extractSubtitle"/>
+  <Action name="convertSubtitle"/>
+  <Action name="createSRT"/>
+  <Separator/>
+  <Action name="prevSubtitle"/>
+  <Action name="nextSubtitle"/>
+</ToolBar>
+<State name="initial">
+  <disable>
+  	<Action name="file_save"/>
+	<Action name="file_save_as"/>
+	<Action name="saveSubtitle"/>
+	<Action name="prevSubtitle"/>
+	<Action name="nextSubtitle"/>
+	<Action name="extractSubtitle"/>
+	<Action name="convertSubtitle"/>
+	<Action name="createSRT"/>
+  </disable>
+</State>
+<State name="withProject">
+  <enable>
+  	<Action name="file_save"/>
+	<Action name="file_save_as"/>
+  </enable>
+</State>
+</kpartgui>
