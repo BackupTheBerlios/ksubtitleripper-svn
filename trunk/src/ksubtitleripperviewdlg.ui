@@ -1,4 +1,4 @@
-<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
 <class>KSubtitleRipperViewDlg</class>
 <widget class="QWidget">
     <property name="name">
@@ -246,7 +246,7 @@
     <signal>setEnabledNextSub(bool)</signal>
     <signal>setEnabledConvertSub(bool)</signal>
     <signal>setEnabledCreateSRT(bool)</signal>
-    <signal>setEnabledExtractSub(bool)</signal>
+    <signal>setState(const QString&amp;)</signal>
 </signals>
 <slots>
     <slot>nextSubtitle()</slot>

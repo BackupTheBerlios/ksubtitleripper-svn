@@ -71,7 +71,7 @@ KSubtitleRipper::~KSubtitleRipper() {}
 
 void KSubtitleRipper::load( const KURL& url ) {
 	if ( canCloseProject() && m_view->loadProject( url ) )
-		setProject( url );
+		m_project = url;
 }
 
 void KSubtitleRipper::setupActions() {
@@ -111,12 +111,12 @@ void KSubtitleRipper::setupActions() {
 	        prevSub, SLOT( setEnabled( bool ) ) );
 	connect( m_view, SIGNAL( setEnabledNextSub( bool ) ),
 	        nextSub, SLOT( setEnabled( bool ) ) );
-	connect( m_view, SIGNAL( setEnabledExtractSub( bool ) ),
-	        extractSub, SLOT( setEnabled( bool ) ) );
 	connect( m_view, SIGNAL( setEnabledConvertSub( bool ) ),
 	        convertSub, SLOT( setEnabled( bool ) ) );
 	connect( m_view, SIGNAL( setEnabledCreateSRT( bool ) ),
 	        createSRT, SLOT( setEnabled( bool ) ) );
+	connect( m_view, SIGNAL( setState( const QString& ) ),
+			 this, SLOT( setState( const QString& ) ) );
 
 	createGUI();
 	stateChanged( "initial" );
@@ -167,9 +167,8 @@ void KSubtitleRipper::dropEvent( QDropEvent *event ) {
 	}
 }
 
-void KSubtitleRipper::setProject( const KURL& url ) {
-	stateChanged( "withProject" );
-	m_project = url;
+void KSubtitleRipper::setState( const QString& state ) {
+	stateChanged( state );
 }
 
 void KSubtitleRipper::fileNew() {
@@ -183,8 +182,9 @@ void KSubtitleRipper::fileNew() {
 			Project *prj = dialog.getProject();
 			if ( PreviewDialog( prj, this ).exec() == QDialog::Accepted )
 			{
+				stateChanged( "newProject" );
+				m_project = KURL();
 				m_view->newProject( prj );
-				setProject( KURL() );
 			} else delete prj;
 		}
 	}

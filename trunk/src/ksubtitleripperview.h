@@ -56,8 +56,8 @@ private:
 	void writeSubtitle();
 	void loadSubtitle();
 	void emptySubtitle();
-	void beforeExtracting();
-	void beforeConverting();
+	void cleanBeforeExtracting();
+	void cleanBeforeConverting();
 	bool saveSRT( const QString& path );
 	bool srtUnix2Dos( const QString& path );
 	void setSrtName( const KURL& url );

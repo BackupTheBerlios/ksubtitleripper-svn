@@ -100,9 +100,6 @@ void KSubtitleRipperView::loadSubtitle() {
 		QTextStream in( &f );
 		text->setText( in.read() );
 		f.close();
-	} else {
-		text->clear();
-		progress->setValue( 0 );
 	}
 }
 
@@ -152,8 +149,8 @@ void KSubtitleRipperView::nextSubtitle() {
 }
 
 void KSubtitleRipperView::extractSub() {
-	m_modified = true;
-	beforeExtracting();
+	cleanBeforeExtracting();
+	emit setState( "newProject" );
 
 	if ( ExtractDialog( m_project, this ).exec() == QDialog::Accepted ) {
 		m_project->setExtracted( true );
@@ -171,12 +168,17 @@ void KSubtitleRipperView::extractSub() {
 
 		} else KMessageBox::information( this, i18n( "No subtitles have been extracted" ),
 						i18n("Extraction completed") );
+	} else {
+		m_project->setExtracted( false );
+		m_project->setConverted( false );
 	}
+	m_modified = true;
 }
 
 void KSubtitleRipperView::convertSub() {
-	m_modified = true;
-	beforeConverting();
+	cleanBeforeConverting();
+	emit setEnabledCreateSRT( false );
+	emit setEnabledSaveSub( false );
 
 	if ( ConvertDialog( m_project, this ).exec() == QDialog::Accepted ) {
 		m_project->setConverted( true );
@@ -187,7 +189,9 @@ void KSubtitleRipperView::convertSub() {
 		emit setEnabledSaveSub( true );
 		emit setEnabledPrevSub( false );
 		if ( !m_project->atLast() ) emit setEnabledNextSub( true );
-	}
+
+	} else m_project->setConverted( false );
+	m_modified = true;
 }
 
 void KSubtitleRipperView::createSRT() {
@@ -257,35 +261,25 @@ void KSubtitleRipperView::createSrtSuccess( CreateSRT *createSRT ) {
 	m_newSrt = 0;
 }
 
-void KSubtitleRipperView::beforeExtracting() {
+void KSubtitleRipperView::cleanBeforeExtracting() {
 	subtitle->clear();
 	if ( image->pixmap() ) {
 		image->pixmap()->resize( 0, 0 );
 		image->update();
 	}
-
-	m_project->setExtracted( false );
-	emit setEnabledConvertSub( false );
-	emit setEnabledPrevSub( false );
-	emit setEnabledNextSub( false );
-	beforeConverting();
+	cleanBeforeConverting();
 }
 
-void KSubtitleRipperView::beforeConverting() {
+void KSubtitleRipperView::cleanBeforeConverting() {
 	text->clear();
 	progress->setValue( 0 );
-
-	m_project->setConverted( false );
-	emit setEnabledCreateSRT( false );
-	emit setEnabledSaveSub( false );
 }
 
 void KSubtitleRipperView::newProject( Project* prj ) {
 	delete m_project;
 	m_project = prj;
 	m_modified = true;
-	beforeExtracting();
-	emit setEnabledExtractSub( true );
+	cleanBeforeExtracting();
 	emit signalChangeCaption( QString::null );
 }
 
@@ -303,16 +297,18 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 			m_modified = false;
 			emit signalChangeCaption( url.prettyURL() );
 
-			// enable and disable some actions
-			emit setEnabledExtractSub( true );
+			// setup some actions
+			emit setState( "newProject" );
 			emit setEnabledConvertSub( m_project->isExtracted() );
 			if ( m_project->isExtracted() ) {
 				loadSubtitle();
-				emit setEnabledCreateSRT( m_project->isConverted() );
-				emit setEnabledSaveSub( m_project->isConverted() );
-				emit setEnabledPrevSub( !m_project->atFirst() );
-				emit setEnabledNextSub( !m_project->atLast() );
-			} else beforeExtracting();
+				if ( !m_project->atFirst() ) emit setEnabledPrevSub( true );
+				if ( !m_project->atLast() ) emit setEnabledNextSub( true );
+				if ( m_project->isConverted() ) {
+					emit setEnabledCreateSRT( true );
+					emit setEnabledSaveSub( true );
+				} else cleanBeforeConverting();
+			} else cleanBeforeExtracting();
 
 			setSrtName( url );
 		} else {

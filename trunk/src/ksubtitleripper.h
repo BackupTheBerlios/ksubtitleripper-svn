@@ -57,7 +57,6 @@ public:
 	virtual ~KSubtitleRipper();
 
 	void load( const KURL& url );
-	void newProject();
 
 protected:
 	/**
@@ -97,11 +96,11 @@ private slots:
 
 	void changeStatusbar( const QString& text );
 	void changeCaption( const QString& text );
+	void setState( const QString& state );
 
 private:
 	void setupActions();
 	bool canCloseProject();
-	void setProject( const KURL& url );
 	bool hasName();
 
 	KSubtitleRipperView *m_view;
