@@ -21,10 +21,11 @@
 #ifndef KSUBTITLERIPPERVIEW_H
 #define KSUBTITLERIPPERVIEW_H
 
-#include <kurl.h>
-#include <kprocio.h>
 #include "ksubtitleripperviewdlg.h"
-#include "project.h"
+
+class KURL;
+class CreateSRT;
+class Project;
 
 class KSubtitleRipperView : public KSubtitleRipperViewDlg {
 	Q_OBJECT
@@ -46,6 +47,8 @@ public slots:
 	virtual void extractSub();
 	virtual void convertSub();
 	virtual void createSRT();
+	virtual void createSrtFailed( CreateSRT *createSRT, const QString& error );
+	virtual void createSrtSuccess( CreateSRT *createSRT );
 
 private:
 	QString subFileName();
@@ -55,11 +58,13 @@ private:
 	void beforeExtracting();
 	void beforeConverting();
 	bool saveSRT( const QString& path );
+	bool srtUnix2Dos( const QString& path );
 	void setSrtName( const KURL& url );
 	
 	bool modified;
 	Project *project;
-	QString srtName;
+	QString srtName, tmpSrt;
+	KURL *newSrt;
 };
 
 #endif

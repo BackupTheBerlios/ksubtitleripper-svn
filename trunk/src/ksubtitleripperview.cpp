@@ -27,12 +27,18 @@
 #include <kfiledialog.h>
 #include <qlabel.h>
 //#include <qfile.h>
+#include <kurl.h>
+//#include <kprocio.h>
+
 #include "ksubtitleripperview.h"
 #include "convertdialog.h"
 #include "extractdialog.h"
+#include "createsrt.h"
+#include "project.h"
+//#include "configuration.h"
 
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
-		: KSubtitleRipperViewDlg( parent, name, fl ), project( 0 ) {
+		: KSubtitleRipperViewDlg( parent, name, fl ), project( 0 ), newSrt( 0 ) {
 	modified = false;
 	text->setCheckSpellingEnabled( true );
 	image->setPixmap( QPixmap() );
@@ -206,45 +212,55 @@ void KSubtitleRipperView::createSRT() {
 		KMessageBox::warningContinueCancel( this, i18n( text ).arg( url.filename() ),
 		i18n( "Overwrite File?" ), i18n( "Overwrite" ) ) == KMessageBox::Cancel ) return;
 	
+	newSrt = new KURL( url );
 	
 	if ( url.isLocalFile() ) {
-		if ( !saveSRT( url.path() ) ) {
-			KMessageBox::error( this,
-						i18n( "Couldn't write SRT file to %1" ).arg( url.prettyURL() ) );
-			return;
-		}
+		tmpSrt = QString::null;
+		
+		CreateSRT *createSrt = new CreateSRT( project, url.path() );
+		
+		connect(createSrt, SIGNAL(success( CreateSRT* )),
+			this, SLOT(createSrtSuccess( CreateSRT* ) ) );
+		connect(createSrt, SIGNAL(failed( CreateSRT*, const QString& )),
+			this, SLOT(createSrtFailed( CreateSRT*, const QString& ) ) );
+		
+		createSrt->saveSRT();
 	} else {
 		KTempFile tmp;
 		tmp.setAutoDelete(true);
-		if ( !saveSRT( tmp.name() ) ) {
-			KMessageBox::error( this,
-						i18n( "Couldn't write SRT file to %1" ).arg( tmp.name() ) );
-			return;
-		}
-		if ( !KIO::NetAccess::upload( tmp.name(), url, this ) ) {
-			KMessageBox::error(this,
-						i18n( "Couldn't save remote file %1" ).arg( url.prettyURL() ) );
-			return;
-		}
+		tmpSrt = tmp.name();
+		
+		CreateSRT *createSrt = new CreateSRT( project, tmp.name() );
+		
+		connect(createSrt, SIGNAL(success( CreateSRT* )),
+			this, SLOT(createSrtSuccessRemote( CreateSRT* ) ) );
+		connect(createSrt, SIGNAL(failed( CreateSRT*, const QString& )),
+			this, SLOT(createSrtFailed( CreateSRT*, const QString& ) ) );
+		
+		createSrt->saveSRT();
 	}
-	srtName = url.url();
 }
 
-bool KSubtitleRipperView::saveSRT( const QString& path ) {
-	KProcIO process;
-	process.setWorkingDirectory( project->directory() );
+void KSubtitleRipperView::createSrtFailed( CreateSRT *createSRT, const QString& error ) {
+	delete createSRT;
+	KMessageBox::error( this, error );
+}
+
+void KSubtitleRipperView::createSrtSuccess( CreateSRT *createSRT ) {
+	delete createSRT;
+	bool success = true;
 	
-	process << "srttool" << "-s";
-	process << "-i" << project->baseName() + ".srtx";
-	process << "-o" << path;
-	
-	if ( process.start( KProcess::DontCare, false ) ) {
-		process.detach();
-		return true;
-	} else {
-		kdError() << "error executing process\n";
-		return false;
+	if ( !tmpSrt.isNull() ) {
+		if ( !KIO::NetAccess::upload( tmpSrt, *newSrt, this ) ) {
+			success = false;
+			KMessageBox::error(this,
+				i18n( "Couldn't save remote file %1" ).arg( newSrt->prettyURL() ) );
+		}
+		tmpSrt = QString::null;
 	}
+	if ( success ) srtName = newSrt->url();
+	delete newSrt;
+	newSrt = 0;
 }
 
 void KSubtitleRipperView::beforeExtracting() {
