@@ -38,7 +38,7 @@
 
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ) {
-	m_modified = false;
+	setModified( false );
 	text->setCheckSpellingEnabled( true );
 	image->setPixmap( QPixmap() );
 	connect( text, SIGNAL( modificationChanged( bool ) ), this, SLOT( modify( bool ) ) );
@@ -49,6 +49,11 @@ KSubtitleRipperView::~KSubtitleRipperView() {
 }
 
 /*$SPECIALIZATION$*/
+void KSubtitleRipperView::setModified( bool modif ) {
+	m_modified = modif;
+	emit signalProjectModified();
+}
+
 void KSubtitleRipperView::writeSubtitle() {
 	QString filename = m_project->directory() + m_project->subFilename() + ".pgm.txt";
 
@@ -131,7 +136,7 @@ void KSubtitleRipperView::prevSubtitle() {
 	if ( m_project->atLast() ) emit setEnabledNextSub( true );
 	m_project->prevSub();
 	if ( m_project->atFirst() ) emit setEnabledPrevSub( false );
-	m_modified = true;
+	setModified( true );
 	loadSubtitle();
 }
 
@@ -144,7 +149,7 @@ void KSubtitleRipperView::nextSubtitle() {
 	if ( m_project->atFirst() ) emit setEnabledPrevSub( true );
 	m_project->nextSub();
 	if ( m_project->atLast() ) emit setEnabledNextSub( false );
-	m_modified = true;
+	setModified( true );
 	loadSubtitle();
 }
 
@@ -172,7 +177,7 @@ void KSubtitleRipperView::extractSub() {
 		m_project->setExtracted( false );
 		m_project->setConverted( false );
 	}
-	m_modified = true;
+	setModified( true );
 }
 
 void KSubtitleRipperView::convertSub() {
@@ -191,7 +196,7 @@ void KSubtitleRipperView::convertSub() {
 		if ( !m_project->atLast() ) emit setEnabledNextSub( true );
 
 	} else m_project->setConverted( false );
-	m_modified = true;
+	setModified( true );
 }
 
 void KSubtitleRipperView::createSRT() {
@@ -278,7 +283,7 @@ void KSubtitleRipperView::cleanBeforeConverting() {
 void KSubtitleRipperView::newProject( Project* prj ) {
 	delete m_project;
 	m_project = prj;
-	m_modified = true;
+	setModified( true );
 	cleanBeforeExtracting();
 	emit signalChangeCaption( QString::null );
 }
@@ -294,7 +299,7 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 			delete m_project;
 			m_project = aux;
 			progress->setTotalSteps( m_project->numSub() );
-			m_modified = false;
+			setModified( false );
 			emit signalChangeCaption( url.prettyURL() );
 
 			// setup some actions
@@ -348,7 +353,7 @@ bool KSubtitleRipperView::saveProject( const KURL& url ) {
 
 	setSrtName( url );
 	emit signalChangeCaption( url.prettyURL() );
-	m_modified = false;
+	setModified( false );
 	return true;
 }
 

@@ -97,6 +97,7 @@ private slots:
 	void changeStatusbar( const QString& text );
 	void changeCaption( const QString& text );
 	void setState( const QString& state );
+	void updateCaption();
 
 private:
 	void setupActions();
@@ -109,6 +110,7 @@ private:
 	KToggleAction *m_statusbarAction;
 	KURL m_project;
 	PrefDialog *m_prefDialog;
+	QString nameProject;
 };
 
 #endif // _KSUBTITLERIPPER_H_

@@ -65,6 +65,8 @@ KSubtitleRipper::KSubtitleRipper() : KMainWindow( 0, "KSubtitleRipper" ),
 	        this, SLOT( changeStatusbar( const QString& ) ) );
 	connect( m_view, SIGNAL( signalChangeCaption( const QString& ) ),
 	        this, SLOT( changeCaption( const QString& ) ) );
+	connect( m_view, SIGNAL( signalProjectModified() ),
+			 this, SLOT( updateCaption() ) );
 }
 
 KSubtitleRipper::~KSubtitleRipper() {}
@@ -304,10 +306,13 @@ void KSubtitleRipper::changeStatusbar( const QString& text ) {
 }
 
 void KSubtitleRipper::changeCaption( const QString& text ) {
-	// display the text on the caption
-	if ( text.isEmpty() )
-		setCaption( i18n( "Untitled" ) + " - " + kapp->caption() );
-	else setCaption( text + " - " + kapp->caption() );
+	if ( text.isEmpty() ) nameProject = i18n( "Untitled" );
+	else nameProject = text;
+	updateCaption();
+}
+
+void KSubtitleRipper::updateCaption() {
+	setCaption( nameProject, m_view->isModified() );
 }
 
 bool KSubtitleRipper::canCloseProject() {

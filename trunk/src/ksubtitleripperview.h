@@ -27,7 +27,8 @@ class KURL;
 class CreateSRT;
 class Project;
 
-class KSubtitleRipperView : public KSubtitleRipperViewDlg {
+class KSubtitleRipperView : public KSubtitleRipperViewDlg
+{
 	Q_OBJECT
 
 public:
@@ -51,6 +52,9 @@ public slots:
 	virtual void createSrtSuccess( CreateSRT *createSRT );
 	virtual void modify( bool m ) const;
 
+signals:
+	void signalProjectModified();
+
 private:
 	QString subFileName();
 	void writeSubtitle();
@@ -61,6 +65,7 @@ private:
 	bool saveSRT( const QString& path );
 	bool srtUnix2Dos( const QString& path );
 	void setSrtName( const KURL& url );
+	void setModified( bool modif );
 
 	bool m_modified;
 	Project *m_project;
