@@ -21,6 +21,7 @@
 #include "project.h"
 #include <qfile.h>
 #include <qtextstream.h>
+#include <qregexp.h>
 #include <ktempdir.h>
 
 Project::Project( const KURL::List& list, const QString& base )
@@ -85,6 +86,8 @@ bool Project::load( QTextStream& in ) {
 		} else if ( field == "Converted" ) {
 			v_converted = value.toInt( &success );
 			if ( !success ) return false;
+		} else if ( field == "Colours" ) {
+			if ( !setColours( value ) ) return false;
 		}
 	}
 	
@@ -178,6 +181,7 @@ bool Project::save( const QString& path ) const {
 	out << "CurrentSubtitle=" << v_currentSub << endl;
 	out << "Extracted=" << v_extracted << endl;
 	out << "Converted=" << v_converted << endl;
+	out << "Colours=" << coloursString() << endl;
 	
 	f.close();
 	return true;
@@ -194,6 +198,24 @@ void Project::setConverted( bool value ) {
 void Project::setNumSub( uint num ) {
 	v_numSub = num;
 	if ( v_currentSub > v_numSub ) v_currentSub = v_numSub;
+}
+
+bool Project::setColours( const QString& col ) {
+	QRegExp re( "(\\d{1,3}),(\\d{1,3}),(\\d{1,3}),(\\d{1,3})" );
+	if ( re.exactMatch( col ) ) {
+		uint v[4];
+		bool success;
+		
+		for (uint i = 0; i < 4; ++i) {
+			v[i] = re.cap( i+1 ).toUInt( &success );
+			if ( !success || v[i] > 255 ) return false;
+		}
+		
+		// String is valid
+		for (uint i = 0; i < 4; ++i)
+			colours[i] = uchar( v[i] );
+		return true;
+	} else return false;
 }
 
 QString Project::coloursString() const {
