@@ -89,6 +89,7 @@ void PreviewDialog::extractFinish( KProcess *proc )
 {
 	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
+	progress->close();
 
 	if ( goodExit ) {
 		m_central->subtitleList->clear();
