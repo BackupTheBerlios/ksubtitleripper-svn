@@ -39,7 +39,7 @@ public:
     ExtractDialog( Project *prj, QWidget *parent = 0, const char *name = 0 );
 
     ~ExtractDialog();
-	
+
 public slots:
 	virtual void show();
 
@@ -54,11 +54,11 @@ protected slots:
 private:
 	void extractSub();
 
-	QLabel *subtitle;
-	KPushButton *cancel;
-	
-	Project *project;
-	ExtractProcess *process;
+	QLabel *m_subtitle;
+	KPushButton *m_cancel;
+
+	Project *m_project;
+	ExtractProcess *m_process;
 };
 
 #endif

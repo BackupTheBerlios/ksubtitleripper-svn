@@ -30,7 +30,7 @@
 #include "extractprocess.h"
 
 ExtractDialog::ExtractDialog( Project *prj, QWidget *parent, const char *name )
- : KDialogBase( parent, name, true, i18n( "Extracting subtitles" ), 0 ), project( prj ) {
+	: KDialogBase( parent, name, true, i18n( "Extracting subtitles" ), 0 ), m_project( prj ) {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "ExtractDialog constructor: prj is null\n";
 
@@ -38,30 +38,30 @@ ExtractDialog::ExtractDialog( Project *prj, QWidget *parent, const char *name )
 	QVBoxLayout *layoutGeneral;
 	layoutGeneral = new QVBoxLayout( top, 5, 6 );
 
-	subtitle = new QLabel( top );
-	layoutGeneral->addWidget( subtitle );
+	m_subtitle = new QLabel( top );
+	layoutGeneral->addWidget( m_subtitle );
 
 	QHBoxLayout *layoutButton;
 	layoutButton = new QHBoxLayout( layoutGeneral );
     layoutButton->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding,
 						QSizePolicy::Minimum ) );
-    cancel = new KPushButton( KStdGuiItem::cancel(), top );
-    layoutButton->addWidget( cancel );
+	m_cancel = new KPushButton( KStdGuiItem::cancel(), top );
+	layoutButton->addWidget( m_cancel );
     layoutButton->addItem( new QSpacerItem( 40, 20, QSizePolicy::Expanding,
 						QSizePolicy::Minimum ) );
 
-	connect( cancel, SIGNAL( clicked() ), this, SLOT( slotCancel() ) );
+	connect( m_cancel, SIGNAL( clicked() ), this, SLOT( slotCancel() ) );
 }
 
 ExtractDialog::~ExtractDialog() {}
 
 void ExtractDialog::keyPressEvent( QKeyEvent *e ) {
-	if ( e->key() == Qt::Key_Escape ) cancel->animateClick();
+	if ( e->key() == Qt::Key_Escape ) m_cancel->animateClick();
 	else KDialogBase::keyPressEvent( e );
 }
 
 void ExtractDialog::slotCancel() {
-	process->kill();
+	m_process->kill();
 }
 
 void ExtractDialog::show() {
@@ -70,14 +70,14 @@ void ExtractDialog::show() {
 }
 
 void ExtractDialog::extractSub() {
-	process = new ExtractProcess( project, this );
+	m_process = new ExtractProcess( m_project, this );
 
-	connect( process, SIGNAL( processExited( KProcess* ) ),
+	connect( m_process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
-	connect( process, SIGNAL( readReady( KProcIO* ) ),
+	connect( m_process, SIGNAL( readReady( KProcIO* ) ),
 			this, SLOT( extractOutput( KProcIO* ) ) );
 
-	if ( !process->start( KProcess::NotifyOnExit, true ) )
+	if ( !m_process->start( KProcess::NotifyOnExit, true ) )
 		kdError() << "error executing process\n";
 }
 
@@ -100,9 +100,9 @@ void ExtractDialog::extractOutput( KProcIO *proc ) {
 	while ( proc->readln( line, false ) != -1 ) {
 		word = line.section( ' ', 0, 0 );
 		if ( word == "Generating" )
-			subtitle->setText( i18n( "Generating image %1" ).arg( line.section( ": ", 1, 1 ) ) );
+			m_subtitle->setText( i18n( "Generating image %1" ).arg( line.section( ": ", 1, 1 ) ) );
 		else if ( word == "Wrote" )
-			project->setNumSub( line.section( ' ', 1, 1 ).toUInt() );
+			m_project->setNumSub( line.section( ' ', 1, 1 ).toUInt() );
 		else if ( line != "Conversion finished" ) kdWarning() << line << endl;
 	}
 
