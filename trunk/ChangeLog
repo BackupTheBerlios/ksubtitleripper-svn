@@ -1,5 +1,7 @@
   17-3-2005
 - Fix for remote vob files, and keep them until closing project
+- Add scrollbars to image (in main window and convert dialog), for too long images.
+- Don't save password in urls
 
   12-3-2005
 - Add an option to choose subtitles language
