@@ -24,14 +24,13 @@
 #include <qstring.h>
 #include <kprocio.h>
 #include <qthread.h>
+#include "languagemap.h"
 
 class KURL;
 
 /**
 @author Sergio Cambra
  */
-
-typedef QMap<QString, QString> LanguageMap;
 
 class SeekLanguagesInVob : public QObject, public QThread
 {

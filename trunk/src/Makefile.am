@@ -22,9 +22,9 @@ ksubtitleripper_SOURCES = main.cpp ksubtitleripper.cpp \
 
 # these are the headers for your project
 noinst_HEADERS = ksubtitleripper.h ksubtitleripperview.h project.h newproject.h \
-	convertdialog.h extractdialog.h previewdialog.h extractprocess.h configuration.h \
-	prefdialog.h prefgeneral.h createsrt.h xmlwriter.h seeklanguagesinvob.h \
-	waitingdialog.h
+		convertdialog.h extractdialog.h previewdialog.h extractprocess.h configuration.h \
+		prefdialog.h prefgeneral.h createsrt.h xmlwriter.h seeklanguagesinvob.h \
+		waitingdialog.h languagemap.h
 
 # client stuff
 
