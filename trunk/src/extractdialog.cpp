@@ -95,7 +95,8 @@ void ExtractDialog::extractSub() {
 	*process << "cat";
 	if ( !download( project->files(), *process ) ) return;
 	*process << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << "0x20";
-	*process << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1" << "-o" << project->baseName();
+	*process << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1";
+	*process << "-c" << project->coloursString() << "-o" << project->baseName();
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( extractFinish( KProcess* ) ) );
@@ -111,7 +112,10 @@ void ExtractDialog::extractFinish( KProcess *proc ) {
 	delete proc;
 	
 	if ( goodExit ) accept();
-	else reject();
+	else {
+		KMessageBox::error( this, i18n( "No subtitle could be extracted" ) );
+		reject();
+	}
 }
 
 void ExtractDialog::extractOutput( KProcIO *proc ) {

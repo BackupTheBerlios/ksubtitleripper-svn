@@ -195,3 +195,8 @@ void Project::setNumSub( uint num ) {
 	v_numSub = num;
 	if ( v_currentSub > v_numSub ) v_currentSub = v_numSub;
 }
+
+QString Project::coloursString() const {
+	return QString::number(colours[0]) + "," + QString::number(colours[1]) + "," +
+			QString::number(colours[2]) + "," + QString::number(colours[3]);
+}

@@ -161,6 +161,8 @@ void KSubtitleRipperView::extractSub() {
 	modified = true;
 	beforeExtracting();
 	
+	if ( PreviewDialog( project, this ).exec() != QDialog::Accepted ) return;
+	
 	if ( ExtractDialog( project, this ).exec() == QDialog::Accepted ) {
 		project->setExtracted( true );
 		progress->setTotalSteps( project->numSub() );
@@ -210,7 +212,7 @@ void KSubtitleRipperView::createSRT() {
 	process << "-o" << project->baseName() + ".srt";
 	
 	if ( process.start( KProcess::DontCare, false ) ) process.detach();
-	else kdError() << "error executing process" << endl;
+	else kdError() << "error executing process\n";
 }
 
 void KSubtitleRipperView::beforeExtracting() {

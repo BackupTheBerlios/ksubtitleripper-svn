@@ -21,10 +21,32 @@
 #define PROJECT_H
 
 #include <kurl.h>
+#include <kdebug.h>
 
 /**
 @author Sergio Cambra
 */
+namespace {
+	class Colours {
+	public:
+		Colours() { for (uint i=0; i<4; ++i) v_colours[i] = 255; v_colours[2] = 0; };
+		~Colours() {};
+		uchar& operator[](uint index) {
+			if ( index > 3 )
+				kdFatal() << "Colours: Index out of bounds\n";
+			
+			return v_colours[index];
+		};
+		const uchar& operator[](uint index) const {
+			if ( index > 3 )
+				kdFatal() << "Colours: Index out of bounds\n";
+			
+			return v_colours[index];
+		};
+	private:
+		uchar v_colours[4];
+	};
+}
 
 class Project {
 public:
@@ -47,6 +69,7 @@ public:
 	void setExtracted( bool value );
 	void setConverted( bool value );
 	void setNumSub( uint num );
+	QString coloursString() const;
 
 	void nextSub();
 	void prevSub();
@@ -54,6 +77,8 @@ public:
 	bool atLast() const;
 	
 	bool save( const QString& path ) const;
+	
+	Colours colours;
 	
 private:
 	bool readField( QTextStream& stream, QString& field, QString& value ) const;

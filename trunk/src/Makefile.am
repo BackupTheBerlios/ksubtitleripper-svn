@@ -14,10 +14,10 @@ ksubtitleripper_LDFLAGS = $(KDE_RPATH) $(all_libraries)
 ksubtitleripper_LDADD   = $(LIB_KFILE) $(LIB_KDEPRINT)
 
 # which sources should be compiled for ksubtitleripper
-ksubtitleripper_SOURCES = main.cpp ksubtitleripper.cpp ksubtitleripperviewdlg.ui ksubtitleripperview.cpp project.cpp newproject.cpp convertdialog.cpp extractdialog.cpp
+ksubtitleripper_SOURCES = main.cpp ksubtitleripper.cpp ksubtitleripperviewdlg.ui ksubtitleripperview.cpp project.cpp newproject.cpp convertdialog.cpp extractdialog.cpp previewdialog.cpp
 
 # these are the headers for your project
-noinst_HEADERS = ksubtitleripper.h ksubtitleripperview.h project.h newproject.h convertdialog.h extractdialog.h
+noinst_HEADERS = ksubtitleripper.h ksubtitleripperview.h project.h newproject.h convertdialog.h extractdialog.h previewdialog.h
 
 # client stuff
 
