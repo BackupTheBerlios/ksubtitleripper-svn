@@ -20,6 +20,7 @@
 
 #include <kprocio.h>
 #include <klocale.h>
+#include <kdebug.h>
 
 #include "project.h"
 #include "configuration.h"
@@ -34,6 +35,8 @@ void CreateSRT::saveSRT() {
 	KProcIO *process = new KProcIO();
 	process->setWorkingDirectory( project->directory() );
 	process->setUseShell( true );
+	process->setComm( KProcess::Stderr );
+	process->enableReadSignals( true );
 	
 	*process << "srttool" << "-s";
 	*process << "-i" << project->baseName() + ".srtx";
@@ -41,8 +44,10 @@ void CreateSRT::saveSRT() {
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( createFinished( KProcess* ) ) );
+	connect( process, SIGNAL( readReady( KProcIO* ) ),
+			this, SLOT( readOutput( KProcIO* ) ) );
 	
-	if ( !process->start( KProcess::NotifyOnExit, false ) )
+	if ( !process->start( KProcess::NotifyOnExit, true ) )
 		emit failed( this, i18n( "Couldn't run srttool" ) );
 }
 
@@ -60,13 +65,17 @@ void CreateSRT::srtUnix2Dos( const QString& path ) {
 	KProcIO *process = new KProcIO();
 	process->setWorkingDirectory( project->directory() );
 	process->setUseShell( true );
+	process->setComm( KProcess::Stderr );
+	process->enableReadSignals( true );
 	
 	*process << "dos2unix" << "--u2d" << KProcess::quote( path );
 	
 	connect( process, SIGNAL( processExited( KProcess* ) ),
 			this, SLOT( convertFinished( KProcess* ) ) );
+	connect( process, SIGNAL( readReady( KProcIO* ) ),
+			this, SLOT( readOutput( KProcIO* ) ) );
 	
-	if ( !process->start( KProcess::NotifyOnExit, false ) )
+	if ( !process->start( KProcess::NotifyOnExit, true ) )
 		emit failed( this, i18n( "Couldn't run dos2unix" ) );
 }
 
@@ -76,6 +85,14 @@ void CreateSRT::convertFinished( KProcess* proc ) {
 	
 	if ( goodExit ) emit success( this );
 	else emit failed( this, i18n( "Couldn't read from or write to \"%1\"" ).arg( path ) );
+}
+
+void CreateSRT::readOutput( KProcIO *proc ) {
+	QString line;
+	while ( proc->readln( line, false ) != -1 )
+		kdWarning() << line << endl;
+	
+	proc->ackRead();
 }
 
 #include "createsrt.moc"

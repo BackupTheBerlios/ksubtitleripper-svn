@@ -23,6 +23,7 @@
 #include <qobject.h>
 
 class KProcess;
+class KProcIO;
 class Project;
 
 /**
@@ -41,6 +42,7 @@ signals:
 private slots:
 	void createFinished( KProcess* proc );
 	void convertFinished( KProcess* proc );
+	void readOutput( KProcIO *proc );
 
 private:
 	void srtUnix2Dos( const QString& path );
