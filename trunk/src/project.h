@@ -69,7 +69,9 @@ public:
 	void setExtracted( bool value );
 	void setConverted( bool value );
 	void setNumSub( uint num );
+	
 	QString coloursString() const;
+	bool setColours( const QString& col );
 
 	void nextSub();
 	void prevSub();
@@ -83,7 +85,6 @@ public:
 private:
 	bool readField( QTextStream& stream, QString& field, QString& value ) const;
 	bool load ( QTextStream& stream );
-	bool setColours( const QString& col );
 
 	KURL::List v_files;
 	QString v_directory, v_baseName;

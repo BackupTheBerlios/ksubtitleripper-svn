@@ -27,6 +27,9 @@ class QRadioButton;
 class QVBox;
 class QScrollView;
 class Project;
+class ExtractProcess;
+class KProcess;
+class KProcIO;
 
 /**
 @author Sergio Cambra
@@ -39,15 +42,22 @@ public:
 
 public slots:
 	virtual void preview();
-	virtual void ok();
+
+protected slots:
+	virtual void extractFinish( KProcess *proc );
+	virtual void extractOutput( KProcIO *proc );
+	virtual void setColours();
+	virtual void restoreColours();
 
 private:
 	QVButtonGroup* groupIndex;
 	QRadioButton* radioButton[4];
-	QScrollView* scrollPreview;
-	QVBox* previewArea;
+	QListBox* subtitleList;
 
 	Project *project;
+	ExtractProcess *process;
+	uint numSub;
+	QString coloursOld;
 };
 
 #endif
