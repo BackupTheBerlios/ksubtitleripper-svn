@@ -30,7 +30,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
  : KDialogBase( parent, name, true, i18n( "Converting images to text" ), Ok|Cancel|Help|User1,
  		Ok, false, KStdGuiItem::clear() ), project( prj ), sending( false ) {
 	// prj mustn't be 0
-	if ( !prj ) kdFatal() << "ConvertDialog constructor: prj is null" << endl;
+	if ( !prj ) kdFatal() << "ConvertDialog constructor: prj is null\n";
 	
 	QFrame *top = makeMainWidget();
 	layoutGeneral = new QVBoxLayout( top, marginGeneral, 6 );
@@ -140,11 +140,11 @@ void ConvertDialog::startGocr( KProcess *proc ) {
 	*proc << filename + ".pgm" << "-o" << filename + ".pgm.txt";
 	
 	if ( !proc->start( KProcess::NotifyOnExit, KProcess::All ) )
-		kdError() << "error executing process" << endl;
+		kdError() << "error executing process\n";
 }
 
 void ConvertDialog::gocrFinish( KProcess *proc ) {
-	if ( proc->normalExit() ) {
+	if ( proc->exitStatus() == 0 ) {
 		progress->advance( 1 );
 		
 		if ( sub == project->numSub() ) {
