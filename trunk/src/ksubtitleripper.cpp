@@ -299,6 +299,7 @@ void KSubtitleRipper::changeCaption( const QString& text ) {
 }
 
 bool KSubtitleRipper::canCloseProject() {
+	if ( !m_view->askIfModified() ) return false;
 	if ( !m_view->isModified() ) return true;
 
 	QString file = hasName() ? project.prettyURL() : untitled;

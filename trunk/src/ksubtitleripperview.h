@@ -37,6 +37,7 @@ public:
 	bool loadProject( const KURL& url );
 	bool saveProject( const KURL& url );
 	bool isModified() const;
+	bool askIfModified();
 
 public slots:
 	virtual void saveSubtitle();
@@ -48,6 +49,7 @@ public slots:
 
 private:
 	QString subFileName();
+	void writeSubtitle();
 	void loadSubtitle();
 	void emptySubtitle();
 	void beforeExtracting();

@@ -35,6 +35,7 @@ KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFl
 		: KSubtitleRipperViewDlg( parent, name, fl ), project( 0 ) {
 	modified = false;
 	text->setCheckSpellingEnabled( true );
+	image->setPixmap( QPixmap() );
 }
 
 KSubtitleRipperView::~KSubtitleRipperView() {
@@ -42,11 +43,7 @@ KSubtitleRipperView::~KSubtitleRipperView() {
 }
 
 /*$SPECIALIZATION$*/
-void KSubtitleRipperView::saveSubtitle() {
-	// this slot is called whenever the Subtitles->Save subtitle menu is selected,
-	// the Save subtitle shortcut is pressed (usually CTRL+Return) or the Save subtitle
-	// toolbar button is clicked
-	
+void KSubtitleRipperView::writeSubtitle() {
 	QString filename = project->getDirectory() + project->getSubFilename() + ".pgm.txt";
 	
 	QFile f( filename );
@@ -58,6 +55,15 @@ void KSubtitleRipperView::saveSubtitle() {
 	out << text->text();
 	f.close();
 	
+	text->setModified( false );
+}
+
+void KSubtitleRipperView::saveSubtitle() {
+	// this slot is called whenever the Subtitles->Save subtitle menu is selected,
+	// the Save subtitle shortcut is pressed (usually CTRL+Return) or the Save subtitle
+	// toolbar button is clicked
+	
+	writeSubtitle();
 	if ( !project->atLast() ) nextSubtitle();
 }
 
@@ -66,10 +72,6 @@ void KSubtitleRipperView::loadSubtitle() {
 	
 	// set label
 	subtitle->setText( i18n( "Subtitle %1" ).arg( project->getCurrentSub() ) );
-	
-	// if image hasn't a pixmap, create one
-	if ( !image->pixmap() )
-		image->setPixmap( QPixmap() );
 	
 	// load image
 	if ( !image->pixmap()->load( filename ) || image->pixmap()->isNull() ) {
@@ -105,9 +107,35 @@ void KSubtitleRipperView::emptySubtitle() {
 	progress->setValue( 0 );
 }
 
+bool KSubtitleRipperView::askIfModified() {
+	// Ask for saving subtitle if has been modified
+	// and return if can load other subtitle
+	
+	if ( text->isModified() ) {
+		int answer = KMessageBox::warningYesNoCancel( this,
+			i18n( "The subtitle has been modified.\n\nDo you want to save it?" ),
+			i18n( "Save Subtitle?" ), KStdGuiItem::save(), KStdGuiItem::discard() );
+	
+		switch ( answer ) {
+		case KMessageBox::Yes:
+			writeSubtitle();
+			return true;
+			break;
+		case KMessageBox::No:
+			return true;
+			break;
+		default: // Cancel
+			return false;
+			break;
+		}
+	} else return true;
+}
+
 void KSubtitleRipperView::prevSubtitle() {
 	// this slot is called whenever the Subtitles->Previous subtitle menu is selected,
 	// or the Previous subtitle toolbar button is clicked
+	
+	if ( !askIfModified() ) return;
 	
 	if ( project->atLast() ) emit setEnabledNextSub( true );
 	project->prevSub();
@@ -119,6 +147,8 @@ void KSubtitleRipperView::prevSubtitle() {
 void KSubtitleRipperView::nextSubtitle() {
 	// this slot is called whenever the Subtitles->Next subtitle menu is selected,
 	// or the Next subtitle toolbar button is clicked
+	
+	if ( !askIfModified() ) return;
 	
 	if ( project->atFirst() ) emit setEnabledPrevSub( true );
 	project->nextSub();
@@ -167,6 +197,8 @@ void KSubtitleRipperView::convertSub() {
 }
 
 void KSubtitleRipperView::createSRT() {
+	if ( !askIfModified() ) return;
+
 	KProcIO process;
 	
 	process.setWorkingDirectory( project->getDirectory() );
