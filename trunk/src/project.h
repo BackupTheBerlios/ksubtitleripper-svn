@@ -21,7 +21,6 @@
 #define PROJECT_H
 
 #include <kurl.h>
-#include <kdebug.h>
 
 /**
 @author Sergio Cambra

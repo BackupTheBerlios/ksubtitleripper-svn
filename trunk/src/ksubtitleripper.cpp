@@ -19,11 +19,14 @@
 ***************************************************************************/
 
 #include "ksubtitleripper.h"
+#include "ksubtitleripperview.h"
 #include "newproject.h"
 #include "previewdialog.h"
 #include "configuration.h"
 #include "prefdialog.h"
+#include "project.h"
 
+#include <kapplication.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdeversion.h>

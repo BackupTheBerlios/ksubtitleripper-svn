@@ -18,7 +18,11 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <kpushbutton.h>
+#include <qlabel.h>
+#include <qevent.h>
 #include <kdebug.h>
+#include <kprocio.h>
 #include <klocale.h>
 #include <qlayout.h>
 #include <kmessagebox.h>

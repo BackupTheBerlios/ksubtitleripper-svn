@@ -22,14 +22,16 @@
 #define CONVERTDIALOG_H
 
 #include <kdialogbase.h>
-#include <klineedit.h>
-#include <kprogress.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qlayout.h>
 #include <qstringlist.h>
-#include <kprocess.h>
-#include "project.h"
+
+class Project;
+class KProcess;
+class KLineEdit;
+class KProgress;
+class QLabel;
+class QCheckBox;
+class QVBoxLayout;
+class QHBoxLayout;
 
 /**
 @author Sergio Cambra

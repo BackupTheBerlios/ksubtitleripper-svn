@@ -26,9 +26,8 @@
 #include <ktextedit.h>
 #include <kfiledialog.h>
 #include <qlabel.h>
-//#include <qfile.h>
+#include <kprogress.h>
 #include <kurl.h>
-//#include <kprocio.h>
 
 #include "ksubtitleripperview.h"
 #include "convertdialog.h"

@@ -18,12 +18,17 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <klistbox.h>
+#include <qlabel.h>
+#include <qlayout.h>
+#include <klineedit.h>
+#include <kpushbutton.h>
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kurl.h>
 #include <kfiledialog.h>
+#include "project.h"
 #include "newproject.h"
 
 NewProject::NewProject( QString prefix ) : KDialogBase( Plain,

@@ -23,6 +23,7 @@
 #include <qtextstream.h>
 #include <qregexp.h>
 #include <ktempdir.h>
+#include <kdebug.h>
 
 Colours::Colours() {
 	for (uint i=0; i<4; ++i)

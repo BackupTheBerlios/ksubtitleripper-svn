@@ -22,14 +22,15 @@
 #define NEWPROJECT_H
 
 #include <kdialogbase.h>
-#include <klistbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <klineedit.h>
-#include <kpushbutton.h>
 #include <kurl.h>
-#include "project.h"
 
+class Project;
+class QLabel;
+class QGridLayout;
+class QVBoxLayout;
+class KLineEdit;
+class KListBox;
+class KPushButton;
 
 class NewProject : public KDialogBase {
 	Q_OBJECT

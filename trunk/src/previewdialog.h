@@ -24,13 +24,12 @@
 
 class QVButtonGroup;
 class QRadioButton;
-class QVBox;
-class QScrollView;
 class Project;
 class ExtractProcess;
 class KProcess;
 class KProcIO;
 class KProgressDialog;
+class KListBox;
 
 /**
 @author Sergio Cambra

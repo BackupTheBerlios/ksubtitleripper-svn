@@ -28,12 +28,10 @@
 #include <config.h>
 #endif
 
-#include <kapplication.h>
 #include <kmainwindow.h>
 #include <kurl.h>
 
-#include "ksubtitleripperview.h"
-
+class KSubtitleRipperView;
 class KToggleAction;
 class PrefDialog;
 

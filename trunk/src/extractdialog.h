@@ -21,12 +21,13 @@
 #define EXTRACTDIALOG_H
 
 #include <kdialogbase.h>
-#include <kpushbutton.h>
-#include <qlabel.h>
-#include <qevent.h>
-#include <kprocio.h>
 #include "project.h"
 
+class KPushButton;
+class QLabel;
+class QKeyEvent;
+class KProcess;
+class KProcIO;
 class ExtractProcess;
 
 /**

@@ -18,6 +18,12 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
+#include <klineedit.h>
+#include <kprogress.h>
+#include <qlabel.h>
+#include <qcheckbox.h>
+#include <qlayout.h>
+#include <kprocess.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -25,6 +31,7 @@
 #include <qregexp.h>
 #include <qdir.h>
 #include <qsizepolicy.h>
+#include "project.h"
 #include "convertdialog.h"
 
 ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
