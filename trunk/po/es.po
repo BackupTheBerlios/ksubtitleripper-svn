@@ -1,3 +1,4 @@
+# translation of es.po to 
 # translation of es.po to Spanish
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -7,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "POT-Creation-Date: 2004-08-18 22:51+0200\n"
-"PO-Revision-Date: 2004-07-29 17:32+0200\n"
+"PO-Revision-Date: 2004-08-18 22:59+0200\n"
 "Last-Translator: Sergio Cambra García <sergio.cambra@hispalinux.es>\n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -45,31 +46,28 @@ msgid "Couldn't load file %1"
 msgstr "No se pudo cargar el archivo %1"
 
 #: createsrt.cpp:51
-#, fuzzy
 msgid "Couldn't run srttool"
-msgstr "No se pudo escribir en el archivo %1"
+msgstr "No se pudo ejecutar srttool"
 
 #: createsrt.cpp:61
 msgid "Couldn't read from \"%1\" or couldn't write to \"%2\""
-msgstr ""
+msgstr "No se pudo leeer de \"%1\" o escribir a \"%2\""
 
 #: createsrt.cpp:79
 msgid "Couldn't run dos2unix"
-msgstr ""
+msgstr "No se pudo ejecutar dos2unix"
 
 #: createsrt.cpp:87
-#, fuzzy
 msgid "Couldn't read from or write to \"%1\""
-msgstr "No se pudo escribir en el archivo %1"
+msgstr "No se pudo leer de o escribir a \"%1\""
 
 #: extractdialog.cpp:33
 msgid "Extracting subtitles"
 msgstr "Extrayendo subtítulos"
 
 #: extractdialog.cpp:92 previewdialog.cpp:136
-#, fuzzy
 msgid "Error extracting subtitles"
-msgstr "Extrayendo subtítulos"
+msgstr "Error extrayendo subtítulos"
 
 #: extractdialog.cpp:103
 #, c-format
@@ -145,20 +143,18 @@ msgid "Couldn't write to file %1"
 msgstr "No se pudo escribir en el archivo %1"
 
 #: ksubtitleripperview.cpp:114
-#, fuzzy
 msgid ""
 "The subtitle has been modified.\n"
 "\n"
 "Do you want to save it?"
 msgstr ""
-"El proyecto \"%1\" ha sido modificado\n"
+"El subtítulo ha sido modificado\n"
 "\n"
 "¿Desea guardarlo?"
 
 #: ksubtitleripperview.cpp:115
-#, fuzzy
 msgid "Save Subtitle?"
-msgstr "Guardar subtítulo"
+msgstr "¿Guardar subtítulo?"
 
 #: ksubtitleripperview.cpp:168
 #, c-format
@@ -178,14 +174,12 @@ msgid "No subtitles have been extracted"
 msgstr "No se ha extraído ningún subtítulo"
 
 #: ksubtitleripperview.cpp:202
-#, fuzzy
 msgid "SRT Subtitles"
-msgstr "&Subtítulos"
+msgstr "Subtítulos SRT"
 
 #: ksubtitleripperview.cpp:202
-#, fuzzy
 msgid "Save Subtitles"
-msgstr "Guardar subtítulo"
+msgstr "Guardar subtítulos"
 
 #: ksubtitleripperview.cpp:256 ksubtitleripperview.cpp:350
 #, c-format
@@ -236,44 +230,41 @@ msgstr "Seleccionar archivos VOB"
 
 #: prefdialog.cpp:34
 msgid "General"
-msgstr ""
+msgstr "General"
 
 #: prefdialog.cpp:34 rc.cpp:5
 msgid "General options"
-msgstr ""
+msgstr "Opciones generales"
 
 #: previewdialog.cpp:39
-#, fuzzy
 msgid "Preview"
-msgstr "Prefijo"
+msgstr "Vista previa"
 
 #: previewdialog.cpp:51
 msgid "Choose filling colour index"
-msgstr ""
+msgstr "Elegir índice del color del texto"
 
 #: previewdialog.cpp:54 previewdialog.cpp:58 previewdialog.cpp:62
 #: previewdialog.cpp:66
 #, c-format
 msgid "Colour %1"
-msgstr ""
+msgstr "Color %1"
 
 #: previewdialog.cpp:102
-#, fuzzy
 msgid "Extracting..."
-msgstr "Extrayendo subtítulos"
+msgstr "Extrayendo..."
 
 #: rc.cpp:1
 msgid "&Subtitles"
 msgstr "&Subtítulos"
 
 #: rc.cpp:2
-#, fuzzy
 msgid "KSubtitleRipperViewDlg"
-msgstr "KSubtitleRipper"
+msgstr "KSubtitleRipperViewDlg"
 
 #: rc.cpp:6
 msgid "Convert SRT file to DOS format"
-msgstr ""
+msgstr "Convertir archivo SRT a formato DOS"
 
 #: _translatorinfo.cpp:1
 msgid ""
@@ -286,3 +277,4 @@ msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "runico@users.berlios.de"
+
