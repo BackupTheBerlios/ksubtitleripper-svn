@@ -29,7 +29,6 @@
 #include "ksubtitleripperview.h"
 #include "convertdialog.h"
 #include "extractdialog.h"
-#include "previewdialog.h"
 
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), project( 0 ) {
@@ -95,16 +94,9 @@ void KSubtitleRipperView::loadSubtitle() {
 		
 		progress->setValue( project->currentSub() );
 	} else {
-		text->setText( QString::null );
+		text->clear();
 		progress->setValue( 0 );
 	}
-}
-
-void KSubtitleRipperView::emptySubtitle() {
-	subtitle->setText( QString::null );
-	if ( image->pixmap() ) image->pixmap()->resize( 0, 0 );
-	text->setText( QString::null );
-	progress->setValue( 0 );
 }
 
 bool KSubtitleRipperView::askIfModified() {
@@ -158,8 +150,6 @@ void KSubtitleRipperView::nextSubtitle() {
 }
 
 void KSubtitleRipperView::extractSub() {
-	if ( PreviewDialog( project, this ).exec() != QDialog::Accepted ) return;
-	
 	modified = true;
 	beforeExtracting();
 	
@@ -216,32 +206,35 @@ void KSubtitleRipperView::createSRT() {
 }
 
 void KSubtitleRipperView::beforeExtracting() {
-	project->setExtracted( false );
-	progress->setValue( 0 );
-	emit setEnabledConvertSub( false );
-	emit setEnabledPrevSub( false );
-	emit setEnabledNextSub( false );
-	subtitle->setText( QString::null );
+	subtitle->clear();
 	if ( image->pixmap() ) {
 		image->pixmap()->resize( 0, 0 );
 		image->update();
 	}
+	
+	project->setExtracted( false );
+	emit setEnabledConvertSub( false );
+	emit setEnabledPrevSub( false );
+	emit setEnabledNextSub( false );
 	beforeConverting();
 }
 
 void KSubtitleRipperView::beforeConverting() {
+	text->clear();
+	progress->setValue( 0 );
+	
 	project->setConverted( false );
 	emit setEnabledCreateSRT( false );
 	emit setEnabledSaveSub( false );
-	text->clear();
 }
 
 void KSubtitleRipperView::newProject( Project* prj ) {
+	delete project;
 	project = prj;
 	modified = true;
+	beforeExtracting();
 	emit setEnabledExtractSub( true );
 	emit signalChangeCaption( QString::null );
-	
 }
 
 bool KSubtitleRipperView::loadProject( const KURL& url ) {
@@ -263,15 +256,11 @@ bool KSubtitleRipperView::loadProject( const KURL& url ) {
 			emit setEnabledConvertSub( project->isExtracted() );
 			if ( project->isExtracted() ) {
 				loadSubtitle();
+				emit setEnabledCreateSRT( project->isConverted() );
+				emit setEnabledSaveSub( project->isConverted() );
 				emit setEnabledPrevSub( !project->atFirst() );
 				emit setEnabledNextSub( !project->atLast() );
-			} else {
-				emptySubtitle();
-				emit setEnabledPrevSub( false );
-				emit setEnabledNextSub( false );
-			}
-			emit setEnabledCreateSRT( project->isConverted() );
-			emit setEnabledSaveSub( project->isConverted() );
+			} else beforeExtracting();
 		} else KMessageBox::error( this, i18n( "Couldn't open file %1" ).arg( target ) );
 		
 		KIO::NetAccess::removeTempFile( target );

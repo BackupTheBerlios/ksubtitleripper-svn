@@ -19,8 +19,8 @@
 ***************************************************************************/
 
 #include "ksubtitleripper.h"
-//#include "pref.h"
 #include "newproject.h"
+#include "previewdialog.h"
 
 #include <kglobal.h>
 #include <klocale.h>
@@ -181,8 +181,12 @@ void KSubtitleRipper::fileNew() {
 	if ( canCloseProject() ) {
 		NewProject dialog;
 		if ( dialog.exec() == QDialog::Accepted ) {
-			m_view->newProject( dialog.getProject() );
-			setProject( KURL() );
+			Project *prj = dialog.getProject();
+			if ( PreviewDialog( prj, this ).exec() == QDialog::Accepted )
+			{
+				m_view->newProject( prj );
+				setProject( KURL() );
+			} else delete prj;
 		}
 	}
 }
