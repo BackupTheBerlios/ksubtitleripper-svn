@@ -30,7 +30,6 @@
 #include <klocale.h>
 #include "previewdialog.h"
 #include "extractprocess.h"
-#include "project.h"
 
 const int numSubs = 8;
 
@@ -40,6 +39,7 @@ PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
 {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "PreviewDialog constructor: prj is null\n";
+	m_coloursOld = prj->colours;
 
 	QFrame *top = makeMainWidget();
 
@@ -78,6 +78,7 @@ PreviewDialog::PreviewDialog( Project *prj, QWidget *parent, const char* name )
 
 	connect( this, SIGNAL( user1Clicked() ), this, SLOT( preview() ) );
 	connect( this, SIGNAL( okClicked() ), this, SLOT( setColours() ) );
+	connect( this, SIGNAL( cancelClicked() ), this, SLOT( restoreColours() ) );
 }
 
 PreviewDialog::~PreviewDialog()
@@ -152,6 +153,10 @@ void PreviewDialog::extractOutput( KProcIO *proc ) {
 void PreviewDialog::setColours() {
 	for (uint i = 0; i < 4; ++i)
 		m_project->colours[i] = ( radioButton[i]->isChecked() ) ? 0 : 255;
+}
+
+void PreviewDialog::restoreColours() {
+	m_project->colours = m_coloursOld;
 }
 
 #include "previewdialog.moc"

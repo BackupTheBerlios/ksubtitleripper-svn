@@ -21,6 +21,7 @@
 #define PREVIEWDIALOG_H
 
 #include <kdialogbase.h>
+#include "project.h"
 
 class QVButtonGroup;
 class QRadioButton;
@@ -29,7 +30,6 @@ class KProcess;
 class KProcIO;
 class KProgressDialog;
 class KListBox;
-class Project;
 
 /**
 @author Sergio Cambra
@@ -47,6 +47,7 @@ protected slots:
 	virtual void extractFinish( KProcess *proc );
 	virtual void extractOutput( KProcIO *proc );
 	virtual void setColours();
+	virtual void restoreColours();
 
 private:
 	QVButtonGroup *groupIndex;
@@ -57,6 +58,7 @@ private:
 	Project *m_project;
 	ExtractProcess *m_process;
 	uint m_numSub;
+	Colours m_coloursOld;
 };
 
 #endif

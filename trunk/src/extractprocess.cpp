@@ -30,18 +30,18 @@ ExtractProcess::ExtractProcess( const Project *prj, QWidget *parent, QTextCodec 
 {
 	// prj mustn't be 0
 	if ( !prj ) kdFatal() << "ExtractProcess constructor: prj is null\n";
-
+	
 	setUseShell( true );
 	setWorkingDirectory( prj->directory() );
 	setComm( KProcess::Stderr );
 	enableReadSignals( true );
-
+	
 	// TODO check if cat, tcextract and subtitle2pgm are executable
-
+	
 	*this << "cat";
 	if ( !download( prj->files() ) ) return;
 	*this << "|" << "tcextract" << "-x" << "ps1" << "-t" << "vob" << "-a" << "0x20";
-	*this << "|" << "subtitle2pgm" << "-v" << "-P" << "-C" << "1";
+	*this << "|" << "subtitle2pgm" << "-P" << "-C" << "1";
 	*this << "-c" << prj->coloursString() << "-o" << prj->baseName();
 }
 
@@ -51,7 +51,7 @@ ExtractProcess::~ExtractProcess()
 
 bool ExtractProcess::download( const KURL::List& urls ) {
 	QString target;
-
+	
 	for (uint i = 0; i < urls.count(); i++ ) {
 		if ( KIO::NetAccess::download( urls[i], target, widget ) ) {
 			*this << KProcess::quote( target );
@@ -62,6 +62,6 @@ bool ExtractProcess::download( const KURL::List& urls ) {
 			return false;
 		}
 	}
-
+	
 	return true;
 }
