@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
-"POT-Creation-Date: 2004-08-18 22:51+0200\n"
+"POT-Creation-Date: 2004-08-18 23:17+0200\n"
 "PO-Revision-Date: 2004-07-29 17:32+0200\n"
 "Last-Translator: Sergio Cambra García <sergio.cambra@hispalinux.es>\n"
 "Language-Team:  <es@li.org>\n"
@@ -83,51 +83,52 @@ msgstr "Génération de l'image %1"
 msgid "Couldn't download file %1"
 msgstr "Impossible de télécharger le fichier %1"
 
-#: ksubtitleripper.cpp:99
+#: ksubtitleripper.cpp:94
 msgid "Save subtitle"
 msgstr "Sauvergarder le sous-titre"
 
-#: ksubtitleripper.cpp:101
+#: ksubtitleripper.cpp:96
 msgid "Previous subtitle"
 msgstr "Sous-titre précédent"
 
-#: ksubtitleripper.cpp:103
+#: ksubtitleripper.cpp:98
 msgid "Next subtitle"
 msgstr "Sous-titre suivant"
 
-#: ksubtitleripper.cpp:105
+#: ksubtitleripper.cpp:100
 msgid "Extract subtitles"
 msgstr "Extraire les sous-titres"
 
-#: ksubtitleripper.cpp:107
+#: ksubtitleripper.cpp:102
 msgid "Convert subtitles to text"
 msgstr "Convertir les sous-titres en texte"
 
-#: ksubtitleripper.cpp:109
+#: ksubtitleripper.cpp:104
 msgid "Generate SRT file"
 msgstr "Générer un fichier .SRT"
 
-#: ksubtitleripper.cpp:204 ksubtitleripper.cpp:222
+#: ksubtitleripper.cpp:199 ksubtitleripper.cpp:217
 msgid "KSubtitleRipper Project Files"
 msgstr "Projets KSubtitleRipper"
 
-#: ksubtitleripper.cpp:204
+#: ksubtitleripper.cpp:199
 msgid "Open Project"
 msgstr "Ouvrir un Projet"
 
-#: ksubtitleripper.cpp:222
+#: ksubtitleripper.cpp:217
 msgid "Save Project"
 msgstr "Sauvegarder le Projet"
 
-#: ksubtitleripper.cpp:231 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
 msgid "Overwrite File?"
 msgstr "Écraser le fichier ?"
 
-#: ksubtitleripper.cpp:231 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
 msgid "Overwrite"
 msgstr "Écraser"
 
-#: ksubtitleripper.cpp:324
+#: ksubtitleripper.cpp:319
+#, fuzzy
 msgid ""
 "The project \"%1\" has been modified.\n"
 "\n"
@@ -137,7 +138,7 @@ msgstr ""
 "\n"
 "Voulez-vous le sauvegarder?"
 
-#: ksubtitleripper.cpp:324
+#: ksubtitleripper.cpp:319
 msgid "Save Project?"
 msgstr "Sauvegarder le projet ?"
 

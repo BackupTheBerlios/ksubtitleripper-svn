@@ -1,4 +1,6 @@
 # translation of es.po to 
+# translation of es.po to
+# translation of es.po to
 # translation of es.po to Spanish
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -7,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2004-08-18 22:51+0200\n"
-"PO-Revision-Date: 2004-08-18 22:59+0200\n"
+"POT-Creation-Date: 2004-08-18 23:20+0200\n"
+"PO-Revision-Date: 2004-08-18 23:18+0200\n"
 "Last-Translator: Sergio Cambra García <sergio.cambra@hispalinux.es>\n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -79,51 +81,51 @@ msgstr "Generando imagen %1"
 msgid "Couldn't download file %1"
 msgstr "No se pudo descargar el archivo %1"
 
-#: ksubtitleripper.cpp:99
+#: ksubtitleripper.cpp:94
 msgid "Save subtitle"
 msgstr "Guardar subtítulo"
 
-#: ksubtitleripper.cpp:101
+#: ksubtitleripper.cpp:96
 msgid "Previous subtitle"
 msgstr "Anterior subtítulo"
 
-#: ksubtitleripper.cpp:103
+#: ksubtitleripper.cpp:98
 msgid "Next subtitle"
 msgstr "Siguiente subtítulo"
 
-#: ksubtitleripper.cpp:105
+#: ksubtitleripper.cpp:100
 msgid "Extract subtitles"
 msgstr "Extraer subtítulos"
 
-#: ksubtitleripper.cpp:107
+#: ksubtitleripper.cpp:102
 msgid "Convert subtitles to text"
 msgstr "Convertir subtítulos a texto"
 
-#: ksubtitleripper.cpp:109
+#: ksubtitleripper.cpp:104
 msgid "Generate SRT file"
 msgstr "Generar archivo SRT"
 
-#: ksubtitleripper.cpp:204 ksubtitleripper.cpp:222
+#: ksubtitleripper.cpp:199 ksubtitleripper.cpp:217
 msgid "KSubtitleRipper Project Files"
 msgstr "Archivos de Proyecto de KSubtitleRipper"
 
-#: ksubtitleripper.cpp:204
+#: ksubtitleripper.cpp:199
 msgid "Open Project"
 msgstr "Abrir Proyecto"
 
-#: ksubtitleripper.cpp:222
+#: ksubtitleripper.cpp:217
 msgid "Save Project"
 msgstr "Guardar Proyecto"
 
-#: ksubtitleripper.cpp:231 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
 msgid "Overwrite File?"
 msgstr "¿Sobreescribir el archivo?"
 
-#: ksubtitleripper.cpp:231 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
 msgid "Overwrite"
 msgstr "Sobreescribir"
 
-#: ksubtitleripper.cpp:324
+#: ksubtitleripper.cpp:319
 msgid ""
 "The project \"%1\" has been modified.\n"
 "\n"
@@ -133,9 +135,9 @@ msgstr ""
 "\n"
 "¿Desea guardarlo?"
 
-#: ksubtitleripper.cpp:324
+#: ksubtitleripper.cpp:319
 msgid "Save Project?"
-msgstr "¿Guardar el proyecto?"
+msgstr "¿Guardar Proyecto?"
 
 #: ksubtitleripperview.cpp:56
 #, c-format
@@ -277,4 +279,3 @@ msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "runico@users.berlios.de"
-

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2004-08-18 22:51+0200\n"
+"POT-Creation-Date: 2004-08-18 23:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,58 +75,58 @@ msgstr ""
 msgid "Couldn't download file %1"
 msgstr ""
 
-#: ksubtitleripper.cpp:99
+#: ksubtitleripper.cpp:94
 msgid "Save subtitle"
 msgstr ""
 
-#: ksubtitleripper.cpp:101
+#: ksubtitleripper.cpp:96
 msgid "Previous subtitle"
 msgstr ""
 
-#: ksubtitleripper.cpp:103
+#: ksubtitleripper.cpp:98
 msgid "Next subtitle"
 msgstr ""
 
-#: ksubtitleripper.cpp:105
+#: ksubtitleripper.cpp:100
 msgid "Extract subtitles"
 msgstr ""
 
-#: ksubtitleripper.cpp:107
+#: ksubtitleripper.cpp:102
 msgid "Convert subtitles to text"
 msgstr ""
 
-#: ksubtitleripper.cpp:109
+#: ksubtitleripper.cpp:104
 msgid "Generate SRT file"
 msgstr ""
 
-#: ksubtitleripper.cpp:204 ksubtitleripper.cpp:222
+#: ksubtitleripper.cpp:199 ksubtitleripper.cpp:217
 msgid "KSubtitleRipper Project Files"
 msgstr ""
 
-#: ksubtitleripper.cpp:204
+#: ksubtitleripper.cpp:199
 msgid "Open Project"
 msgstr ""
 
-#: ksubtitleripper.cpp:222
+#: ksubtitleripper.cpp:217
 msgid "Save Project"
 msgstr ""
 
-#: ksubtitleripper.cpp:231 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
 msgid "Overwrite File?"
 msgstr ""
 
-#: ksubtitleripper.cpp:231 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
 msgid "Overwrite"
 msgstr ""
 
-#: ksubtitleripper.cpp:324
+#: ksubtitleripper.cpp:319
 msgid ""
 "The project \"%1\" has been modified.\n"
 "\n"
 "Do you want to save it?"
 msgstr ""
 
-#: ksubtitleripper.cpp:324
+#: ksubtitleripper.cpp:319
 msgid "Save Project?"
 msgstr ""
 
