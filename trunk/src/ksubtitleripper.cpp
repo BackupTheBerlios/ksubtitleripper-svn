@@ -39,7 +39,7 @@
 
 namespace {
 	QString untitled( i18n ( "Untitled" ) );
-	QString projectFilter( "*.srip|" + i18n( "KSubtitleRipper Project Files" ) );
+//	QString projectFilter( "*.srip|" + i18n( "KSubtitleRipper Project Files" ) );
 }
 
 KSubtitleRipper::KSubtitleRipper() : KMainWindow( 0, "KSubtitleRipper" ),
@@ -193,7 +193,7 @@ void KSubtitleRipper::fileOpen() {
 	// button is clicked
 
 	// standard filedialog
-	KURL url = KFileDialog::getOpenURL( QString::null, projectFilter, this, i18n( "Open Project" ) );
+	KURL url = KFileDialog::getOpenURL( QString::null, i18n("*.srip|KSubtitleRipper Project Files"), this, i18n( "Open Project" ) );
 	if ( !url.isEmpty() && url.isValid() )
 		load( url );
 }
@@ -211,7 +211,7 @@ void KSubtitleRipper::fileSaveAs() {
 	// this slot is called whenever the File->Save As menu is selected
 	QString text = "A file named \"%1\" already exists.\nAre you sure you want to overwrite it?";
 
-	KURL url = KFileDialog::getSaveURL( QString::null, projectFilter, this, i18n( "Save Project" ) );
+	KURL url = KFileDialog::getSaveURL( QString::null, i18n("*.srip|KSubtitleRipper Project Files"), this, i18n( "Save Project" ) );
 	
 	if ( !url.isEmpty() && url.isValid() ) {
 		if ( !url.isLocalFile() || !QFile::exists( url.path() ) ) {
