@@ -177,6 +177,7 @@ void PreviewDialog::fillLanguages()
 		kapp->processEvents();
 	} while ( !proc.wait( 100 ) );
 	dlg.stop();
+	dlg.close();
 
 	LanguageMap map = proc.languages();
 	if ( map.count() == 0 ) map.insert( "1", "0x20" );

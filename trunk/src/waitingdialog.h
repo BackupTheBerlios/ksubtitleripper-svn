@@ -37,6 +37,7 @@ public:
 				   bool modal = true );
 	virtual void show();
 	void stop();
+	void close() { KProgressDialog::accept(); }
 
 private slots:
 	void slotProgress();

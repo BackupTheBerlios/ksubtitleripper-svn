@@ -38,7 +38,6 @@ void WaitingDialog::stop()
 		delete m_timer;
 		m_timer = 0;
 	}
-	accept();
 }
 
 void WaitingDialog::show()
