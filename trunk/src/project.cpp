@@ -229,7 +229,7 @@ bool Project::save( const QString& path ) const {
 
 	xml.writeOpenTag( "files" );
 	for ( uint i = 0; i < m_files.count(); i++ )
-		xml.writeTaggedString( "url", m_files[i].url() );
+		xml.writeTaggedString( "url", m_files[i].prettyURL() );
 	xml.writeCloseTag( "files" );
 
 	attrs.clear();
