@@ -44,6 +44,7 @@ void PrefDialog::updateDialog() {
 	m_prefGeneral->setDoUnix2DosChecked( Config().doUnix2Dos() );
 	m_prefGeneral->setEnableAutoCenterChecked( Config().autoCenter() );
 	m_prefGeneral->setEditorFont( Config().editorFont() );
+	m_prefGeneral->setSubEncoding( Config().subEncoding() );
 	enableButtonApply( false );
 }
 
@@ -51,6 +52,7 @@ void PrefDialog::updateConfiguration() {
 	Config().setDoUnix2Dos( m_prefGeneral->isDoUnix2DosChecked() );
 	Config().setAutoCenter( m_prefGeneral->isEnableAutoCenterChecked() );
 	Config().setEditorFont( m_prefGeneral->editorFont() );
+	Config().setSubEncoding( m_prefGeneral->subEncoding() );
 	enableButtonApply( false );
 }
 

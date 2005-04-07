@@ -23,6 +23,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kglobalsettings.h>
+#include <qtextcodec.h>
 
 const bool Configuration::defaultDoUnix2Dos = false;
 const bool Configuration::defaultCheckSpelling = true;
@@ -39,6 +40,12 @@ const QFont& Configuration::defaultEditorFont()
 	return *m_defaultEditorFont;
 }
 
+const QString& Configuration::defaultSubEncoding()
+{
+	static QString *m_defaultSubEncoding = new QString( QString( QTextCodec::codecForLocale()->name() ).find( "UTF" ) != -1 ? "UTF8" : "ISO8859_1" );
+	return *m_defaultSubEncoding;
+}
+
 void Configuration::read() {
 	KConfig *conf = kapp->config();
 
@@ -47,6 +54,7 @@ void Configuration::read() {
 	m_checkSpelling = conf->readBoolEntry( "checkSpelling", defaultCheckSpelling );
 	m_editorFont = conf->readFontEntry( "fontEditor", &defaultEditorFont() );
 	m_autoCenter = conf->readBoolEntry( "autoCenter", defaultAutoCenter );
+	m_subEncoding = conf->readEntry( "subEncoding", defaultSubEncoding() );
 }
 
 void Configuration::write() const {
@@ -57,6 +65,7 @@ void Configuration::write() const {
 	conf->writeEntry( "checkSpelling", m_checkSpelling );
 	conf->writeEntry( "fontEditor", m_editorFont );
 	conf->writeEntry( "autoCenter", m_autoCenter );
+	conf->writeEntry( "subEncoding", m_subEncoding );
 
 	conf->sync();
 }

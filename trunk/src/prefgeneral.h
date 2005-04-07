@@ -23,6 +23,7 @@
 #include <prefgenerallayout.h>
 #include <qcheckbox.h>
 #include <kfontrequester.h>
+#include <kcombobox.h>
 
 /**
 @author Sergio Cambra
@@ -36,10 +37,12 @@ public:
 	void setDoUnix2DosChecked( bool value ) { m_doUnix2DosChk->setChecked( value ); }
 	void setEnableAutoCenterChecked( bool value ) { m_enableAutoCenter->setChecked( value ); }
 	void setEditorFont( const QFont& font ) { m_editorFont->setFont( font ); }
+	void setSubEncoding( const QString& item ) { m_encoding->setCurrentItem( item ); }
 
 	bool isDoUnix2DosChecked() const { return m_doUnix2DosChk->isChecked(); }
 	bool isEnableAutoCenterChecked() const { return m_enableAutoCenter->isChecked(); }
 	QFont editorFont() const { return m_editorFont->font(); }
+	QString subEncoding() const { return m_encoding->currentText(); }
 
 protected slots:
 	void optionsChangedSlot();

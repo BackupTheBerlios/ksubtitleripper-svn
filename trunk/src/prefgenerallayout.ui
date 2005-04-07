@@ -8,8 +8,8 @@
         <rect>
             <x>0</x>
             <y>0</y>
-            <width>382</width>
-            <height>298</height>
+            <width>395</width>
+            <height>201</height>
         </rect>
     </property>
     <property name="caption">
@@ -19,7 +19,7 @@
         <property name="name">
             <cstring>unnamed</cstring>
         </property>
-        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>m_doUnix2DosChk</cstring>
             </property>
@@ -27,17 +27,12 @@
                 <string>Convert SRT file to DOS format</string>
             </property>
         </widget>
-        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="2">
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
             <property name="name">
                 <cstring>m_enableAutoCenter</cstring>
             </property>
             <property name="text">
                 <string>Enable auto center of subtitle</string>
-            </property>
-        </widget>
-        <widget class="KFontRequester" row="2" column="1">
-            <property name="name">
-                <cstring>m_editorFont</cstring>
             </property>
         </widget>
         <widget class="QLabel" row="2" column="0">
@@ -48,7 +43,57 @@
                 <string>Editor Font:</string>
             </property>
         </widget>
-        <spacer row="3" column="1">
+        <widget class="KFontRequester" row="2" column="1" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>m_editorFont</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_textEncoding</cstring>
+            </property>
+            <property name="text">
+                <string>Subtitle Encoding</string>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="3" column="2">
+            <item>
+                <property name="text">
+                    <string>ASCII</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>ISO8859_1</string>
+                </property>
+            </item>
+            <item>
+                <property name="text">
+                    <string>UTF8</string>
+                </property>
+            </item>
+            <property name="name">
+                <cstring>m_encoding</cstring>
+            </property>
+        </widget>
+        <spacer row="3" column="3">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>90</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="4" column="2">
             <property name="name">
                 <cstring>m_spacer1</cstring>
             </property>
@@ -61,7 +106,7 @@
             <property name="sizeHint">
                 <size>
                     <width>20</width>
-                    <height>170</height>
+                    <height>16</height>
                 </size>
             </property>
         </spacer>
@@ -92,5 +137,6 @@
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kfontrequester.h</includehint>
+    <includehint>kcombobox.h</includehint>
 </includehints>
 </UI>

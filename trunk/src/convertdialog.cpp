@@ -134,6 +134,7 @@ void ConvertDialog::startGocr( KProcess *proc ) {
 
 	*proc << "gocr" << "-p" << databasePath;
 	*proc << "-s" << "10" << "-m" << "130";
+	*proc << "-f" << Config().subEncoding();
 	*proc << filename + ".pgm" << "-o" << filename + ".pgm.txt";
 
 	if ( !proc->start( KProcess::NotifyOnExit, KProcess::All ) )
