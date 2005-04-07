@@ -1,29 +1,31 @@
 # translation of es.po to 
 # translation of es.po to
 # translation of es.po to
+# translation of es.po to
 # translation of es.po to Spanish
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Sergio Cambra García <sergio.cambra@hispalinux.es>, 2004.
+# Sergio Cambra García <runico@users.berlios.de>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"POT-Creation-Date: 2004-08-18 23:20+0200\n"
-"PO-Revision-Date: 2004-08-18 23:18+0200\n"
-"Last-Translator: Sergio Cambra García <sergio.cambra@hispalinux.es>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-04-07 16:16+0200\n"
+"PO-Revision-Date: 2005-04-07 15:59+0200\n"
+"Last-Translator: Sergio Cambra García <runico@users.berlios.de>\n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.3.1\n"
+"X-Generator: KBabel 1.9.1\n"
 
-#: convertdialog.cpp:38 previewdialog.cpp:38
+#: convertdialog.cpp:39
 msgid "Converting images to text"
 msgstr "Convirtiendo imágenes a texto"
 
-#: convertdialog.cpp:65
+#: convertdialog.cpp:64
 msgid ""
 "The marked chars were not recognized. Enter correct ASCII char, \"string\" "
 "or 4 to 8 digit hex unicode."
@@ -32,20 +34,14 @@ msgstr ""
 "correcto, la \"cadena\" correcta o el unicode correcto con 4 a 8 dígitos "
 "hexadecimales."
 
-#: convertdialog.cpp:74
+#: convertdialog.cpp:73
 msgid "Save to database"
 msgstr "Guardar en la base de datos"
 
-#: convertdialog.cpp:100 ksubtitleripperview.cpp:79
+#: convertdialog.cpp:99 ksubtitleripperview.cpp:92
 #, c-format
 msgid "Subtitle %1"
 msgstr "Subtítulo %1"
-
-#: convertdialog.cpp:105 ksubtitleripperview.cpp:84 ksubtitleripperview.cpp:94
-#: previewdialog.cpp:130
-#, c-format
-msgid "Couldn't load file %1"
-msgstr "No se pudo cargar el archivo %1"
 
 #: createsrt.cpp:51
 msgid "Couldn't run srttool"
@@ -67,65 +63,72 @@ msgstr "No se pudo leer de o escribir a \"%1\""
 msgid "Extracting subtitles"
 msgstr "Extrayendo subtítulos"
 
-#: extractdialog.cpp:92 previewdialog.cpp:136
+#: extractdialog.cpp:82 previewdialog.cpp:115
 msgid "Error extracting subtitles"
 msgstr "Error extrayendo subtítulos"
 
-#: extractdialog.cpp:103
+#: extractdialog.cpp:93
 #, c-format
 msgid "Generating image %1"
 msgstr "Generando imagen %1"
 
-#: extractprocess.cpp:61 ksubtitleripperview.cpp:328
-#, c-format
-msgid "Couldn't download file %1"
-msgstr "No se pudo descargar el archivo %1"
+#: ksubtitleripper.cpp:93
+msgid "Enable Check &Spelling"
+msgstr "Activar Comprobación &Ortográfica"
 
-#: ksubtitleripper.cpp:94
+#: ksubtitleripper.cpp:96
+msgid "Disable Check &Spelling"
+msgstr "Desactivar Comprobación &Ortográfica"
+
+#: ksubtitleripper.cpp:102
 msgid "Save subtitle"
 msgstr "Guardar subtítulo"
 
-#: ksubtitleripper.cpp:96
+#: ksubtitleripper.cpp:104
 msgid "Previous subtitle"
 msgstr "Anterior subtítulo"
 
-#: ksubtitleripper.cpp:98
+#: ksubtitleripper.cpp:106
 msgid "Next subtitle"
 msgstr "Siguiente subtítulo"
 
-#: ksubtitleripper.cpp:100
+#: ksubtitleripper.cpp:108
+msgid "Center subtitle"
+msgstr "Centrar subtítulo"
+
+#: ksubtitleripper.cpp:110
 msgid "Extract subtitles"
 msgstr "Extraer subtítulos"
 
-#: ksubtitleripper.cpp:102
+#: ksubtitleripper.cpp:112
 msgid "Convert subtitles to text"
 msgstr "Convertir subtítulos a texto"
 
-#: ksubtitleripper.cpp:104
+#: ksubtitleripper.cpp:114
 msgid "Generate SRT file"
 msgstr "Generar archivo SRT"
 
-#: ksubtitleripper.cpp:199 ksubtitleripper.cpp:217
+#: ksubtitleripper.cpp:216 ksubtitleripper.cpp:234
 msgid "KSubtitleRipper Project Files"
 msgstr "Archivos de Proyecto de KSubtitleRipper"
 
-#: ksubtitleripper.cpp:199
+#: ksubtitleripper.cpp:216
 msgid "Open Project"
 msgstr "Abrir Proyecto"
 
-#: ksubtitleripper.cpp:217
+#: ksubtitleripper.cpp:234
 msgid "Save Project"
 msgstr "Guardar Proyecto"
 
-#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:243 ksubtitleripperview.cpp:220
 msgid "Overwrite File?"
 msgstr "¿Sobreescribir el archivo?"
 
-#: ksubtitleripper.cpp:226 ksubtitleripperview.cpp:212
+#: ksubtitleripper.cpp:243 ksubtitleripperview.cpp:220
 msgid "Overwrite"
 msgstr "Sobreescribir"
 
-#: ksubtitleripper.cpp:319
+#: ksubtitleripper.cpp:330
 msgid ""
 "The project \"%1\" has been modified.\n"
 "\n"
@@ -135,16 +138,21 @@ msgstr ""
 "\n"
 "¿Desea guardarlo?"
 
-#: ksubtitleripper.cpp:319
+#: ksubtitleripper.cpp:330
 msgid "Save Project?"
 msgstr "¿Guardar Proyecto?"
 
-#: ksubtitleripperview.cpp:56
+#: ksubtitleripperview.cpp:69
 #, c-format
 msgid "Couldn't write to file %1"
 msgstr "No se pudo escribir en el archivo %1"
 
-#: ksubtitleripperview.cpp:114
+#: ksubtitleripperview.cpp:105 previewdialog.cpp:109 subtitleview.cpp:40
+#, c-format
+msgid "Couldn't load file %1"
+msgstr "No se pudo cargar el archivo %1"
+
+#: ksubtitleripperview.cpp:125
 msgid ""
 "The subtitle has been modified.\n"
 "\n"
@@ -154,11 +162,11 @@ msgstr ""
 "\n"
 "¿Desea guardarlo?"
 
-#: ksubtitleripperview.cpp:115
+#: ksubtitleripperview.cpp:126
 msgid "Save Subtitle?"
 msgstr "¿Guardar subtítulo?"
 
-#: ksubtitleripperview.cpp:168
+#: ksubtitleripperview.cpp:170
 #, c-format
 msgid ""
 "_n: %n subtitle has been extracted\n"
@@ -167,33 +175,33 @@ msgstr ""
 "Se ha extraído %n subtítulo\n"
 "Se han extraído %n subtítulos"
 
-#: ksubtitleripperview.cpp:169 ksubtitleripperview.cpp:177
+#: ksubtitleripperview.cpp:171 ksubtitleripperview.cpp:179
 msgid "Extraction completed"
 msgstr "Extracción completada"
 
-#: ksubtitleripperview.cpp:176
+#: ksubtitleripperview.cpp:178
 msgid "No subtitles have been extracted"
 msgstr "No se ha extraído ningún subtítulo"
 
-#: ksubtitleripperview.cpp:202
+#: ksubtitleripperview.cpp:210
 msgid "SRT Subtitles"
 msgstr "Subtítulos SRT"
 
-#: ksubtitleripperview.cpp:202
+#: ksubtitleripperview.cpp:210
 msgid "Save Subtitles"
 msgstr "Guardar subtítulos"
 
-#: ksubtitleripperview.cpp:256 ksubtitleripperview.cpp:350
+#: ksubtitleripperview.cpp:263 ksubtitleripperview.cpp:357
 #, c-format
 msgid "Couldn't save remote file %1"
 msgstr "No se pudo guardar el archivo remoto %1"
 
-#: ksubtitleripperview.cpp:323
+#: ksubtitleripperview.cpp:322
 #, c-format
 msgid "Couldn't open file %1"
 msgstr "No se pudo abrir el archivo %1"
 
-#: ksubtitleripperview.cpp:337 ksubtitleripperview.cpp:345
+#: ksubtitleripperview.cpp:344 ksubtitleripperview.cpp:352
 #, c-format
 msgid "Couldn't save project to %1"
 msgstr "No se pudo guardar el proyecto en %1"
@@ -210,63 +218,131 @@ msgstr "Proyecto a abrir."
 msgid "KSubtitleRipper"
 msgstr "KSubtitleRipper"
 
-#: newproject.cpp:35
+#: newproject.cpp:59
 msgid "Create New Project"
 msgstr "Crear Proyecto Nuevo"
 
-#: newproject.cpp:43
+#: newproject.cpp:65
+msgid "Vob or Sub files"
+msgstr "Archivos Vob o Sub"
+
+#: newproject.cpp:79
+msgid "Directory"
+msgstr "Directorio"
+
+#: newproject.cpp:93
 msgid "Prefix"
 msgstr "Prefijo"
 
-#: newproject.cpp:50
-msgid "Vob files"
-msgstr "Archivos vob"
+#: newproject.cpp:121
+msgid "VOB and SUB files"
+msgstr "Archivos VOB y SUB"
 
-#: newproject.cpp:78
-msgid "VOB files"
-msgstr "Archivos VOB"
+#: newproject.cpp:121
+msgid "Select VOB or SUB files"
+msgstr "Seleccionar archivos VOB o SUB"
 
-#: newproject.cpp:78
-msgid "Select VOB files"
-msgstr "Seleccionar archivos VOB"
-
-#: prefdialog.cpp:34
+#: prefdialog.cpp:33
 msgid "General"
 msgstr "General"
 
-#: prefdialog.cpp:34 rc.cpp:5
+#: prefdialog.cpp:33 rc.cpp:8
+#, no-c-format
 msgid "General options"
 msgstr "Opciones generales"
 
-#: previewdialog.cpp:39
+#: previewdialog.cpp:37
+msgid "Setup project"
+msgstr "Configurar Proyecto"
+
+#: previewdialog.cpp:38
 msgid "Preview"
 msgstr "Vista previa"
 
-#: previewdialog.cpp:51
-msgid "Choose filling colour index"
-msgstr "Elegir índice del color del texto"
-
-#: previewdialog.cpp:54 previewdialog.cpp:58 previewdialog.cpp:62
-#: previewdialog.cpp:66
-#, c-format
-msgid "Colour %1"
-msgstr "Color %1"
-
-#: previewdialog.cpp:102
+#: previewdialog.cpp:79
 msgid "Extracting..."
 msgstr "Extrayendo..."
 
-#: rc.cpp:1
-msgid "&Subtitles"
-msgstr "&Subtítulos"
+#: previewdialog.cpp:151
+msgid "Seeking Languages"
+msgstr "Buscando Idiomas"
+
+#: project.cpp:293
+msgid "There isn't a language map"
+msgstr "No hay un mapa de idiomas"
+
+#: project.cpp:300
+msgid "The language %1 doesn't exist"
+msgstr "El idioma %1 no existe"
 
 #: rc.cpp:2
+#, no-c-format
+msgid "S&ubtitles"
+msgstr "&Subtítulos"
+
+#: rc.cpp:4
+#, no-c-format
 msgid "KSubtitleRipperViewDlg"
 msgstr "KSubtitleRipperViewDlg"
 
-#: rc.cpp:6
+#: rc.cpp:10
+#, no-c-format
 msgid "Convert SRT file to DOS format"
 msgstr "Convertir archivo SRT a formato DOS"
+
+#: rc.cpp:12
+#, no-c-format
+msgid "Enable auto center of subtitle"
+msgstr "Activar autocentrado de los subtítulos"
+
+#: rc.cpp:14
+#, no-c-format
+msgid "Editor Font:"
+msgstr "Fuente del editor:"
+
+#: rc.cpp:16
+#, no-c-format
+msgid "Subtitle Encoding"
+msgstr "Codificación de los subtítulos"
+
+#: rc.cpp:19
+#, no-c-format
+msgid "Choose filling colour index"
+msgstr "Elegir índice del color del texto"
+
+#: rc.cpp:21
+#, no-c-format
+msgid "Colour 1"
+msgstr "Color 1"
+
+#: rc.cpp:23
+#, no-c-format
+msgid "Colour 2"
+msgstr "Color 2"
+
+#: rc.cpp:25
+#, no-c-format
+msgid "Colour 3"
+msgstr "Color 3"
+
+#: rc.cpp:27
+#, no-c-format
+msgid "Colour 4"
+msgstr "Color 4"
+
+#: rc.cpp:29
+#, no-c-format
+msgid "Languages"
+msgstr "Idiomas"
+
+#: rc.cpp:31
+#, no-c-format
+msgid "Subtitles to preview"
+msgstr "Subtítulos a previsualizar"
+
+#: seeklanguagesinvob.cpp:65
+msgid "Error seeking subtitles in VOB file"
+msgstr "Error buscando subtítulos en el archivo VOB"
 
 #: _translatorinfo.cpp:1
 msgid ""
