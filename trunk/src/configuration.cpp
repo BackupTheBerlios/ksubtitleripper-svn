@@ -42,7 +42,7 @@ const QFont& Configuration::defaultEditorFont()
 
 const QString& Configuration::defaultSubEncoding()
 {
-	static QString *m_defaultSubEncoding = new QString( QString( QTextCodec::codecForLocale()->name() ).find( "UTF" ) != -1 ? "UTF8" : "ISO8859_1" );
+	static QString *m_defaultSubEncoding = new QString( QString( QTextCodec::codecForLocale()->name() ).find( "UTF-8" ) != -1 ? "UTF8" : "ISO8859_1" );
 	return *m_defaultSubEncoding;
 }
 
