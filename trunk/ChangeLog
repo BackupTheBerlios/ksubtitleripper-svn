@@ -1,3 +1,6 @@
+  7-4-2005
+- Add an option to choose encoding to use with gocr
+
   21-3-2005
 - Add *.sub to filter in select vob files, because it works with those files too.
 
