@@ -45,4 +45,4 @@ rcdir = $(kde_datadir)/ksubtitleripper
 rc_DATA = ksubtitleripperui.rc
 
 dist-hook:
-	cd $(distdir) && rm ksubtitleripperviewdlg.cpp prefgenerallayout.cpp
+	cd $(distdir) && rm ksubtitleripperviewdlg.cpp ksubtitleripperviewdlg.h prefgenerallayout.cpp prefgenerallayout.h previewdialogdlg.cpp previewdialogdlg.h
