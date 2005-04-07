@@ -1,6 +1,6 @@
 %define __libtoolize true
 %define name ksubtitleripper
-%define version 0.2
+%define version 0.3
 %define release 1plf
 
 Name: %{name}
@@ -75,6 +75,9 @@ rm -rf %{buildroot}
 %{_datadir}/doc/HTML/en/%{name}/*
 
 %changelog
+* Fri Apr 08 2005 Sergio Cambra <runico@users.berlios.de> 0.3-1plf
+- Release 0.3
+
 * Thu Aug 19 2004 Sergio Cambra <runico@users.berlios.de> 0.2-1plf
 - Release 0.2
 - Change Copyright to License, add transcode to Requires and fix changelog
