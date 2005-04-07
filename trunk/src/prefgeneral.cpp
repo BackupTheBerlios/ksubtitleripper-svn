@@ -22,6 +22,9 @@
 PrefGeneral::PrefGeneral(QWidget *parent, const char *name, WFlags f)
  : PrefGeneralLayout(parent, name, f)
 {
+	m_encoding->insertItem( "ASCII" );
+	m_encoding->insertItem( "ISO8859_1" );
+	m_encoding->insertItem( "UTF8" );
 }
 
 void PrefGeneral::optionsChangedSlot() {
