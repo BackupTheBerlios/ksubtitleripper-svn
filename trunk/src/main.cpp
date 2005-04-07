@@ -28,7 +28,7 @@
 static const char description[] =
     I18N_NOOP( "A KDE GUI for subtitleripper package." );
 
-static const char version[] = "0.2";
+static const char version[] = "0.3";
 
 static KCmdLineOptions options[] =
     {
@@ -52,9 +52,9 @@ int main( int argc, char **argv ) {
 		KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 		KSubtitleRipper *widget = new KSubtitleRipper;
 		widget->show();
-		
+
 		if ( args->count() > 0 ) widget->load( args->url( 0 ) );
-		
+
 		args->clear();
 	}
 
