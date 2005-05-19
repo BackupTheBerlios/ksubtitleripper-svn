@@ -51,7 +51,6 @@ public slots:
 	void createSRT();
 	void createSrtFailed( CreateSRT *createSRT, const QString& error );
 	void createSrtSuccess( CreateSRT *createSRT );
-	void modify( bool m ) const;
 	void setCheckSpellingEnabled( bool enabled );
 	void setEditorFont( const QFont& font );
 

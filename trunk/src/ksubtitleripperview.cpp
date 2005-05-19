@@ -39,7 +39,6 @@
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
 		: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ) {
 	setModified( false );
-	connect( text, SIGNAL( modificationChanged( bool ) ), this, SLOT( modify( bool ) ) );
 }
 
 KSubtitleRipperView::~KSubtitleRipperView() {
@@ -109,11 +108,6 @@ void KSubtitleRipperView::loadSubtitle() {
 		text->setText( in.read() );
 		f.close();
 	}
-}
-
-void KSubtitleRipperView::modify( bool m ) const {
-	kdDebug() << m << endl;
-	kdDebug() << kdBacktrace( 10 ) << endl;
 }
 
 bool KSubtitleRipperView::askIfModified() {
