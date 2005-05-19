@@ -85,7 +85,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 
 	QLabel *text = new QLabel( top );
 	text->setAlignment( text->alignment() | Qt::WordBreak );
-	text->setText( i18n( "The marked chars were not recognized. Enter correct ASCII char or 4 to 8 digit hex unicode." ) );
+	text->setText( i18n( "The marked chars were not recognized. Enter correct string or 4 to 8 digit hex unicode." ) );
 	layoutGeneral->addWidget( text );
 
 	m_correctString = new QButtonGroup( 0, Qt::Vertical, "Correct String", top );
