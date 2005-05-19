@@ -30,9 +30,9 @@ class KLineEdit;
 class KProgress;
 class QLabel;
 class QCheckBox;
-class QVBoxLayout;
-class QHBoxLayout;
 class SubtitleView;
+class QButtonGroup;
+class QRadioButton;
 
 /**
 @author Sergio Cambra
@@ -51,6 +51,7 @@ protected slots:
 	virtual void slotOk();
 
 private slots:
+	void radioButtonClicked( int );
 	void editChanged( const QString& text );
 	virtual void convertQuestion( KProcess *proc, char *buffer, int buflen );
 	virtual void gocrFinish( KProcess *proc );
@@ -64,16 +65,14 @@ private:
 	void writeStdin( KProcess *proc, int data );
 
 	void loadSubtitle( QRect rect );
-	void setEnabledWidgetsInput( bool enable );
 
-	KLineEdit *line;
-	SubtitleView *image;
-	QLabel *subtitle, *text;
-    KProgress *progress;
-	QCheckBox *checkbox;
-
-	QVBoxLayout *layoutGeneral;
-	QHBoxLayout *layoutSub, *layoutCheckBox;
+	KLineEdit *m_line;
+	SubtitleView *m_image;
+	QLabel *m_subtitle;
+    KProgress *m_progress;
+	QCheckBox *m_checkbox;
+	QButtonGroup *m_correctString;
+	QRadioButton *m_butString;
 
 	Project *project;
 	uint sub;
