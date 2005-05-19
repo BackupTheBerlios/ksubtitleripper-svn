@@ -32,6 +32,8 @@
 #include <qbuttongroup.h>
 #include <qradiobutton.h>
 #include <qvalidator.h>
+#include <kmessagebox.h>
+#include <kstdguiitem.h>
 
 #include "configuration.h"
 #include "subtitleview.h"
@@ -254,7 +256,16 @@ void ConvertDialog::writeStdin( KProcess *proc, int data ) {
 void ConvertDialog::slotOk() {
 	// if corrected string isn't empty and isn't hex code, send it quoted
 	QString text = m_line->text();
-	if ( !text.isEmpty() && m_butString->isChecked() ) text = '"' + text + '"';
+	if ( !text.isEmpty() && m_butString->isChecked() ) {
+		if ( QRegExp( "\".+\"" ).exactMatch( text ) ) {
+			int answer = KMessageBox::warningContinueCancel( this,
+				i18n( "You are quoted the correct string.\n"
+					"Although the text is longer than one character, you mustn't quote it, but if marked text is quoted\n"
+					"Do you want continue?"), i18n( "Quoted Text" ), KStdGuiItem::cont(), "textQuoted" );
+			if ( answer == KMessageBox::Cancel ) return;
+		}
+		text = '"' + text + '"';
+	}
 	writeStdin( process, text );
 
 	m_correctString->setEnabled( false );
