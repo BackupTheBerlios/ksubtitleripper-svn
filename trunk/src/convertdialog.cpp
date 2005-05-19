@@ -77,6 +77,7 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 
 	m_image = new SubtitleView( top );
 	m_image->setAutoCenterEnabled( Config().autoCenter() );
+	m_image->setMinimumSize( QSize( 400, 100 ) );
 	layoutGeneral->addWidget( m_image );
 
 	m_progress = new KProgress( project->numSub(), top );

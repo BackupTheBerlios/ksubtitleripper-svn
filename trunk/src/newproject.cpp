@@ -66,6 +66,7 @@ NewProject::NewProject( QString prefix ) : KDialogBase( Plain,
 	vobFilesLabel->setAlignment( Qt::AlignTop );
 	layoutGeneral->addWidget( vobFilesLabel, row, 0 );
 	vobFilesList = new KListBox( top );
+	vobFilesList->setMinimumSize( QSize( 200, 120 ) );
 	layoutGeneral->addWidget( vobFilesList, row, 1 );
 
 	QVBoxLayout* layoutFilesButton = new QVBoxLayout( 0, 0, 6 );
