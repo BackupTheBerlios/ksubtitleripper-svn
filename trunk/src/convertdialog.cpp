@@ -194,7 +194,6 @@ void ConvertDialog::gocrFinish( KProcess *proc ) {
 
 void ConvertDialog::convertQuestion( KProcess *proc, char *buffer, int buflen ) {
 	QStringList buf = QStringList::split( '\n', QString::fromLatin1( buffer, buflen ) );
-	kdDebug() << buffer << endl;
 
 	for ( uint i = 0; i < buf.count(); i++ ) {
 		if ( buf[i].startsWith( "# list pattern" ) ) {
@@ -242,7 +241,6 @@ void ConvertDialog::writeStdin( KProcess *proc, QString data ) {
 	QString aux = data + '\n';
 
 	toSent.append( qstrdup( aux.local8Bit().data() ) );
-	kdDebug() << toSent.last() << endl;
 	if ( !sending ) {
 		sending = true;
 		proc->writeStdin( toSent.first(), strlen( toSent.first() ) );
