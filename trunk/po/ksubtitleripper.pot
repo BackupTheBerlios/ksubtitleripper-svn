@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2005-05-20 01:36+0200\n"
+"POT-Creation-Date: 2005-05-20 01:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 
 #: convertdialog.cpp:88
 msgid ""
-"The marked chars were not recognized. Enter correct ASCII char or 4 to 8 "
-"digit hex unicode."
+"The marked chars were not recognized. Enter correct string or 4 to 8 digit "
+"hex unicode."
 msgstr ""
 
 #: convertdialog.cpp:108
