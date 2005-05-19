@@ -1,4 +1,11 @@
-  7-4-2005
+
+
+
+
+  20-5-2005 (v0.3.1)
+- Fix bug #002501
+ 
+  7-4-2005 (v0.3)
 - Add an option to choose encoding to use with gocr
 
   21-3-2005
