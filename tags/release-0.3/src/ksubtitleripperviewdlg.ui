@@ -1,0 +1,239 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>KSubtitleRipperViewDlg</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>KSubtitleRipperViewDlg</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>485</width>
+            <height>444</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>KSubtitleRipperViewDlg</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout4</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer3</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>subtitle</cstring>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer4</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>40</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="QSplitter">
+            <property name="name">
+                <cstring>splitter3</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <widget class="SubtitleView">
+                <property name="name">
+                    <cstring>image</cstring>
+                </property>
+                <property name="minimumSize">
+                    <size>
+                        <width>0</width>
+                        <height>100</height>
+                    </size>
+                </property>
+            </widget>
+            <widget class="KTextEdit">
+                <property name="name">
+                    <cstring>text</cstring>
+                </property>
+                <property name="enabled">
+                    <bool>false</bool>
+                </property>
+                <property name="minimumSize">
+                    <size>
+                        <width>300</width>
+                        <height>150</height>
+                    </size>
+                </property>
+                <property name="margin">
+                    <number>0</number>
+                </property>
+                <property name="textFormat">
+                    <enum>PlainText</enum>
+                </property>
+                <property name="wordWrap">
+                    <enum>NoWrap</enum>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout3</cstring>
+            </property>
+            <hbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer2</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>120</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+                <widget class="QPushButton">
+                    <property name="name">
+                        <cstring>bOk</cstring>
+                    </property>
+                    <property name="enabled">
+                        <bool>false</bool>
+                    </property>
+                    <property name="text">
+                        <string>OK</string>
+                    </property>
+                </widget>
+                <spacer>
+                    <property name="name">
+                        <cstring>spacer1</cstring>
+                    </property>
+                    <property name="orientation">
+                        <enum>Horizontal</enum>
+                    </property>
+                    <property name="sizeType">
+                        <enum>Expanding</enum>
+                    </property>
+                    <property name="sizeHint">
+                        <size>
+                            <width>120</width>
+                            <height>20</height>
+                        </size>
+                    </property>
+                </spacer>
+            </hbox>
+        </widget>
+        <widget class="KProgress">
+            <property name="name">
+                <cstring>progress</cstring>
+            </property>
+        </widget>
+    </vbox>
+</widget>
+<customwidgets>
+    <customwidget>
+        <class>SubtitleView</class>
+        <header location="local">subtitleview.h</header>
+        <sizehint>
+            <width>-1</width>
+            <height>-1</height>
+        </sizehint>
+        <container>0</container>
+        <sizepolicy>
+            <hordata>5</hordata>
+            <verdata>5</verdata>
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+        </sizepolicy>
+        <pixmap>image0</pixmap>
+    </customwidget>
+</customwidgets>
+<images>
+    <image name="image0">
+        <data format="XBM.GZ" length="79">789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
+    </image>
+</images>
+<connections>
+    <connection>
+        <sender>bOk</sender>
+        <signal>clicked()</signal>
+        <receiver>KSubtitleRipperViewDlg</receiver>
+        <slot>saveSubtitle()</slot>
+    </connection>
+    <connection>
+        <sender>KSubtitleRipperViewDlg</sender>
+        <signal>setEnabledSaveSub(bool)</signal>
+        <receiver>bOk</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>KSubtitleRipperViewDlg</sender>
+        <signal>setEnabledSaveSub(bool)</signal>
+        <receiver>text</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+</connections>
+<signals>
+    <signal>signalChangeStatusbar(const QString&amp;)</signal>
+    <signal>signalChangeCaption(const QString&amp;)</signal>
+    <signal>setEnabledSaveSub(bool)</signal>
+    <signal>setEnabledPrevSub(bool)</signal>
+    <signal>setEnabledNextSub(bool)</signal>
+    <signal>setEnabledConvertSub(bool)</signal>
+    <signal>setEnabledCreateSRT(bool)</signal>
+    <signal>setState(const QString&amp;)</signal>
+</signals>
+<slots>
+    <slot>nextSubtitle()</slot>
+    <slot>prevSubtitle()</slot>
+    <slot>saveSubtitle()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>subtitleview.h</includehint>
+    <includehint>ktextedit.h</includehint>
+    <includehint>kprogress.h</includehint>
+</includehints>
+</UI>

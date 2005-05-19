@@ -1,0 +1,127 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>PrefGeneralLayout</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>PrefGeneralLayout</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>395</width>
+            <height>201</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>General options</string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QCheckBox" row="0" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>m_doUnix2DosChk</cstring>
+            </property>
+            <property name="text">
+                <string>Convert SRT file to DOS format</string>
+            </property>
+        </widget>
+        <widget class="QCheckBox" row="1" column="0" rowspan="1" colspan="4">
+            <property name="name">
+                <cstring>m_enableAutoCenter</cstring>
+            </property>
+            <property name="text">
+                <string>Enable auto center of subtitle</string>
+            </property>
+        </widget>
+        <widget class="QLabel" row="2" column="0">
+            <property name="name">
+                <cstring>m_textEditorFont</cstring>
+            </property>
+            <property name="text">
+                <string>Editor Font:</string>
+            </property>
+        </widget>
+        <widget class="KFontRequester" row="2" column="1" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>m_editorFont</cstring>
+            </property>
+        </widget>
+        <widget class="QLabel" row="3" column="0" rowspan="1" colspan="2">
+            <property name="name">
+                <cstring>m_textEncoding</cstring>
+            </property>
+            <property name="text">
+                <string>Subtitle Encoding</string>
+            </property>
+        </widget>
+        <widget class="KComboBox" row="3" column="2">
+            <property name="name">
+                <cstring>m_encoding</cstring>
+            </property>
+        </widget>
+        <spacer row="3" column="3">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>90</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <spacer row="4" column="2">
+            <property name="name">
+                <cstring>m_spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>16</height>
+                </size>
+            </property>
+        </spacer>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>m_doUnix2DosChk</sender>
+        <signal>clicked()</signal>
+        <receiver>PrefGeneralLayout</receiver>
+        <slot>optionsChangedSlot()</slot>
+    </connection>
+    <connection>
+        <sender>m_editorFont</sender>
+        <signal>fontSelected(const QFont&amp;)</signal>
+        <receiver>PrefGeneralLayout</receiver>
+        <slot>optionsChangedSlot()</slot>
+    </connection>
+</connections>
+<signals>
+    <signal>optionsChanged()</signal>
+</signals>
+<slots>
+    <slot access="protected">optionsChangedSlot()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>kfontrequester.h</includehint>
+    <includehint>kcombobox.h</includehint>
+</includehints>
+</UI>
