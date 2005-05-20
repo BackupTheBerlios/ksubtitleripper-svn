@@ -1,0 +1,116 @@
+
+
+
+
+  20-5-2005 (v0.3.1)
+- Fix bug #002501
+- Add minimum sizes to some dialogs
+ 
+  7-4-2005 (v0.3)
+- Add an option to choose encoding to use with gocr
+
+  21-3-2005
+- Add *.sub to filter in select vob files, because it works with those files too.
+
+  18-3-2005
+- Subtitle is autocentered when is too large, this feature can be disabled.
+- Add a menu item to center subtitle when is too large
+
+  17-3-2005
+- Fix for remote vob files, and keep them until closing project
+- Add scrollbars to image (in main window and convert dialog), for too long images.
+- Don't save password in urls
+
+  12-3-2005
+- Add an option to choose subtitles language
+- Add an animated bar in extract dialog
+- Add a control to choose how many subtitles are previewed
+- Don't allow cancel by default in waiting dialog
+- Add a control to choose the project directory, where images and subtitles will be created
+- Use standard errors when a download fails, and don't show errors if download is canceled
+- Don't execute processes when a download fails or is canceled
+
+  11-3-2005
+- Add an option to set subtitle editor font
+
+  9-3-2005
+- More code cleanup
+- Use more states of XML-UI.
+- Show in caption if project is modified
+- When close a project without saving, ask with filename instead of url
+- Use standard show statusbar and toolbar menu items, and remember the state
+- Added an option to enable/disable check spelling.
+
+  5-3-2005
+- Fix how many subtitles have been extracted for last subtitleripper (using -v again)
+- Code cleanup
+- Change project file to xml format.
+- Rewrite constructors of Project class.
+
+  4-3-2005
+- Fix a memleak, project wasn't deleted when loading fails
+
+  3-3-2005
+- Read XGETTEXT and MSGMERGE environment variables if they exist, to use patched gettext for KDE
+
+  22-9-2004
+- Try to fix a problem with encoding in Convert Dialog
+- Don't use -v in subtitle2pgm
+
+  18-8-2004 (v0.2)
+- Write SRT file with a filename with spaces fixed
+- Implemented conversion to DOS format of SRT file
+- Check SRT is created successfully
+- Includes in header files changed to prototypes when it's possible
+- Write to stderr not used output of subtitle2pgm
+- Write to stderr output of srttool and dos2unix
+
+  17-8-2004
+- Write SRT file remotely
+- Initial preferences dialog, with an option to convert SRT file to DOS format
+
+  16-8-2004
+- Show a default name in save dialogs
+- Remove unnecessary code because it's managed by KFileDialog
+
+  15-8-2004
+- Show preview dialog only on project creation
+- Disable actions on projet creation
+- Remove cancel button on preview progress dialog
+- Save dialog on SRT creation
+
+  14-8-2004
+- Preview subtitles
+- Fix cancel button in convert to text dialog
+
+  13-8-2004
+- Save and load to project file colours to extract subtitles
+
+  12-8-2004
+- Don't ask for saving subtitle after cancel the conversion
+- New dialog to choose the filling colour index in subtitles
+- Fix a bug on check right execution of gocr and subtitle2pgm
+
+  11-8-2004
+- Modify Makefile.am so as not to distribute full admin folder
+- Add dist-bzip2 target
+- Some fixes in spec
+
+  2-8-2004
+- Ask for saving the subtitle when the project is closing,
+  before create SRT and on changing the subtitle
+
+  29-7-2004
+- Plural forms translation fixed
+- Convert to text dialog resize fixed
+
+  23-7-2004
+- French translation by Guillaume Bedot
+- Run subtitle2pgm with -C 1 option (by Guillaume Bedot)
+
+  3-4-2004
+- Program icons modified by Justo Sanz
+
+  2-4-2004 (v0.1)
+- Initial version.
+- I used Everaldo's icon to do my ones.

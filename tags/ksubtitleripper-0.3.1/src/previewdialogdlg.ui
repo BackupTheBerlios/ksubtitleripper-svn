@@ -1,0 +1,168 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>PreviewDialogDlg</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>PreviewDialogDlg</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>533</width>
+            <height>485</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string></string>
+    </property>
+    <grid>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <spacer row="0" column="2">
+            <property name="name">
+                <cstring>spacer2</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>54</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="KListBox" row="1" column="0" rowspan="1" colspan="3">
+            <property name="name">
+                <cstring>subtitleList</cstring>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>0</width>
+                    <height>200</height>
+                </size>
+            </property>
+            <property name="selectionMode">
+                <enum>NoSelection</enum>
+            </property>
+        </widget>
+        <spacer row="0" column="0">
+            <property name="name">
+                <cstring>spacer1</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Horizontal</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>55</width>
+                    <height>20</height>
+                </size>
+            </property>
+        </spacer>
+        <widget class="QLayoutWidget" row="0" column="1">
+            <property name="name">
+                <cstring>layout7</cstring>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QButtonGroup" row="0" column="3" rowspan="2" colspan="1">
+                    <property name="name">
+                        <cstring>buttonGroup1</cstring>
+                    </property>
+                    <property name="title">
+                        <string>Choose filling colour index</string>
+                    </property>
+                    <vbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>radioButton1</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Colour 1</string>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>radioButton2</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Colour 2</string>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>radioButton3</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Colour 3</string>
+                            </property>
+                        </widget>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>radioButton4</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Colour 4</string>
+                            </property>
+                        </widget>
+                    </vbox>
+                </widget>
+                <widget class="QLabel" row="0" column="0">
+                    <property name="name">
+                        <cstring>textLabel1</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Languages</string>
+                    </property>
+                </widget>
+                <widget class="KComboBox" row="0" column="1" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>languageList</cstring>
+                    </property>
+                </widget>
+                <widget class="QLabel" row="1" column="0" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>textLabel2</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Subtitles to preview</string>
+                    </property>
+                </widget>
+                <widget class="KIntNumInput" row="1" column="2">
+                    <property name="name">
+                        <cstring>numSubs</cstring>
+                    </property>
+                    <property name="value">
+                        <number>8</number>
+                    </property>
+                    <property name="minValue">
+                        <number>1</number>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+    </grid>
+</widget>
+<customwidgets>
+</customwidgets>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistbox.h</includehint>
+    <includehint>kcombobox.h</includehint>
+    <includehint>knuminput.h</includehint>
+    <includehint>knuminput.h</includehint>
+</includehints>
+</UI>
