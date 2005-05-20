@@ -21,3 +21,4 @@ AUTOMAKE_OPTIONS = dist-bzip2
 dist-hook:
 	cd $(top_distdir) && perl admin/am_edit -padmin
 	cd $(top_distdir) && $(MAKE) -f admin/Makefile.common subdirs
+	cd $(distdir) && rm -f Makefile.cvs
