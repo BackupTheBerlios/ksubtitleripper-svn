@@ -88,14 +88,14 @@ ConvertDialog::ConvertDialog( Project *prj, QWidget *parent, const char* name )
 	text->setText( i18n( "The marked chars were not recognized. Enter correct string or 4 to 8 digit hex unicode." ) );
 	layoutGeneral->addWidget( text );
 
-	m_correctString = new QButtonGroup( 0, Qt::Vertical, "Correct String", top );
+	m_correctString = new QButtonGroup( 0, Qt::Vertical, i18n( "Correct String" ), top );
 	QGridLayout *correctLayout = new QGridLayout( m_correctString->layout(), 3, 2, 6 );
 
-	m_butString = new QRadioButton( "String", m_correctString );
+	m_butString = new QRadioButton( i18n( "String" ), m_correctString );
 	m_butString->setChecked( true );
 	correctLayout->addWidget( m_butString, 0, 0 );
 
-	QRadioButton *butHexCode = new QRadioButton( "Hex code", m_correctString );
+	QRadioButton *butHexCode = new QRadioButton( i18n( "Hex code" ), m_correctString );
 	correctLayout->addWidget( butHexCode, 0, 1 );
 	
 	m_line = new KLineEdit( m_correctString );
