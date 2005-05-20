@@ -3,34 +3,32 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 # Guillaume Bedot <littletux@zarb.org>, 2004, 2005.
-# Sergio Cambra GarcÃ­a <sergio.cambra@hispalinux.es>, 2004.
+# Sergio Cambra GarcÂ­a <sergio.cambra@hispalinux.es>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: fr\n"
 "POT-Creation-Date: 2005-05-20 01:43+0200\n"
-"PO-Revision-Date: 2005-04-09 11:38+0200\n"
+"PO-Revision-Date: 2005-05-20 12:36+0200\n"
 "Last-Translator: Guillaume Bedot <littletux@zarb.org>\n"
-"Language-Team: Français <none>\n"
+"Language-Team: Français <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.10.1\n"
 
 #: convertdialog.cpp:62
 msgid "Converting images to text"
 msgstr "Conversion des images en texte"
 
 #: convertdialog.cpp:88
-#, fuzzy
 msgid ""
 "The marked chars were not recognized. Enter correct string or 4 to 8 digit "
 "hex unicode."
 msgstr ""
 "Le(s) caractère(s) encadré(s) n'ont pas été reconnu(s). Entrez le(s) "
-"caractère(s) ASCII correct(s) (entre double-quotes s'il y en a plusieurs : "
-"\"chaîne\") ou l'identifiant unicode (4 à 8 chiffres hexadécimaux)."
+"caractère(s) ASCII correct(s) ou l'identifiant unicode (4 à 8 chiffres hexadécimaux)."
 
 #: convertdialog.cpp:108
 msgid "Save to database"
@@ -42,16 +40,21 @@ msgid "Subtitle %1"
 msgstr "Sous-titre %1"
 
 #: convertdialog.cpp:261
+#, fuzzy
 msgid ""
 "You are quoted the correct string.\n"
 "Although the text is longer than one character, you mustn't quote it, but if "
 "marked text is quoted\n"
 "Do you want continue?"
 msgstr ""
+"Vous avez mis la chaîne corrigée entre double-quotes.\n"
+"Bien que le texte soit plus long qu'un unique caractère, vous ne devriez pas le "
+"faire, à moins que le texte encadré soit entre double-quotes également.\n"
+"Voulez-vous continuer ?"
 
 #: convertdialog.cpp:263
 msgid "Quoted Text"
-msgstr ""
+msgstr "Texte cité"
 
 #: createsrt.cpp:51
 msgid "Couldn't run srttool"
@@ -59,8 +62,7 @@ msgstr "Erreur lors de l'exécution de srttool"
 
 #: createsrt.cpp:61
 msgid "Couldn't read from \"%1\" or couldn't write to \"%2\""
-msgstr ""
-"Impossible de lire le fichier \"%1\" ou d'écrire dans le fichier \"%2\""
+msgstr "Impossible de lire le fichier \"%1\" ou d'écrire dans le fichier \"%2\""
 
 #: createsrt.cpp:79
 msgid "Couldn't run dos2unix"
@@ -368,3 +370,4 @@ msgid ""
 "_: EMAIL OF TRANSLATORS\n"
 "Your emails"
 msgstr "littletux@zarb.org"
+
