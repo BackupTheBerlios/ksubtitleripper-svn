@@ -93,7 +93,9 @@ void KSubtitleRipper::setupActions() {
 	m_enableCheckSpelling = new KToggleAction( i18n( "Enable Check &Spelling" ), KShortcut::null(),
 											   this, SLOT( switchCheckSpelling() ),
 											   actionCollection(), "enableCheckSpelling" );
+#if KDE_IS_VERSION(3,3,0)
 	m_enableCheckSpelling->setCheckedState( i18n( "Disable Check &Spelling" ) );
+#endif
 
 	KStdAction::keyBindings( this, SLOT( optionsConfigureKeys() ), actionCollection() );
 	KStdAction::configureToolbars( this, SLOT( optionsConfigureToolbars() ), actionCollection() );
