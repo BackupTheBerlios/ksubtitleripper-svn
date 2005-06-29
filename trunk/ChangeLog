@@ -1,3 +1,6 @@
+  29-6-2005
+- Fix a crash in previewdialog
+- Clean ui files (with fixuifiles)
 
   21-5-2005
 - Fix building for KDE < 3.3.0
