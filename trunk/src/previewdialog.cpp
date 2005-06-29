@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2004 by Sergio Cambra García                            *
+ *   Copyright (C) 2004 by Sergio Cambra Garcï¿½                            *
  *   runico@users.berlios.de                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -94,7 +94,7 @@ void PreviewDialog::extractFinish( KProcess *proc )
 {
 	bool goodExit = proc->exitStatus() == 0;
 	delete proc;
-	progress->close();
+	if (progress) progress->close();
 
 	if ( goodExit ) {
 		m_central->subtitleList->clear();
