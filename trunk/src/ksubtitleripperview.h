@@ -26,6 +26,8 @@
 class KURL;
 class CreateSRT;
 class Project;
+class KSpell;
+class KSpellConfig;
 
 class KSubtitleRipperView : public KSubtitleRipperViewDlg
 {
@@ -53,15 +55,27 @@ public slots:
 	void createSrtSuccess( CreateSRT *createSRT );
 	void setCheckSpellingEnabled( bool enabled );
 	void setEditorFont( const QFont& font );
+    void allCheckSpelling();
 
 signals:
 	void signalProjectModified();
+
+private slots:
+	void checkSpelling();
+	void spellCheckerFinished();
+	void spellCheckerMisspelling( const QString &text, const QStringList &, unsigned int pos );
+	void spellCheckerCorrected( const QString &oldWord, const QString &newWord, unsigned int pos );
+	void highLightWord( unsigned int length, unsigned int pos );
+	void posToRowCol(unsigned int pos, unsigned int &line, unsigned int &col);
+	void slotSpellCheckReady( KSpell *s );
+	void slotSpellCheckDone( const QString &s );
 
 private:
 	QString subFileName();
 	void writeSubtitle();
 	void loadSubtitle();
 	void emptySubtitle();
+	void firstSubtitle();
 	void cleanBeforeExtracting();
 	void cleanBeforeConverting();
 	bool saveSRT( const QString& path );
@@ -73,6 +87,8 @@ private:
 	Project *m_project;
 	QString m_srtName, m_tmpSrt;
 	KURL *m_newSrt;
+	KSpell *m_spell;
+	KSpellConfig *m_ksc;
 };
 
 #endif

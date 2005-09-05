@@ -80,6 +80,7 @@ void KSubtitleRipper::load( const KURL& url ) {
 void KSubtitleRipper::setupActions() {
 	KAction *saveSub, *prevSub, *nextSub, *centerSub;
 	KAction *extractSub, *convertSub, *createSRT;
+	KAction *allCheckSpelling;
 
 	KStdAction::openNew( this, SLOT( fileNew() ), actionCollection() );
 	KStdAction::open( this, SLOT( fileOpen() ), actionCollection() );
@@ -109,6 +110,8 @@ void KSubtitleRipper::setupActions() {
 			SLOT( nextSubtitle() ), actionCollection(), "nextSubtitle" );
 	centerSub = new KAction( i18n( "Center subtitle" ), "center_subtitle", 0,
 			m_view->subtitleView(),	SLOT( centerSubtitle() ), actionCollection(), "centerSubtitle" );
+	allCheckSpelling = new KAction( i18n( "Check Spelling on All Subtitles" ), 0,
+			m_view, SLOT( allCheckSpelling() ), actionCollection(), "allCheckSpelling" );
 	extractSub = new KAction( i18n( "Extract subtitles" ), "extract_subtitles", 0,
 			m_view, SLOT( extractSub() ), actionCollection(), "extractSubtitle" );
 	convertSub = new KAction( i18n( "Convert subtitles to text" ), "convert_subtitles", 0,

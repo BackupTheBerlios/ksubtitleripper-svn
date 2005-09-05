@@ -1,7 +1,5 @@
 - Add "What's this?"
 
-- Check spelling on all subtitles
-
 - Choose to extract from DVD or from VOB files
   (subtitles: tcprobe -H 10 -i <dvd_device> -T <title_number>)
 

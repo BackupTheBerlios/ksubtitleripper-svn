@@ -28,6 +28,9 @@
 #include <qlabel.h>
 #include <kprogress.h>
 #include <kurl.h>
+#include <kspell.h>
+#include <ksconfig.h>
+#include <kspelldlg.h>
 
 #include "ksubtitleripperview.h"
 #include "convertdialog.h"
@@ -37,7 +40,7 @@
 #include "subtitleview.h"
 
 KSubtitleRipperView::KSubtitleRipperView( QWidget* parent, const char* name, WFlags fl )
-		: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ) {
+	: KSubtitleRipperViewDlg( parent, name, fl ), m_project( 0 ), m_newSrt( 0 ), m_spell( 0 ), m_ksc( 0 ) {
 	setModified( false );
 }
 
@@ -133,6 +136,16 @@ void KSubtitleRipperView::prevSubtitle() {
 	if ( m_project->atLast() ) emit setEnabledNextSub( true );
 	m_project->prevSub();
 	if ( m_project->atFirst() ) emit setEnabledPrevSub( false );
+	setModified( true );
+	loadSubtitle();
+}
+
+void KSubtitleRipperView::firstSubtitle() {
+	if ( !askIfModified() ) return;
+
+	m_project->goFirst();
+	emit setEnabledPrevSub( false );
+	emit setEnabledNextSub( !m_project->atLast() );
 	setModified( true );
 	loadSubtitle();
 }
@@ -370,8 +383,93 @@ void KSubtitleRipperView::setSrtName( const KURL& url ) {
 	m_srtName += ".srt";
 }
 
+void KSubtitleRipperView::allCheckSpelling()
+{
+	firstSubtitle();
+	delete m_ksc;
+	m_ksc = new KSpellConfig();
+	checkSpelling();
+}
+
+void KSubtitleRipperView::checkSpelling()
+{
+	delete m_spell;
+	m_spell = new KSpell( this, i18n( "Spell Checking" ), this,
+						  SLOT( slotSpellCheckReady( KSpell *) ), m_ksc, true, true);
+
+	connect( m_spell, SIGNAL( death() ), this, SLOT( spellCheckerFinished() ) );
+
+	connect( m_spell, SIGNAL( misspelling( const QString &, const QStringList &, unsigned int ) ),
+			 this, SLOT( spellCheckerMisspelling( const QString &, const QStringList &, unsigned int ) ) );
+
+	connect( m_spell, SIGNAL( corrected( const QString &, const QString &, unsigned int ) ),
+			 this, SLOT( spellCheckerCorrected( const QString &, const QString &, unsigned int ) ) );
+}
+
+void KSubtitleRipperView::spellCheckerFinished()
+{
+	delete m_spell;
+	m_spell = 0L;
+	delete m_ksc;
+	m_ksc = 0L;
+}
+
+void KSubtitleRipperView::spellCheckerMisspelling( const QString &text, const QStringList &, unsigned int pos )
+{
+	highLightWord( text.length(), pos );
+}
+
+void KSubtitleRipperView::spellCheckerCorrected( const QString &oldWord, const QString &newWord, unsigned int pos )
+{
+	unsigned int l = 0;
+	unsigned int cnt = 0;
+	if ( oldWord != newWord ) {
+		posToRowCol( pos, l, cnt );
+		text->setSelection( l, cnt, l, cnt + oldWord.length() );
+		text->removeSelectedText();
+		text->insert( newWord );
+	}
+}
+
+void KSubtitleRipperView::highLightWord( unsigned int length, unsigned int pos )
+{
+	unsigned int l = 0;
+	unsigned int cnt = 0;
+	posToRowCol( pos, l, cnt );
+	text->setSelection( l, cnt, l, cnt + length );
+}
+
+void KSubtitleRipperView::posToRowCol(unsigned int pos, unsigned int &line, unsigned int &col)
+{
+	for ( line = 0; line < static_cast<uint>( text->lines() ) && col <= pos; line++ )
+		col += text->paragraphLength( line ) + 1;
+
+	line--;
+	col = pos - col + text->paragraphLength( line ) + 1;
+}
+
+void KSubtitleRipperView::slotSpellCheckReady( KSpell *s )
+{
+	s->check( text->text() );
+	connect( m_spell, SIGNAL( done( const QString & ) ),
+			 this, SLOT( slotSpellCheckDone( const QString & ) ) );
+}
+
+void KSubtitleRipperView::slotSpellCheckDone( const QString& )
+{
+	int result = m_spell->dlgResult();
+	if ( result == KS_CANCEL || result == KS_STOP ) {
+		spellCheckerFinished();
+		return;
+	}
+	
+	writeSubtitle();
+	if ( !m_project->atLast() ) {
+		m_ksc->setIgnoreList( m_spell->ksConfig().ignoreList() );
+		m_ksc->setReplaceAllList( m_spell->ksConfig().replaceAllList() );
+		nextSubtitle();
+		checkSpelling();
+	} else spellCheckerFinished();
+}
+
 #include "ksubtitleripperview.moc"
-
-
-
-

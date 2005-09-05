@@ -1,11 +1,13 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="ksubtitleripper" version="2">
+<kpartgui name="ksubtitleripper" version="3">
 <MenuBar>
   <Menu name="subtitle"><text>S&amp;ubtitles</text>
 	<Action name="prevSubtitle"/>
 	<Action name="nextSubtitle"/>
     <Action name="saveSubtitle"/>
+	<Separator/>
 	<Action name="centerSubtitle"/>
+	<Action name="allCheckSpelling"/>
 	<Separator/>
 	<Action name="extractSubtitle"/>
 	<Action name="convertSubtitle"/>
